@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+
+@font-face {
+  font-family: 'Roboto';
+  src: url(../fonts/Roboto-Regular.ttf) format('ttf');
+}
+
+@font-face {
+  font-family: 'RobotoCondensed';
+  src: url(../fonts/RobotoCondensed-Regular.ttf) format('ttf');
+}
+
+@tailwind utilities;
+
+
+/* @import url(../fonts/Roboto-Regular.ttf);
+@import url(../fonts/RobotoCondensed-Regular.ttf); */
+
+/* @import "../fonts/Roboto-Regular.ttf";
+@import "../fonts/RobotoCondensed-Regular.ttf"; */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap'); */
