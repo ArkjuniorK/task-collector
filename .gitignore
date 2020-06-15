@@ -1,0 +1,11 @@
+# Client Folder
+client/node_modules
+client/test
+client/.git
+client/.vscode
+client/.env.local
+client/.env.*.local
+
+# Server Folder
+server/node_modules
+

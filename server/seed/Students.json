@@ -1,0 +1,34 @@
+[
+  {
+    "idNumber": 1231,
+    "name": "Karmin",
+    "age": 10,
+    "gender": "male",
+    "schoolIdNumber": 377123,
+    "teacherIdNumber": 1231
+  },
+  {
+    "idNumber": 1232,
+    "name": "Rima Rimi",
+    "age": 10,
+    "gender": "female",
+    "schoolIdNumber": 273123,
+    "teacherIdNumber": 1232
+  },
+  {
+    "idNumber": 1233,
+    "name": "Lara Guman",
+    "age": 12,
+    "gender": "female",
+    "schoolIdNumber": 377123,
+    "teacherIdNumber": 1233
+  },
+  {
+    "idNumber": 1234,
+    "name": "Gumawan",
+    "age": 12,
+    "gender": "male",
+    "schoolIdNumber": 273123,
+    "teacherIdNumber": 1234
+  }
+]

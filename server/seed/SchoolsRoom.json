@@ -1,0 +1,50 @@
+[
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 1
+  },
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 2
+  },
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 3
+  },
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 4
+  },
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 5
+  },
+  {
+    "schoolIdNumber": 273123,
+    "roomIdNumber": 6
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 1
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 2
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 3
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 4
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 5
+  },
+  {
+    "schoolIdNumber": 377123,
+    "roomIdNumber": 6
+  }
+]

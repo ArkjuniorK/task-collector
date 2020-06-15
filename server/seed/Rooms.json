@@ -1,0 +1,26 @@
+[
+  {
+    "idNumber": 1,
+    "name": "Satu"
+  },
+  {
+    "idNumber": 2,
+    "name": "Dua"
+  },
+  {
+    "idNumber": 3,
+    "name": "Tiga"
+  },
+  {
+    "idNumber": 4,
+    "name": "Empat"
+  },
+  {
+    "idNumber": 5,
+    "name": "Lima"
+  },
+  {
+    "idNumber": 6,
+    "name": "Enam"
+  }
+]

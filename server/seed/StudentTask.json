@@ -1,0 +1,26 @@
+[
+  {
+    "studentIdNumber": 1231,
+    "taskIdNumber": 1
+  },
+  {
+    "studentIdNumber": 1231,
+    "taskIdNumber": 2
+  },
+  {
+    "studentIdNumber": 1232,
+    "taskIdNumber": 1
+  },
+  {
+    "studentIdNumber": 1232,
+    "taskIdNumber": 2
+  },
+  {
+    "studentIdNumber": 1233,
+    "taskIdNumber": 3
+  },
+  {
+    "studentIdNumber": 1233,
+    "taskIdNumber": 4
+  }
+]
