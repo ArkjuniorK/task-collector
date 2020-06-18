@@ -1,16 +1,48 @@
+const Promise = require('bluebird')
+const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
+// const bcrypt = require('bcrypt')
+
+function hashKey(user, options) {
+  const saltRound = 8
+
+  if (!user.changed('securityKey')) {
+    return
+  }
+
+  return bcrypt.genSaltAsync(saltRound).then((salt) => {
+    bcrypt.hashAsync(user.securityKey, salt, null).then((hash) => {
+      user.setDataValue('securityKey', hash)
+    })
+  })
+}
+
 module.exports = (sequelize, DataTypes) => {
   // define table's name and field
-  const Teacher = sequelize.define('teacher', {
-    idNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
+  const Teacher = sequelize.define(
+    'teacher',
+    {
+      idNumber: {
+        type: DataTypes.BIGINT(11),
+        allowNull: false,
+        primaryKey: true,
+      },
+      name: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      status: DataTypes.STRING,
+      age: DataTypes.INTEGER,
+      securityKey: DataTypes.STRING,
     },
-    name: DataTypes.STRING,
-    gender: DataTypes.STRING,
-    status: DataTypes.STRING,
-    age: DataTypes.INTEGER,
-  })
+    {
+      hooks: {
+        beforeUpdate: hashKey,
+        beforeSave: hashKey,
+      },
+    }
+  )
+
+  Teacher.prototype.compareKey = function (securityKey) {
+    return bcrypt.compareAsync(securityKey, this.securityKey)
+  }
 
   // define the table's association
   Teacher.associate = function (models) {

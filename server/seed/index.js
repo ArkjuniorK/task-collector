@@ -8,6 +8,7 @@ const {
   subject,
   task,
   studentTask,
+  teacherTask,
   studentRoom,
   teacherRoom,
   schoolRoom,
@@ -21,6 +22,7 @@ const Students = require('./Students.json')
 const Subjects = require('./Subject.json')
 const Tasks = require('./Tasks.json')
 const StudentTask = require('./StudentTask.json')
+const TeacherTask = require('./TeachersTask.json')
 const StudentsRoom = require('./StudentsRoom.json')
 const TeachersRoom = require('./TeachersRoom.json')
 const SchoolsRoom = require('./SchoolsRoom.json')
@@ -83,6 +85,12 @@ sequelize.sync({ force: true }).then(async function () {
   await Promise.all(
     StudentTask.map((tasks) => {
       studentTask.create(tasks)
+    })
+  )
+
+  await Promise.all(
+    TeacherTask.map((tasks) => {
+      teacherTask.create(tasks)
     })
   )
 })

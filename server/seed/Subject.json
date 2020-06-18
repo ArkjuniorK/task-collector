@@ -3,21 +3,18 @@
     "name": "Bahasa Indonesia"
   },
   {
-    "name": "Bahasa Inggris"
-  },
-  {
     "name": "Matematika"
-  },
-  {
-    "name": "IPA Terpadu"
-  },
-  {
-    "name": "IPS Terpadu"
   },
   {
     "name": "Pendidikan Agama"
   },
   {
-    "name": "Pendidikan Jasmani dan Kesehatan"
+    "name": "PKN"
+  },
+  {
+    "name": "Penjaskes"
+  },
+  {
+    "name": "Seni Budaya"
   }
 ]

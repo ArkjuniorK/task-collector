@@ -1,88 +1,126 @@
-const { teacher, school, room, student, task } = require('../models')
+const {
+  teacher,
+  school,
+  room,
+  student,
+  task,
+  headmaster,
+} = require('../models')
 const _ = require('lodash')
 
 module.exports = {
+  async post(req, res) {
+    try {
+      const { idNumber, securityKey } = req.body
+
+      /* var name must be differernt with table name */
+      const teacherLogin = await teacher.findOne({
+        where: {
+          idNumber: idNumber,
+        },
+      })
+
+      /* if is not teacher send 403 status */
+      if (!teacherLogin) {
+        return res.status(403).send({
+          error: 'Nomor Induk Tidak Cocok, Coba Periksa Kembali',
+        })
+      }
+
+      const checkId = await teacherLogin.compareKey(securityKey)
+
+      if (!checkId) {
+        return res.status(403).send({
+          error: 'Kunci Keamanan Salah, Coba Periksa Kembali',
+        })
+      }
+
+      const jsonData = teacherLogin.toJSON()
+
+      res.send(jsonData)
+    } catch (err) {
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+    }
+  },
   async index(req, res) {
     try {
-      const { id, schoolId } = req.query
+      /* 
+      req.query = url?query=queryData
+      req.params = url/:params
+      req.body = from body
+      */
+      const { idNumber } = req.params
 
-      console.log(req.query)
-      console.log(req.query)
-      console.log(req.query)
-      console.log(req.query)
-      console.log(req.query)
-
-      const teachers = await teacher.findOne({
+      const teacherTask = await teacher.findOne({
         where: {
-          idNumber: id,
-          schoolIdNumber: schoolId,
+          idNumber: idNumber,
         },
         include: [
-          {
-            model: room,
-            as: 'class',
-          },
-          {
-            model: school,
-          },
-          {
-            model: student,
-          },
           {
             model: task,
           },
         ],
       })
 
-      if (!teachers) {
-        return res.status(400).send({
-          error: 'Data cannot be found',
-        })
-      }
-
-      // if (!id || !schoolId) {
-      //   res.status(400).send({
-      //     error: 'School Table is Null',
-      //   })
-      // }
-      // .map((teacher) => teacher.toJSON())
-      // .map((teacher) =>
-      //   _.extend(
-      //     {
-      //       schoolName: teacher.School.name,
-      //     },
-      //     teacher
-      //   )
-      // )
-
-      res.send(teachers)
+      const tasksJson = teacherTask.toJSON()
+      res.send(tasksJson)
     } catch (err) {
       console.log(err)
-      res.status(500).send({
-        error: 'Error fetching teacher',
-      })
+      console.log(err)
+      console.log(err)
+      console.log(err)
     }
   },
-  async post(req, res) {
+  async create(req, res) {
     try {
-      const { name, gender, status, schoolId } = req.body
+      const { name, idNumber, gender, status, age } = req.body
 
-      if (name == null) {
-        return res.status(400).send({
-          error:
-            'The authentication information was not provided in the correct format. Verify the value of Authorization header.',
-        })
-      }
-
-      const teachers = await teacher.create({
+      const teacherRegister = await teacher.create({
+        idNumber: idNumber,
         name: name,
         gender: gender,
         status: status,
-        // teacherSchoolPrimaryId: schoolId,
-        schoolPrimaryId: schoolId,
+        age: age,
       })
 
-      res.send(teachers)
+      res.send(teacherRegister)
+    } catch (err) {
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+      console.log('Error', err)
+    }
+  },
+  async update(req, res) {
+    try {
+      const { name, gender, status, age, schoolIdNumber } = req.body
+
+      // const data = [name, idNumber, gender, status, age, schoolId]
+
+      // console.log(data)
+      const verifyTeacher = await teacher.findByPk(req.params.idNumber)
+
+      // const verifyPass = await verifyTeacher.compareId(gender)
+
+      // if (!verifyPass) {
+      //   return res.status(403).send({
+      //     error: 'Cannot Verify Your Gender',
+      //   })
+      // }
+
+      const teacherUpdate = await verifyTeacher.update(req.body)
+
+      console.log(teacherUpdate)
+      console.log(teacherUpdate)
+      console.log(teacherUpdate)
+      console.log(teacherUpdate)
+
+      res.send(teacherUpdate)
     } catch (err) {
       console.log('Error', err)
       console.log('Error', err)

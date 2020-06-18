@@ -1,34 +1,20 @@
 [
   {
-    "idNumber": 1231,
-    "name": "H. Darmawan",
+    "idNumber": 4030244601,
+    "name": "ArkjuniorK",
     "gender": "male",
-    "status": "Active",
-    "age": 42,
-    "schoolIdNumber": 377123
+    "status": "active",
+    "age": 22,
+    "securityKey": "4030244601",
+    "schoolIdNumber": 40302446
   },
   {
-    "idNumber": 1232,
-    "name": "Sitti Lampau",
+    "idNumber": 4030244602,
+    "name": "Kiaa Yudistira",
     "gender": "female",
-    "status": "Active",
-    "age": 39,
-    "schoolIdNumber": 273123
-  },
-  {
-    "idNumber": 1233,
-    "name": "Dimas Anggraini",
-    "gender": "male",
-    "status": "Active",
-    "age": 28,
-    "schoolIdNumber": 273123
-  },
-  {
-    "idNumber": 1234,
-    "name": "Dimsum Lovers",
-    "gender": "male",
-    "status": "Active",
-    "age": 26,
-    "schoolIdNumber": 377123
+    "status": "active",
+    "age": 22,
+    "securityKey": "4030244602",
+    "schoolIdNumber": 40302446
   }
 ]
