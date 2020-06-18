@@ -1,12 +1,17 @@
 <template>
-  <div class="home w-full bg-dark-300 h-screen">
-    Hello Bitch
+  <div class="home w-full">
+    <div class="home-child">
+      <task-card></task-card>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: {
+    taskCard: () => import('../components/TaskCard')
+  }
 }
 </script>

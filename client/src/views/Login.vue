@@ -1,15 +1,31 @@
 <template>
-  <div
-    id="login"
-    class="text-center md:mt-20 flex flex-col justify-center"
-    :class="flexDirection"
-  >
+  <div id="login" class="text-center flex flex-col justify-center md:mt-20">
+    <div
+      v-if="res"
+      class="res transition duration-500 mb-6 mx-auto bg-red p-2 rounded flex flex-row text-dark-100 text-left w-11/12 leading-tight md:w-1/2 lg:w-1/3"
+      :class="resTransition"
+    >
+      <div class="icon w-6 px-1">
+        <svg
+          class="fill-current w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 5h2v6H9V5zm0 8h2v2H9v-2z"
+          />
+        </svg>
+      </div>
+      <span class="font-display font-light text-sm w-11/12 ml-2 lg:text-base">
+        {{ res }}
+      </span>
+    </div>
     <login-svg></login-svg>
     <div class="title-form w-full">
       <div class="child mt-6 lg:w-2/3 lg:mx-auto lg:align-top xl:flex xl:mt-8">
         <div class="title xl:text-right xl:w-full xl:mr-4">
           <span
-            class="font-bold font-display text-lg md:text-xl lg:text-4xl lg:w-2/6"
+            class="font-bold font-display text-lg md:text-xl lg:text-4xl lg:w-2/6 xxl:text-5xl"
             >Lihat, Atur dan <br v-if="textBreak" />
             Kerjakan Tugasmu <br v-if="textBreak" />
             Dengan Mudah</span
@@ -18,17 +34,21 @@
         <div class="form mt-4 md:mx-40 xl:m-0 xl:text-left xl:w-full xl:ml-4">
           <span class="font-display xl:text-xl">Masuk ke Akun Anda</span>
           <form
+            @submit.prevent="login"
+            autocomplete="off"
             class="m-4 font-display lg:m-0 lg:w-2/3 lg:mt-4 lg:w-full xl:text-xl xl:w-3/5 xxl:w-1/2"
           >
             <input
               type="text"
               class="p-3 bg-light-200 rounded focus:outline-none appearance-none w-full"
-              placeholder="Nama Pengguna"
+              placeholder="Nomor Induk Pengguna"
+              v-model.number="user.id"
             />
             <input
-              type="number"
+              type="password"
               class="p-3 bg-light-200 rounded focus:outline-none appearance-none mt-4 w-full"
-              placeholder="Nomor Induk"
+              placeholder="Kunci Keamanan"
+              v-model="user.key"
             />
 
             <div class="btn-action mt-10 block lg:flex">
@@ -38,6 +58,7 @@
                 Reset
               </button>
               <button
+                type="submit"
                 class="bg-blue p-2 font-display rounded text-dark-100 flex items-center justify-center xs:w-full xl:text-lg lg:p-3 lg:w-full xl:w-auto"
               >
                 Masuk
@@ -60,25 +81,60 @@
 </template>
 
 <script>
+import AuthService from '../services/AuthServices'
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   data: () => ({
-    // textBreak: false
+    user: {
+      id: null,
+      key: null
+    },
+    res: null
   }),
   components: {
     loginSvg: () => import('../components/illustration/LoginSvg')
   },
   computed: {
-    flexDirection() {
-      let breakpoints = val => {
-        switch (val) {
-        }
-      }
-      return breakpoints
-    },
     textBreak() {
       return this.$mq == 'xxl' ? true : this.$mq == 'xl' ? true : false
+    },
+    resTransition() {
+      return this.res ? '' : ''
+    }
+  },
+  methods: {
+    async login() {
+      try {
+        const res = await AuthService.teacherLogin({
+          idNumber: this.user.id,
+          securityKey: this.user.key
+        })
+
+        await this.$store.dispatch('setTeacher', res.data)
+        this.$router.push({ path: '/' })
+      } catch (err) {
+        this.res = err.response.data.error
+      }
     }
   }
 }
 </script>
+
+<style>
+.animate {
+  transition: ease-in-out;
+  animation: slideIn;
+  animation-duration: 500;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-30px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+</style>

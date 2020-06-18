@@ -1,22 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import persistanceState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [persistanceState()],
   state: {
-    user: {
-      name: '',
-      uid: null
-    }
+    teacher: {},
+    student: {},
+    tasks: [],
+    task: {},
+    students: [],
+    class: {}
   },
   mutations: {
-    SET_USER(state, user) {
-      state.user.push(user)
+    SET_TEACHER(state, payload) {
+      state.teacher = payload
     }
   },
   actions: {
-    login({ commit }, user) {}
+    async setTeacher({ commit }, payload) {
+      await commit('SET_TEACHER', payload)
+    }
   },
   modules: {}
 })

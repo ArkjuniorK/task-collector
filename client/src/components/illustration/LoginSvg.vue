@@ -1,5 +1,5 @@
 <template>
-  <div id="svg-login" class="pt-2 mx-5 md:mx-0">
+  <div id="svg-login" class="mx-5 md:mx-0">
     <svg
       class="w-full h-full md:w-1/2 mx-auto lg:w-1/3 xxl:w-1/4"
       width="577"

@@ -3,10 +3,13 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+// import { sync } from 'vuex-router-sync'
 import VueMq from 'vue-mq'
 
+// import tailwind's css file
 import './assets/css/tailwind.css'
 
+// define VueMq breakpoint based on max-width
 Vue.use(VueMq, {
   breakpoints: {
     // mb: 640,
@@ -22,6 +25,9 @@ Vue.use(VueMq, {
     xxl: Infinity
   }
 })
+
+// sync the router with vuex store
+// sync(store, router)
 
 Vue.config.productionTip = false
 

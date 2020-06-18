@@ -1,10 +1,20 @@
 <template>
   <div id="app" class="text-center">
-    <header class="header">
-      <navbar />
+    <header id="header" class="relative z-10">
+      <navbar @openMenu="showNavbar" @closeMenu="closeNavbar" />
     </header>
-    <main class="py-16 mx-4 leading-snug">
-      <router-view />
+    <main class="pt-16 mx-4 flex flex-row relative overflow-hidden">
+      <section id="view" class="w-screen">
+        <router-view />
+      </section>
+
+      <section
+        id="side-navbar"
+        class="w-screen absolute transition duration-500 transform bg-light-300"
+        :class="translateX"
+      >
+        Hello
+      </section>
     </main>
     <!-- <footer class="left-0 right-0 p-3 border-t border-light-300 bg-light-100">
       <span class="name font-display">ArkjuniorK</span>
@@ -17,6 +27,17 @@ export default {
   name: 'App',
   components: {
     navbar: () => import('./components/Navbar')
+  },
+  data: () => ({
+    translateX: 'translate-x-full'
+  }),
+  methods: {
+    showNavbar() {
+      this.translateX = 'translate-x-0'
+    },
+    closeNavbar() {
+      this.translateX = 'translate-x-full'
+    }
   }
 }
 </script>
