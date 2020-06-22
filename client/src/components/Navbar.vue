@@ -4,7 +4,7 @@
     class="px-4 py-1 lg:py-2 xxl:py-4 border-b border-light-300 fixed bg-white w-full top-0"
   >
     <div class="child relative">
-      <div class="one flex z-0 justify-center items-center">
+      <div class="one flex z-0 justify-center items-center xl:mx-5">
         <div id="right" class="flex">
           <svg-logo></svg-logo>
         </div>
@@ -82,7 +82,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'Navbar',
   components: {
-    SvgLogo: () => import('@/components/Logo')
+    SvgLogo: () => import('./complements/Logo')
   },
   data: () => ({
     open: true

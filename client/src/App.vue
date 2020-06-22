@@ -3,14 +3,14 @@
     <header id="header" class="relative z-10">
       <navbar @openMenu="showNavbar" @closeMenu="closeNavbar" />
     </header>
-    <main class="pt-16 mx-4 flex flex-row relative overflow-hidden">
-      <section id="view" class="w-screen">
+    <main class="pt-16 flex flex-row relative overflow-hidden">
+      <section id="view" class="w-screen lg:mt-10">
         <router-view />
       </section>
 
       <section
         id="side-navbar"
-        class="w-screen absolute transition duration-500 transform bg-light-300"
+        class="w-screen absolute transition duration-500 transform bg-light-300 lea"
         :class="translateX"
       >
         Hello
@@ -45,26 +45,10 @@ export default {
 <style>
 html {
   color: #2f3c40;
-  line-height: 1 !important;
-}
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  line-height: 1.25 !important;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
+/* #nav a.router-link-exact-active {
   color: #42b983;
-} */
+}  */
 </style>

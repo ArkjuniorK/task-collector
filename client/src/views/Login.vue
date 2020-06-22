@@ -1,5 +1,8 @@
 <template>
-  <div id="login" class="text-center flex flex-col justify-center md:mt-20">
+  <div
+    id="login"
+    class="text-center flex flex-col justify-center mx-5 md:mt-20"
+  >
     <div
       v-if="res"
       class="res transition duration-500 mb-6 mx-auto bg-red p-2 rounded flex flex-row text-dark-100 text-left w-11/12 leading-tight md:w-1/2 lg:w-1/3"
@@ -39,7 +42,7 @@
             class="m-4 font-display lg:m-0 lg:w-2/3 lg:mt-4 lg:w-full xl:text-xl xl:w-3/5 xxl:w-1/2"
           >
             <input
-              type="text"
+              type="number"
               class="p-3 bg-light-200 rounded focus:outline-none appearance-none w-full"
               placeholder="Nomor Induk Pengguna"
               v-model.number="user.id"
@@ -52,26 +55,30 @@
             />
 
             <div class="btn-action mt-10 block lg:flex">
-              <button
-                class=" bg-light-100 p-2 font-display text-dark-200 rounded xs:w-full xs:mb-3 lg:mr-3 xl:text-lg lg:p-3 lg:w-full lg:mb-0 xl:w-auto  hover:bg-light-200"
+              <my-btn
+                type="button"
+                name="Reset"
+                btnClass="bg-light-100 p-2 hover:bg-light-200"
+                @clicked="reset"
+              ></my-btn>
+              <my-btn
+                type="button"
+                name="Masuk"
+                btnClass="bg-blue p-2 hover:bg-light-200 mt-3"
+                @clicked="login"
               >
-                Reset
-              </button>
-              <button
-                type="submit"
-                class="bg-blue p-2 font-display rounded text-dark-100 flex items-center justify-center xs:w-full xl:text-lg lg:p-3 lg:w-full xl:w-auto"
-              >
-                Masuk
-                <svg
-                  class="fill-current w-4 ml-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <polygon
-                    points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9"
-                  />
-                </svg>
-              </button>
+                <template v-slot:icon>
+                  <svg
+                    class="fill-current w-4 ml-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <polygon
+                      points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9"
+                    />
+                  </svg>
+                </template>
+              </my-btn>
             </div>
           </form>
         </div>
@@ -82,7 +89,6 @@
 
 <script>
 import AuthService from '../services/AuthServices'
-import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -94,7 +100,8 @@ export default {
     res: null
   }),
   components: {
-    loginSvg: () => import('../components/illustration/LoginSvg')
+    loginSvg: () => import('../components/illustration/LoginSvg'),
+    myBtn: () => import('../components/complements/Button')
   },
   computed: {
     textBreak() {
@@ -107,15 +114,20 @@ export default {
   methods: {
     async login() {
       try {
-        const res = await AuthService.teacherLogin({
-          idNumber: this.user.id,
-          securityKey: this.user.key
-        })
-
-        await this.$store.dispatch('setTeacher', res.data)
+        await this.$store.dispatch('loginTeacher', this.user)
+        this.user = {
+          id: await null,
+          key: await null
+        }
         this.$router.push({ path: '/' })
       } catch (err) {
         this.res = err.response.data.error
+      }
+    },
+    reset() {
+      this.user = {
+        id: null,
+        key: null
       }
     }
   }

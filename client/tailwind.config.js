@@ -1,9 +1,12 @@
 module.exports = {
+  corePlugins: {
+    // fontFamily: false
+  },
   purge: ['./src/**/*.vue'],
   theme: {
     extend: {},
     fontFamily: {
-      body: ['Roboto', 'sans-serif'],
+      sans: ['Roboto', 'sans-serif'],
       display: ['"Roboto Condensed"', 'sans-serif']
     },
     colors: {
@@ -28,10 +31,10 @@ module.exports = {
       orange: '#FFD1B7'
     },
     screens: {
-      xs: '320px',
+      xs: '300px',
       // => @media (min-width: 320px) { ... }
 
-      sm: '420px',
+      sm: '360px',
       // => @media (min-width: 640px) { ... }
 
       md: '768px',
@@ -43,8 +46,11 @@ module.exports = {
       xl: '1280px',
       // => @media (min-width: 1280px) { ... }
 
-      xxl: '1600px'
-      // => @media (min-width: 1280px) { ... }
+      xxl: '1440px',
+      // => @media (min-width: 1400px) { ... }
+
+      xxxl: '1600px'
+      // => @media (min-width: 1600px) { ... }
     },
     fontSize: {
       xs: '.75rem',

@@ -51,13 +51,11 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.fullPath === '/login') {
-    if (teacher.idNumber) {
-      next('teacher')
-    } else if (student.idNumber) {
-      next('/student')
-    } else {
-      next()
+    if (teacher.idNumber || student.idNumber) {
+      next('/')
     }
+
+    next()
   }
 })
 

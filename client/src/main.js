@@ -3,7 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-// import { sync } from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync'
 import VueMq from 'vue-mq'
 
 // import tailwind's css file
@@ -17,8 +17,9 @@ Vue.use(VueMq, {
     // tblp: 1024,
     // lp: 1200,
     // dp: Infinity
-    xs: 500,
+    xs: 400,
     sm: 700,
+    smmd: 800,
     md: 900,
     lg: 1200,
     xl: 1600,
@@ -27,7 +28,7 @@ Vue.use(VueMq, {
 })
 
 // sync the router with vuex store
-// sync(store, router)
+sync(store, router)
 
 Vue.config.productionTip = false
 
