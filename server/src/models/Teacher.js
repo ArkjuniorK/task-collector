@@ -1,6 +1,5 @@
 const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
-// const bcrypt = require('bcrypt')
 
 function hashKey(user, options) {
   const saltRound = 8

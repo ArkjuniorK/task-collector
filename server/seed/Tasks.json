@@ -1,6 +1,6 @@
 [
   {
-    "name": "Mencari Kata Konjungsi",
+    "name": "Menulis Kalimat Konjungsi pada Percakapan Sehari-hari",
     "date": "2012-04-23T18:25:43.511Z",
     "questions": [
       "Cara Membaca Kata Konjungsi",
@@ -10,10 +10,11 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Bahasa Indonesia"
+    "subjectName": "Bahasa Indonesia",
+    "background": "bg-light-200"
   },
   {
-    "name": "Penjumlahan Berpangkat",
+    "name": "Penjumlahan dan Pengurangan Bersusun",
     "date": "2017-04-23T18:25:43.511Z",
     "questions": [
       "Cara Membaca Kata Konjungsi",
@@ -23,7 +24,8 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Matematika"
+    "subjectName": "Matematika",
+    "background": "bg-red"
   },
   {
     "name": "Rukun Islam",
@@ -36,7 +38,8 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Pendidikan Agama"
+    "subjectName": "Pendidikan Agama",
+    "background": "bg-green"
   },
   {
     "name": "Alat Musik Indonesia",
@@ -49,7 +52,8 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Seni Budaya"
+    "subjectName": "Seni Budaya",
+    "background": "bg-orange"
   },
   {
     "name": "Pengesahan Pancasila",
@@ -62,7 +66,8 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "PKN"
+    "subjectName": "PKN",
+    "background": "bg-yellow"
   },
   {
     "name": "Sepak Bola dan Sepak Takraw",
@@ -75,7 +80,8 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Penjaskes"
+    "subjectName": "Penjaskes",
+    "background": "bg-blue"
   },
   {
     "name": "Menulis Surat Resmi",
@@ -88,6 +94,105 @@
       "Buku Paket Halaman 32",
       "LKS Halaman 12"
     ],
-    "subjectName": "Bahasa Indonesia"
+    "subjectName": "Bahasa Indonesia",
+    "background": "bg-light-200"
+  },
+  {
+    "name": "Menulis Kalimat Imbuhan Pada Kata atau Kalimat",
+    "date": "2012-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Bahasa Indonesia",
+    "background": "bg-light-200"
+  },
+  {
+    "name": "Perkalian dan Pembagian Bilangan Berpangkat",
+    "date": "2017-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Matematika",
+    "background": "bg-red"
+  },
+  {
+    "name": "Iman Kepada Malaikat dan Takdir Baik dan Buruk",
+    "date": "2019-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Pendidikan Agama",
+    "background": "bg-green"
+  },
+  {
+    "name": "Jenis Tari Tradisional Khas Indonesia",
+    "date": "2012-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Seni Budaya",
+    "background": "bg-orange"
+  },
+  {
+    "name": "Proklamasi dan Kemerdekaan Bangsa Indonesia",
+    "date": "2012-05-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "PKN",
+    "background": "bg-yellow"
+  },
+  {
+    "name": "Permainan Bola Besar dan Bola Kecil",
+    "date": "2012-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Penjaskes",
+    "background": "bg-blue"
+  },
+  {
+    "name": "Membaca dan Menulis Puisi serta Pantun",
+    "date": "2012-04-23T18:25:43.511Z",
+    "questions": [
+      "Cara Membaca Kata Konjungsi",
+      "Menulis Surat Dengan Kalimat Konjungsi"
+    ],
+    "references": [
+      "Buku Paket Halaman 32",
+      "LKS Halaman 12"
+    ],
+    "subjectName": "Bahasa Indonesia",
+    "background": "bg-light-200"
   }
 ]

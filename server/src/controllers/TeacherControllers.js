@@ -5,6 +5,7 @@ const {
   student,
   task,
   headmaster,
+  teacherTask,
 } = require('../models')
 const _ = require('lodash')
 
@@ -14,11 +15,7 @@ module.exports = {
       const { idNumber, securityKey } = req.body
 
       /* var name must be differernt with table name */
-      const teacherLogin = await teacher.findOne({
-        where: {
-          idNumber: idNumber,
-        },
-      })
+      const teacherLogin = await teacher.findByPk(idNumber)
 
       /* if is not teacher send 403 status */
       if (!teacherLogin) {
@@ -54,11 +51,16 @@ module.exports = {
       req.body = from body
       */
       const { idNumber } = req.params
+      const { page } = req.query
+      const perPage = 7
 
-      const teacherTask = await teacher.findOne({
+      const teacherTasks = await teacherTask.findAndCountAll({
         where: {
-          idNumber: idNumber,
+          teacherIdNumber: idNumber,
         },
+        limit: perPage,
+        /* offset by default use 0 as the first number of paginating */
+        offset: perPage * (page - 1),
         include: [
           {
             model: task,
@@ -66,8 +68,34 @@ module.exports = {
         ],
       })
 
-      const tasksJson = teacherTask.toJSON()
-      res.send(tasksJson)
+      /* create new instance */
+      const countTasks = teacherTasks.count
+      const indexTasks = teacherTasks.rows.map((tasks) => tasks.task)
+
+      /* recent tasks */
+      const recentTasks = await teacherTask
+        .findAll({
+          where: {
+            teacherIdNumber: idNumber,
+          },
+          limit: 2,
+          include: [
+            {
+              model: task,
+            },
+          ],
+          order: [[task, 'date', 'DESC']],
+        })
+        .map((item) => item.task)
+
+      /* wrap all the instances */
+      const teacherTaskRes = {
+        count: countTasks,
+        tasks: indexTasks,
+        recents: recentTasks,
+      }
+
+      res.send(teacherTaskRes)
     } catch (err) {
       console.log(err)
       console.log(err)
