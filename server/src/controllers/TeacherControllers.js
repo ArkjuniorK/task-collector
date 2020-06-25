@@ -52,7 +52,7 @@ module.exports = {
       */
       const { idNumber } = req.params
       const { page } = req.query
-      const perPage = 7
+      const perPage = 12
 
       const teacherTasks = await teacherTask.findAndCountAll({
         where: {
@@ -66,6 +66,7 @@ module.exports = {
             model: task,
           },
         ],
+        order: [[task, 'date', 'DESC']],
       })
 
       /* create new instance */
@@ -90,9 +91,13 @@ module.exports = {
 
       /* wrap all the instances */
       const teacherTaskRes = {
-        count: countTasks,
         tasks: indexTasks,
         recents: recentTasks,
+        pagination: {
+          totalRecords: countTasks,
+          perPage: perPage,
+          totalPages: Math.ceil(countTasks / perPage),
+        },
       }
 
       res.send(teacherTaskRes)
