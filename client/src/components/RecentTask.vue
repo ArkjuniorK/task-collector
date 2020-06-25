@@ -33,7 +33,7 @@
         class="two grid grid-cols-2 gap-3 mt-4 xl:mt-0 xl:col-span-2 xl:ml-12 xl:gap-6 xxl:col-span-2"
       >
         <task-card
-          v-for="task in recentTask"
+          v-for="task in recents"
           :key="task.index"
           :title="task.title"
           :subject="task.subject"
@@ -64,16 +64,19 @@ export default {
     title: 'Daftar Tugas Terbaru Yang Telah di Bagikan Kepada Siswa'
   }),
   computed: {
-    recentTask() {
-      /* use lodash orderBy then slice 2 latest task */
-      return _.orderBy(this.tasks, 'index', 'asc').slice(0, 2)
-    },
-    ...mapState(['tasks'])
+    // recentTask() {
+    //   /* use lodash orderBy then slice 2 latest task */
+    //   return _.orderBy(this.tasks, 'index', 'asc').slice(0, 2)
+    // },
+    ...mapState(['recents'])
   },
   methods: {
     viewTask() {
       console.log('Hello From Recent')
     }
+  },
+  mounted() {
+    console.log(this.recents)
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="task-card col-span-1 text-left p-4 rounded flex flex-col justify-between h-32 xl:h-48 xl:p-6 xxxl:h-56"
+    class="task-card col-span-1 text-left p-4 rounded flex flex-col justify-between h-32 xl:h-56 xl:p-6 xxxl:h-64"
     :class="cardClass"
     @click="cardClicked"
   >

@@ -16,7 +16,8 @@ export default new Vuex.Store({
     task: {},
     students: [],
     class: {},
-    recentTasks: []
+    recents: [],
+    pagination: {}
   },
   mutations: {
     SET_TEACHER(state, payload) {
@@ -24,6 +25,12 @@ export default new Vuex.Store({
     },
     SET_TASKS(state, payload) {
       state.tasks = payload
+    },
+    SET_RECENT_TASKS(state, payload) {
+      state.recents = payload
+    },
+    SET_PAGINATION(state, payload) {
+      state.pagination = payload
     }
   },
   actions: {
@@ -48,19 +55,38 @@ export default new Vuex.Store({
       await commit('SET_TEACHER', payload)
     },
     async setTasks({ commit }, payload) {
-      const payloadTasks = await payload.tasks.map(val => {
+      /* index tasks */
+      const payloadIndex = await payload.tasks.map(item => {
         let tasksJson = {
-          index: val.id,
-          title: val.name,
-          subject: val.subjectName,
-          date: val.updatedAt,
-          background: val.background
+          index: item.id,
+          title: item.name,
+          subject: item.subjectName,
+          date: item.date,
+          background: item.background
         }
 
         return tasksJson
       })
-      console.log(payloadTasks)
-      await commit('SET_TASKS', payloadTasks)
+
+      /* recent tasks */
+      const payloadRecents = await payload.recents.map(item => {
+        const recentJson = {
+          index: item.id,
+          title: item.name,
+          subject: item.subjectName,
+          date: item.date
+        }
+
+        return recentJson
+      })
+
+      /* tasks pagination */
+      const payloadPagination = await payload.pagination
+
+      /* commit the instances */
+      await commit('SET_TASKS', payloadIndex)
+      await commit('SET_RECENT_TASKS', payloadRecents)
+      await commit('SET_PAGINATION', payloadPagination)
     }
   },
   modules: {}
