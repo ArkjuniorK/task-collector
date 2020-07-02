@@ -1,16 +1,16 @@
 <template>
-  <div class="home w-full">
+  <div id="home" class="w-full">
     <div class="home-child">
       <recent-task
-        recentClass="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+        recentClass="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64 mb-4 xl:mb-10"
       ></recent-task>
       <main-section
-        mainClass="bg-light-100 mt-4 xl:mt-10"
+        mainClass="bg-light-100"
         subClass="mx-5 py-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
       >
         <template v-slot:left-one>
-          <div class="upper-left flex items-center text-dark-200">
-            <div class="icon w-4 mr-3">
+          <div class="flex items-center upper-left text-dark-200">
+            <div class="w-4 mr-3 icon">
               <svg
                 class="fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -22,55 +22,88 @@
               </svg>
             </div>
             <div class="title">
-              <span class="font-display text-sm">Daftar Tugas</span>
+              <span class="text-sm font-display lg:text-base xxl:text-lg"
+                >Daftar Tugas</span
+              >
             </div>
           </div>
         </template>
-        <template v-slot:left-two>
-          <div class="search flex items-center bg-light-200 p-3 rounded-md">
-            <div class="icon w-4 mr-3 text-dark-300">
-              <svg
-                class="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
+        <template v-slot:right-one>
+          <div class="upper-right">
+            <div class="one">
+              <my-btn
+                btnClass="bg-light-200 p-2 text-dark-200 xl:hidden"
+                @clicked="$router.push('/search')"
               >
-                <path
-                  d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
-                />
-              </svg>
+                <template v-slot:icon>
+                  <div class="w-4 icon">
+                    <svg
+                      class="fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
+                      />
+                    </svg>
+                  </div>
+                </template>
+              </my-btn>
+              <search-input
+                routeName="Home"
+                srClass="xs:hidden xl:flex xxl:text-lg"
+                placeholder="Cari Tugas atau Mata Pelajaran"
+              >
+                <template v-slot:icon>
+                  <svg
+                    class="fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
+                    />
+                  </svg>
+                </template>
+              </search-input>
             </div>
-            <input
-              type="text"
-              class="w-full bg-light-200 text-display placeholder-dark-100"
-              placeholder="Cari Tugas atau Mata Pelajaran..."
-            />
+            <div class="two"></div>
           </div>
         </template>
         <template v-slot:content>
           <div class="content">
             <div
+              v-if="tasks.length === 0"
+              class="flex flex-col justify-center no-task"
+            >
+              <empty-svg></empty-svg>
+              <div class="mt-5 caption">
+                <span class="text-sm font-display">Tidak Ada Tugas</span>
+              </div>
+            </div>
+            <div
+              v-if="tasks.length >= 1"
               class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
             >
               <task-card
-                v-for="task in tasks"
-                :key="task.index"
+                v-for="(task, index) in tasks"
+                :key="index"
                 :title="task.title"
                 :subject="task.subject"
                 :date="task.date"
                 :cardClass="[task.background, 'xl:rounded-lg']"
+                @cardClicked="goToTask(task.index)"
               ></task-card>
             </div>
           </div>
         </template>
         <template v-slot:paginate>
-          <pagination
-            :totalPages="pagination.totalPages"
-            :currentPage="currentPage"
-            :total="pagination.totalRecords"
-            @next="nextPage"
-            @prev="prevPage"
-            @page="btnPage"
-          ></pagination>
+          <scroll-pagination
+            @load="setCurrentPage"
+            :totalPage="pagination.totalPage"
+            :totalRecords="pagination.totalTasks"
+            :totalTasks="tasks.length"
+          ></scroll-pagination>
         </template>
       </main-section>
     </div>
@@ -78,6 +111,7 @@
 </template>
 <script>
 import teacherService from '../services/TeacherServices'
+import _ from 'lodash'
 import { mapState, mapActions } from 'vuex'
 
 // @ is an alias to /src
@@ -87,25 +121,15 @@ export default {
     recentTask: () => import('../components/RecentTask'),
     mainSection: () => import('../components/MainSection'),
     taskCard: () => import('../components/complements/TaskCard'),
-    pagination: () => import('../components/Pagination')
-    // myBtn: () => import('../components/complements/Button')
+    scrollPagination: () => import('../components/ScrollPagination'),
+    myBtn: () => import('../components/complements/Button'),
+    searchInput: () => import('../components/complements/Search'),
+    emptySvg: () => import('../components/illustration/TasksEmptSvg')
   },
-  data: () => ({
-    currentPage: 1
-  }),
   computed: {
-    ...mapState(['teacher', 'tasks', 'pagination'])
+    ...mapState(['teacher', 'tasks', 'pagination', 'currentPage'])
   },
   methods: {
-    prevPage() {
-      this.currentPage--
-    },
-    nextPage() {
-      this.currentPage++
-    },
-    btnPage(pageVal) {
-      this.currentPage = pageVal
-    },
     getTasks() {
       if (this.teacher.idNumber) {
         let payload = {
@@ -117,7 +141,19 @@ export default {
       } else {
       }
     },
-    ...mapActions(['getTeacherTasks'])
+    async goToTask(val) {
+      /* make request to the server */
+      await this.getTask(val)
+
+      /* push the ViewTask with the val as params */
+      this.$router.push({
+        name: 'ViewTask',
+        params: {
+          id: val
+        }
+      })
+    },
+    ...mapActions(['getTeacherTasks', 'setCurrentPage', 'getTask'])
   },
   watch: {
     currentPage() {
@@ -125,9 +161,9 @@ export default {
     }
   },
   mounted() {
+    if (this.currentPage === this.pagination.currentPage) return
+    if (this.currentPage === this.pagination.totalPages) return
     this.getTasks()
   }
 }
 </script>
-
-<style></style>

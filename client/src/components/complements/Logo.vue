@@ -33,13 +33,14 @@ export default {
           //   return 94
           case 'xs':
           case 'sm':
+          case 'smmd':
           case 'md':
             return 54
           case 'lg':
-            return 74
+            return 64
           case 'xl':
           case 'xxl':
-            return 84
+            return 74
         }
       }
       return mq(this.$mq)

@@ -1,7 +1,7 @@
 <template>
   <div
     id="login"
-    class="text-center flex flex-col justify-center mx-5 md:mt-20"
+    class="text-center flex flex-col justify-center mx-5 md:h-screen-80 xl:h-auto xxl:mt-24"
   >
     <div
       v-if="res"
@@ -39,7 +39,7 @@
           <form
             @submit.prevent="login"
             autocomplete="off"
-            class="m-4 font-display lg:m-0 lg:w-2/3 lg:mt-4 lg:w-full xl:text-xl xl:w-3/5 xxl:w-1/2"
+            class="m-4 font-display lg:m-0 lg:w-2/3 lg:mt-4 xl:text-xl xl:w-3/5 xxl:w-1/2"
           >
             <input
               type="number"
@@ -54,7 +54,7 @@
               v-model="user.key"
             />
 
-            <div class="btn-action mt-10 block lg:flex">
+            <div class="btn-action mt-10 block lg:flex lg:items-center">
               <my-btn
                 type="button"
                 name="Reset"
@@ -64,7 +64,7 @@
               <my-btn
                 type="button"
                 name="Masuk"
-                btnClass="bg-blue p-2 hover:bg-light-200 mt-3"
+                btnClass="bg-blue p-2 hover:bg-light-200 mt-3 lg:mt-0 lg:ml-2"
                 @clicked="login"
               >
                 <template v-slot:icon>

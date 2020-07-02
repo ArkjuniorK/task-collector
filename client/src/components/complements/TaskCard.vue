@@ -1,22 +1,22 @@
 <template>
   <div
-    class="task-card col-span-1 text-left p-4 rounded flex flex-col justify-between h-32 xl:h-56 xl:p-6 xxxl:h-64"
+    class="flex flex-col justify-between h-32 p-4 text-left rounded task-card col-span-1 xl:h-48 xl:p-6 xxxl:h-56"
     :class="cardClass"
-    @click="cardClicked"
+    @click="$emit('cardClicked')"
   >
-    <div class="up flex flex-col">
+    <div class="flex flex-col up">
       <span class="font-sans text-xs xxxl:text-base">
         {{ subject }}
       </span>
       <span
-        class="font-bold text-base mt-2 sm:text-base md:leading-tight xl:text-2xl xl:leading-tight xxxl:text-3xl"
+        class="h-10 mt-2 text-base font-bold sm:text-base md:leading-tight xl:text-2xl xl:leading-tight xxxl:text-3xl"
       >
-        {{ intercate(title) }}
+        <v-clamp autoresize :max-lines="2"> {{ title }} </v-clamp>
       </span>
     </div>
-    <div class="down flex items-center justify-between">
+    <div class="flex items-center justify-between down">
       <span class="text-xs xl:text-sm xxxl:text-base">
-        {{ date | date }}
+        {{ date | date('id') }}
       </span>
       <my-btn
         name="Lihat"
@@ -26,7 +26,7 @@
       >
         <template v-slot:icon>
           <svg
-            class="fill-current w-4 ml-2"
+            class="w-4 ml-2 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
           >
@@ -45,43 +45,33 @@ import moment from 'moment'
 
 export default {
   name: 'TaskCard',
-  props: {
-    title: String,
-    subject: String,
-    date: String,
-    cardClass: String
-  },
+  props: ['subject', 'title', 'date', 'cardClass'],
   components: {
-    myBtn: () => import('./Button')
+    myBtn: () => import('./Button'),
+    VClamp: () => import('vue-clamp')
   },
   methods: {
-    intercate(val) {
-      switch (this.$mq) {
-        case 'xs':
-          return val.length >= 22 ? val.slice(0, 19) + '...' : val
-        case 'sm':
-          return val.length >= 33 ? val.slice(0, 30) + '...' : val
-        case 'smmd':
-          return val.length >= 48 ? val.slice(0, 45) + '...' : val
-        case 'md':
-          return val.length >= 56 ? val.slice(0, 53) + '...' : val
-        case 'lg':
-          return val.length >= 63 ? val.slice(0, 60) + '...' : val
-        case 'xl':
-          return val.length >= 53 ? val.slice(0, 50) + '...' : val
-        case 'xxl':
-          return val
-      }
-    },
     async cardClicked() {},
     async btnClicked() {}
   },
+  computed: {
+    clamp() {
+      return 't'
+    }
+  },
   filters: {
-    date(val) {
+    date(val, valB) {
       return moment(val)
-        .locale('id')
+        .locale(valB)
         .format('DD MMMM YYYY')
     }
-  }
+  },
+  watch: {}
 }
 </script>
+
+<style>
+.clamp {
+  max-height: 3rem;
+}
+</style>

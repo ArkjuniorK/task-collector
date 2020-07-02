@@ -1,10 +1,13 @@
 module.exports = {
-  corePlugins: {
-    // fontFamily: false
-  },
+  corePlugins: {},
   purge: ['./src/**/*.vue'],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        'screen-50': '50vh',
+        'screen-80': '80vh'
+      }
+    },
     fontFamily: {
       sans: ['Roboto', 'sans-serif'],
       display: ['"Roboto Condensed"', 'sans-serif']

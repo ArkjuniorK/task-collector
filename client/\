@@ -25,6 +25,7 @@ export default new Vuex.Store({
     tasks: [],
     task: {},
     students: [],
+    class: {},
     recents: [],
     pagination: {}
   },
@@ -102,41 +103,33 @@ export default new Vuex.Store({
       })
 
       /* data intances from teacherTasks.data */
-      let data = await teacherTasks.data
+      const data = teacherTasks.data
 
       /* new instances for each data */
-      let tasks = await data.tasks
-      let recents = await data.tasks.slice(0, 2)
-      let pagination = await data.pagination
+      const tasksIndex = await data.tasks
+      const tasksRecents = await data.tasks.slice(0, 2)
+      const tasksPagination = await data.pagination
 
       /* commit the instances */
-      commit('SET_TASK', tasks)
-      commit('SET_RECENT_TASKS', recents)
-      commit('SET_PAGINATION', pagination)
+      commit('SET_TASK', tasksIndex)
+      commit('SET_RECENT_TASKS', tasksRecents)
+      commit('SET_PAGINATION', tasksPagination)
     },
 
     /* <-- set --> */
-    async postTask({ state, getters }, payload) {
-      const task = await TaskServices.addTask({
-        name: payload.name,
-        subjectName: payload.subject,
-        date: payload.date,
-        questions: payload.questions,
-        refences: payload.refences,
-        roomIdNumber: getters.teacherClass.idNumber,
-        teacherIdNumber: state.teacher.idNumber,
-        schoolIdNumber: state.teacher.schoolIdNumber
-      })
+    async setTasks({ commit }, payload) {
+      /* instances declaration */
+      const payloadTasks = await payload.tasks
+      const payloadRecents = await payload.tasks.slice(0, 2)
+      const payloadPagination = await payload.pagination
 
-      console.log(task)
+      /* commit the instances */
+      commit('SET_TASKS', payloadTasks)
+      commit('SET_RECENT_TASKS', payloadRecents)
+      commit('SET_PAGINATION', payloadPagination)
     },
     async setCurrentPage({ commit }) {
       commit('SET_CURRENT_PAGE')
-    }
-  },
-  getters: {
-    teacherClass: state => {
-      return state.teacher.class[0]
     }
   },
   modules: {}

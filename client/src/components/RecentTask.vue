@@ -13,7 +13,9 @@
         </svg>
       </div>
       <div class="title">
-        <span class="font-display text-sm">Tugas Terbaru</span>
+        <span class="font-display text-sm lg:text-base xxl:text-lg"
+          >Tugas Terbaru</span
+        >
       </div>
     </div>
     <div class="body h-full mt-2 grid grid-cols-1 xl:grid-cols-3">

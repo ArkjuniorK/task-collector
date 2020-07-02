@@ -3,16 +3,21 @@
     <div class="main-content flex flex-col justify-between" :class="subClass">
       <div class="up-middle">
         <div class="up">
-          <div class="one flex items-center lg:grid lg:grid-cols-5">
-            <slot name="left-one" class="mr-auto lg:col-span-1"></slot>
-            <slot
-              name="center-one"
-              class="lg:col-span-3 xs:hidden xl:col-span-1"
-            ></slot>
-            <slot name="right-one" class="ml-auto lg:col-span-1"></slot>
+          <div
+            class="one flex justify-between items-center xl:grid xl:grid-cols-3"
+          >
+            <div id="left-one" class="mr-auto xl:col-span-1">
+              <slot name="left-one"></slot>
+            </div>
+            <div id="center-one" class="mx-auto xl:col-span-1">
+              <slot name="center-one"></slot>
+            </div>
+            <div id="right-one" class="xl:col-span-1">
+              <slot name="right-one"></slot>
+            </div>
           </div>
           <div class="two mt-4 xl:hidden">
-            <slot name="left-two"></slot>
+            <slot name="first-two"></slot>
           </div>
         </div>
         <div class="middle mt-6">

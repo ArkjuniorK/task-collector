@@ -27,7 +27,7 @@ Vue.use(VueMq, {
   }
 })
 
-// sync the router with vuex store
+// sync the router with vuex store sync(store, router)
 sync(store, router)
 
 Vue.config.productionTip = false

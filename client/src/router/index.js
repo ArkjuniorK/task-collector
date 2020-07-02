@@ -27,11 +27,32 @@ const routes = [
     name: 'Students',
     component: () =>
       import(/* webpackChunkName: "teacher" */ '../views/Students.vue')
+  },
+  {
+    path: '/task/:id',
+    name: 'ViewTask',
+    component: () =>
+      import(/* webpackChunkName: "taskView" */ '../views/ViewTask.vue')
+  },
+  {
+    path: '/create',
+    name: 'Create',
+    component: () =>
+      import(/* webpackChunkName: "createParent" */ '../views/Create.vue'),
+    children: [
+      {
+        path: 'task',
+        name: 'CreateTask',
+        component: () =>
+          import(/* webpackChunkName: "taskCreate" */ '../views/CreateTask.vue')
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
+  linkExactActiveClass: 'text-light-300',
   base: process.env.BASE_URL,
   routes
 })
@@ -42,20 +63,33 @@ router.beforeEach((to, from, next) => {
   const teacher = store.state.teacher
   const student = store.state.student
 
-  if (to.fullPath === '/') {
-    if (!teacher.idNumber) {
-      next('/login')
-    }
-
-    next()
-  }
+  if (to.name === 'Error') return next()
 
   if (to.fullPath === '/login') {
-    if (teacher.idNumber || student.idNumber) {
-      next('/')
-    }
+    if (teacher.idNumber || student.idNumber) next('/')
+    else next()
+  }
 
-    next()
+  if (to.name === 'Home') {
+    if (!teacher.idNumber) next('/login')
+    else next()
+  }
+
+  if (to.name === 'Students') {
+    if (teacher.idNumber) next()
+    else next('/login')
+  }
+
+  if (to.name === 'ViewTask') {
+    if (teacher.idNumber) next()
+    else next('/')
+  }
+
+  if (to.name === 'Create') next('/')
+
+  if (to.name === 'CreateTask') {
+    if (teacher.idNumber) next()
+    else next('/')
   }
 })
 

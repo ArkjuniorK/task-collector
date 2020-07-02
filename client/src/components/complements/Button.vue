@@ -1,7 +1,7 @@
 <template>
   <button
     :type="btnType"
-    class="font-display rounded focus:outline-none flex items-center justify-center xs:w-full xl:text-lg lg:w-full xl:w-auto"
+    class="flex items-center justify-center rounded transition duration-200 font-display focus:outline-none xs:w-full lg:w-full xl:w-auto"
     :class="[btnClass, disabled]"
     @click="$emit('clicked')"
   >
@@ -17,7 +17,15 @@ export default {
     name: String || Number,
     btnClass: String,
     btnType: String,
-    btnDisabled: Boolean
+    btnDisabled: Boolean,
+    small: {
+      type: String,
+      default: 'xl:text-sm'
+    },
+    normal: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     disabled() {
