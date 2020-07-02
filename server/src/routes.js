@@ -19,5 +19,6 @@ module.exports = (app) => {
 
   app.get('/rooms', RoomControllers.index)
 
+  app.get('/task/:id', TaskControllers.index)
   app.post('/task', TaskControllers.post)
 }

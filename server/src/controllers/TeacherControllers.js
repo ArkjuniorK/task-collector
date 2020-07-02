@@ -4,7 +4,7 @@ const {
   room,
   student,
   task,
-  headmaster,
+  subject,
   teacherTask,
 } = require('../models')
 const _ = require('lodash')
@@ -15,7 +15,9 @@ module.exports = {
       const { idNumber, securityKey } = req.body
 
       /* var name must be differernt with table name */
-      const teacherLogin = await teacher.findByPk(idNumber)
+      const teacherLogin = await teacher.findByPk(idNumber, {
+        include: ['class', 'school', 'students'],
+      })
 
       /* if is not teacher send 403 status */
       if (!teacherLogin) {
@@ -71,32 +73,18 @@ module.exports = {
 
       /* create new instance */
       const countTasks = teacherTasks.count
-      const indexTasks = teacherTasks.rows.map((tasks) => tasks.task)
-
-      /* recent tasks */
-      const recentTasks = await teacherTask
-        .findAll({
-          where: {
-            teacherIdNumber: idNumber,
-          },
-          limit: 2,
-          include: [
-            {
-              model: task,
-            },
-          ],
-          order: [[task, 'date', 'DESC']],
-        })
-        .map((item) => item.task)
+      const Tasks = teacherTasks.rows.map((tasks) => tasks.task)
+      const pageTasks = parseInt(page)
 
       /* wrap all the instances */
       const teacherTaskRes = {
-        tasks: indexTasks,
-        recents: recentTasks,
+        tasks: Tasks,
+        recents: Tasks,
         pagination: {
-          totalRecords: countTasks,
+          totalTasks: countTasks,
           perPage: perPage,
           totalPages: Math.ceil(countTasks / perPage),
+          currentPage: pageTasks,
         },
       }
 
