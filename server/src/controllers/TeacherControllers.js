@@ -1,15 +1,23 @@
 const {
   teacher,
-  school,
-  room,
-  student,
+  teacherRoom,
   task,
-  subject,
   teacherTask,
+  schoolRoom,
 } = require('../models')
 const _ = require('lodash')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
+
+function jwtSignTeacher(teacher) {
+  const ONE_WEEK = 60 * 60 * 24 * 7
+  return jwt.sign(teacher, config.jwtSecret, {
+    expiresIn: ONE_WEEK,
+  })
+}
 
 module.exports = {
+  /* login teacher */
   async post(req, res) {
     try {
       const { idNumber, securityKey } = req.body
@@ -34,9 +42,12 @@ module.exports = {
         })
       }
 
-      const jsonData = teacherLogin.toJSON()
+      const teacherJson = teacherLogin.toJSON()
 
-      res.send(jsonData)
+      res.send({
+        teacher: teacherJson,
+        token: jwtSignTeacher(teacherJson),
+      })
     } catch (err) {
       console.log('Error', err)
       console.log('Error', err)
@@ -90,6 +101,9 @@ module.exports = {
 
       res.send(teacherTaskRes)
     } catch (err) {
+      res.status(500).send({
+        error: 'Kesalahan saat menghubungi server, periksa jaringan anda',
+      })
       console.log(err)
       console.log(err)
       console.log(err)
@@ -98,17 +112,56 @@ module.exports = {
   },
   async create(req, res) {
     try {
-      const { name, idNumber, gender, status, age } = req.body
+      const {
+        frontName,
+        backName,
+        idNumber,
+        gender,
+        born,
+        schoolIdNumber,
+        roomIdNumber,
+      } = req.body
 
-      const teacherRegister = await teacher.create({
+      const securityKey = idNumber.toString()
+
+      const teacherValidation = await teacher.findByPk(idNumber)
+
+      if (teacherValidation) {
+        res.status(400).send({
+          error: 'Nomor induk yang anda masukan telah digunakan',
+        })
+      }
+
+      await teacher.create({
         idNumber: idNumber,
-        name: name,
+        securityKey: securityKey,
+        frontName: frontName,
+        backName: backName,
         gender: gender,
-        status: status,
-        age: age,
+        born: born,
+        schoolIdNumber: schoolIdNumber,
       })
 
-      res.send(teacherRegister)
+      await schoolRoom.create({
+        schoolIdNumber: schoolIdNumber,
+        roomIdNumber: roomIdNumber,
+      })
+
+      await teacherRoom.create({
+        roomIdNumber: roomIdNumber,
+        teacherIdNumber: idNumber,
+      })
+
+      const teacherData = await teacher.findByPk(idNumber, {
+        include: ['class', 'school', 'students'],
+      })
+
+      const teacherJson = teacherData.toJSON()
+
+      res.send({
+        teacher: teacherJson,
+        token: jwtSignTeacher(teacherJson),
+      })
     } catch (err) {
       console.log('Error', err)
       console.log('Error', err)

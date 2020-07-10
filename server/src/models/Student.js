@@ -26,22 +26,20 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         unique: true,
       },
-      name: DataTypes.STRING,
-      age: DataTypes.INTEGER,
+      frontName: DataTypes.STRING,
+      backName: DataTypes.STRING,
       gender: DataTypes.STRING,
-      birth: DataTypes.STRING,
+      born: DataTypes.STRING,
       securityKey: DataTypes.STRING,
     },
     {
       hooks: {
-        // beforeCreate
-        // beforeUpdate: hashKey,
         beforeSave: hashKey,
       },
     }
   )
 
-  Student.prototype.compateKey = function (securityKey) {
+  Student.prototype.compareKey = function (securityKey) {
     return bcrypt.compareAsync(securityKey, this.securityKey)
   }
 
@@ -50,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     Student.belongsTo(models.school)
     Student.belongsToMany(models.room, {
       through: 'studentRoom',
+      as: 'class',
     })
     Student.belongsToMany(models.task, {
       through: 'studentTask',

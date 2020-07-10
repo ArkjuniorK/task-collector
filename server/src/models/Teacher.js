@@ -24,16 +24,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT(11),
         allowNull: false,
         primaryKey: true,
+        unique: true,
       },
-      name: DataTypes.STRING,
+      frontName: DataTypes.STRING,
+      backName: DataTypes.STRING,
       gender: DataTypes.STRING,
-      status: DataTypes.STRING,
-      age: DataTypes.INTEGER,
+      born: DataTypes.STRING,
       securityKey: DataTypes.STRING,
     },
     {
       hooks: {
-        beforeUpdate: hashKey,
+        /* beforeCreate: hashKey, */
+        /* beforeUpdate: hashKey, */
         beforeSave: hashKey,
       },
     }

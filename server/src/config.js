@@ -1,7 +1,7 @@
 module.exports = {
   port: 8081,
   db: {
-    database: process.env.DB_NAME || 'taskcollector',
+    database: process.env.DB_NAME || 'task_controller',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     options: {

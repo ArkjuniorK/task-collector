@@ -12,6 +12,26 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
+/*
+ *
+ * ----- HOW IT IS WORK -----
+ *
+ *
+ * when the app is load, it will find the app.js
+ * then it will load all the script from top of the line till end
+ * let's say the app begin it's cycle from the app.use(morgan)
+ *
+ * then it should be work like
+ *
+ * -> app.use is defnine the all the plugin that is needed
+ * -> then it will search for passport.js for auth, it'll skip that if we dont use auth
+ * -> next the app would pass all the data into the routes.js and route work with the controllers
+ * -> finally the sequelize will start it sync and listen from config.port that we have defined
+ */
+
+/* passport for the user */
+require('./passport')
+
 // api routes and the rest
 require('./routes')(app)
 

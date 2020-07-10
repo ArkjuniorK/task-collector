@@ -2,6 +2,29 @@ const { teacher, school, room, student } = require('../models')
 // const _ = require('lodash')
 
 module.exports = {
+  async test(req, res) {
+    try {
+      const { id, schoolId } = req.query
+
+      const rooms = await room.findOne({
+        where: { idNumber: id },
+        include: [
+          {
+            model: teacher,
+            where: { schoolIdNumber: schoolId },
+          },
+        ],
+      })
+
+      const teacherId = rooms.teachers
+
+      res.send({
+        idNumber: teacherId[0].idNumber,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  },
   async index(req, res) {
     try {
       const { id, schoolId } = req.query
