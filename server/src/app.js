@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const path = require('path')
+const path = require('path') // path
 const { sequelize } = require('./models')
 
 const config = require('./config')
