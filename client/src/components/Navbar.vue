@@ -9,22 +9,21 @@
           <svg-logo></svg-logo>
         </div>
         <div id="left" class="items-center ml-auto" :class="display">
-          <div class="action-one xs:hidden xl:block">
+          <div class="action-one xs:hidden xl:block" v-show="status">
             <my-btn
               btnType="button"
-              btnClass="flex-row-reverse px-2 bg-blue text-dark-200 hover:bg-opacity-75 p-1 xxl:p-2 text-sm xxl:text-base"
-              @clicked="$router.push('create/task')"
+              btnClass="flex-row-reverse rounded-full text-dark-200 hover:bg-opacity-75 p-1 xxl:p-2 text-sm xxl:text-base"
+              @clicked="$router.push({ name: 'CreateTask' })"
             >
-              Tambah Tugas
               <template>
-                <div class="w-4 mr-1 icon">
+                <div class="w-3 transform rotate-45 icon">
                   <svg
                     class="fill-current"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                   >
                     <path
-                      d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+                      d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"
                     />
                   </svg>
                 </div>
@@ -37,6 +36,25 @@
             >
               {{ username }}
             </span>
+          </div>
+          <div id="action-three" class="ml-3 xs:hidden xl:block">
+            <my-btn
+              @clicked="logOut"
+              btnClass="bg-red text-light-40 xl:text-sm xl:p-1 xxl:py-1 xxl:px-2"
+            >
+              Keluar
+              <template v-slot:icon>
+                <div class="w-3 ml-1 rounded-full icon">
+                  <svg
+                    class="fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M10 7H2v6h8v5l8-8-8-8v5z" />
+                  </svg>
+                </div>
+              </template>
+            </my-btn>
           </div>
           <div class="ml-2 action">
             <button
@@ -56,10 +74,9 @@
         </div>
       </div>
       <div
-        v-if="teacher.idNumber"
         class="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center w-6/12 mx-auto two xs:hidden xl:flex xxl:text-lg"
       >
-        <div class="nav-link font-display">
+        <div :class="display" v-show="status" class="nav-link font-display">
           <router-link to="/" class="mr-2">Tugas</router-link>
           <router-link to="/students" class="ml-2">Siswa</router-link>
         </div>
@@ -69,7 +86,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -81,10 +98,15 @@ export default {
     open: true
   }),
   computed: {
+    status() {
+      return this.student.idNumber ? false : true
+    },
     display() {
       return this.$route.name == 'Login'
         ? 'hidden'
         : this.$route.name == 'Error'
+        ? 'hidden'
+        : this.$route.name == 'Register'
         ? 'hidden'
         : 'flex'
     },
@@ -93,9 +115,9 @@ export default {
       const student = this.student
 
       return teacher.idNumber
-        ? teacher.name
+        ? teacher.frontName
         : student.idNumber
-        ? student.name
+        ? student.frontName
         : null
     },
     ...mapState(['teacher', 'student'])
@@ -108,9 +130,13 @@ export default {
     closeNavbar() {
       this.$emit('closeMenu')
       this.open = true
-    }
-  },
-  mounted() {}
+    },
+    async logOut() {
+      this.logOutUser()
+      this.$router.push({ name: 'Login' })
+    },
+    ...mapActions(['logOutUser'])
+  }
 }
 </script>
 

@@ -86,7 +86,7 @@
               class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
             >
               <task-card
-                v-for="(task, index) in tasks"
+                v-for="(task, index) in tasksList"
                 :key="index"
                 :title="task.title"
                 :subject="task.subject"
@@ -99,8 +99,9 @@
         </template>
         <template v-slot:paginate>
           <scroll-pagination
-            @load="setCurrentPage"
-            :totalPage="pagination.totalPage"
+            @load="addCurrentPage"
+            :currentPage="currentPage"
+            :totalPages="pagination.totalPages"
             :totalRecords="pagination.totalTasks"
             :totalTasks="tasks.length"
           ></scroll-pagination>
@@ -126,8 +127,12 @@ export default {
     searchInput: () => import('../components/complements/Search'),
     emptySvg: () => import('../components/illustration/TasksEmptSvg')
   },
+  data: () => ({
+    tasksList: [],
+    condition: false
+  }),
   computed: {
-    ...mapState(['teacher', 'tasks', 'pagination', 'currentPage'])
+    ...mapState(['teacher', 'student', 'tasks', 'pagination', 'currentPage'])
   },
   methods: {
     getTasks() {
@@ -138,12 +143,17 @@ export default {
         }
         this.getTeacherTasks(payload)
       } else if (this.student.idNumber) {
+        let payload = {
+          idNumber: this.student.idNumber,
+          page: this.currentPage
+        }
+        this.getStudentTasks(payload)
       } else {
       }
     },
     async goToTask(val) {
       /* make request to the server */
-      await this.getTask(val)
+      this.getTask(val)
 
       /* push the ViewTask with the val as params */
       this.$router.push({
@@ -153,16 +163,32 @@ export default {
         }
       })
     },
-    ...mapActions(['getTeacherTasks', 'setCurrentPage', 'getTask'])
+    ...mapActions([
+      'getTeacherTasks',
+      'getStudentTasks',
+      'addCurrentPage',
+      'getTask',
+      'refreshCurrentPage'
+    ])
   },
   watch: {
     currentPage() {
       this.getTasks()
+    },
+    tasks() {
+      return this.tasks.map(task => this.tasksList.push(task))
     }
   },
-  mounted() {
-    if (this.currentPage === this.pagination.currentPage) return
-    if (this.currentPage === this.pagination.totalPages) return
+  async mounted() {
+    /* 
+			when the page is refreshed, it will trigger the created hook
+			and run the function below async
+
+			the 'refreshCurrentPage()' will reset the page to 1
+			and then run the 'getTasks()' to get the list of task based on
+			'this.currentPage'
+		*/
+    this.refreshCurrentPage()
     this.getTasks()
   }
 }

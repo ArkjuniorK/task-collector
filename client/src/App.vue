@@ -19,9 +19,12 @@
     >
       <div class="text">
         <div class="flex justify-between p-2 mx-3 upper">
-          <span class="font-display">
-            {{ teacher.name }}
+          <span v-if="teacher.idNumber" class="font-display">
+            {{ teacher.frontName }}
           </span>
+          <span v-else-if="student.idNumber" class="font-display">{{
+            student.frontName
+          }}</span>
           <button
             id="menu-clse"
             @click="closeNavbar"
@@ -42,23 +45,32 @@
           <div
             class="flex flex-col py-6 rounded school-students font-display bg-red"
           >
-            <span class="text-2xl font-black">
+            <span v-if="teacher.idNumber" class="text-2xl font-black">
               {{ teacher.school.name }}
             </span>
+            <span v-else-if="student.idNumber" class="text-2xl font-black">{{
+              student.school.name
+            }}</span>
             <div class="mt-2 text-lg class-students">
-              <span class=""
+              <span v-if="teacher.idNumber"
                 >Kelas
                 {{ teacher.class[0].name }}
               </span>
+              <span v-else-if="student.idNumber"
+                >Kelas
+                {{ student.class[0].name }}
+              </span>
               |
-              <span class="">
+              <span v-if="teacher.idNumber">
                 {{ teacher.students.length }}
                 Siswa</span
               >
             </div>
           </div>
           <div class="my-4 button">
-            <my-btn btnClass="bg-blue p-2 flex-row-reverse"
+            <my-btn
+              btnClass="bg-blue p-2 flex-row-reverse"
+              @clicked="$router.push('/create/task')"
               >Tambah Tugas
               <template v-slot:icon>
                 <div class="w-4 mr-2 icon">
@@ -88,6 +100,7 @@
               <router-link
                 to="/students"
                 class="flex items-center justify-between mt-3 text-lg"
+                exact-active-class="text-dark-400"
               >
                 <span class="mr-4">Siswa</span>
                 <span class="w-full border"></span>
@@ -130,11 +143,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(['teacher'])
+    ...mapState(['teacher', 'student'])
   },
-  mounted() {
-    console.log(this.teacher)
-  }
+  mounted() {}
 }
 </script>
 

@@ -8,9 +8,9 @@
         :btnDisabled="prevBtn"
       >
         <template v-slot:icon>
-          <div class="icon w-5">
+          <div class="w-5 icon">
             <svg
-              class="fill-current w-full h-full"
+              class="w-full h-full fill-current"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -22,7 +22,7 @@
         </template>
       </my-btn>
     </div>
-    <div class="center flex items-center">
+    <div class="flex items-center center">
       <my-btn
         v-for="page in pages"
         :key="page.index"
@@ -41,7 +41,7 @@
         :btnDisabled="nextBtn"
       >
         <template v-slot:icon>
-          <div class="icon w-5">
+          <div class="w-5 icon">
             <svg
               class="w-full h-full fill-current"
               xmlns="http://www.w3.org/2000/svg"

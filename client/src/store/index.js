@@ -3,13 +3,19 @@ import Vuex from 'vuex'
 import persistanceState from 'vuex-persistedstate'
 
 import AuthService from '../services/AuthServices'
-import TeacherService from '../services/TeacherServices'
 import TaskServices from '../services/TaskServices'
+import TeacherServices from '../services/TeacherServices'
+import StudentServices from '../services/StudentServices'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [persistanceState()],
+  plugins: [
+    /* only save the instance that defined in paths array */
+    persistanceState({
+      paths: ['teacher', 'student', 'token', 'subjects']
+    })
+  ],
   state: {
     subjects: [
       'Bahasa Indonesia',
@@ -26,11 +32,18 @@ export default new Vuex.Store({
     task: {},
     students: [],
     recents: [],
-    pagination: {}
+    pagination: {},
+    token: null
   },
   mutations: {
     SET_TEACHER(state, payload) {
       state.teacher = payload
+    },
+    SET_STUDENT(state, payload) {
+      state.student = payload
+    },
+    SET_TOKEN(state, payload) {
+      state.token = payload
     },
     SET_TASKS(state, payload) {
       /* defina new tasks array */
@@ -48,11 +61,16 @@ export default new Vuex.Store({
       /* 
         - push the tasks item into state.tasks 
         - if the total item equal to state.tasks length return nothing
+
+				problem with this was it doesn't update the list
       */
-      tasks.map(task => {
-        if (state.pagination.totalRecords === state.tasks.length) return
-        state.tasks.push(task)
-      })
+
+      // tasks.map(task => {
+      // if (state.pagination.totalRecords === state.tasks.length) return
+      // state.tasks.push(task)
+      // })
+
+      state.tasks = tasks
     },
     SET_RECENT_TASKS(state, payload) {
       /* define the recents array */
@@ -66,37 +84,79 @@ export default new Vuex.Store({
         return recentObject
       })
 
-      /* if the recents length equal to 2 return nothing */
-      if (state.recents.length === 2) return
       state.recents = recents
     },
     SET_PAGINATION(state, payload) {
       state.pagination = payload
     },
-    SET_CURRENT_PAGE(state) {
-      state.currentPage++
+    SET_CURRENT_PAGE(state, type) {
+      if (type === 1) return state.currentPage++
+      if (type === -1) return (state.currentPage = 1)
     },
     SET_TASK(state, payload) {
       state.task = payload
+    },
+    LOG_OUT(state) {
+      let array = []
+      let object = {}
+
+      state.teacher = object
+      state.student = object
+      state.tasks = array
+      state.students = array
+      state.pagination = object
+      state.recents = array
+      state.currentPage = 1
     }
   },
   actions: {
     /* <-- auth --> */
+    async registerTeacher({ commit }, payload) {
+      /* register teacher and send the request data */
+      const auth = await AuthService.teacherRegister(payload)
+
+      /* commit auth data to 'SET_TEACHER' mutations */
+      commit('SET_TEACHER', auth.data.teacher)
+      commit('SET_TOKEN', auth.data.token)
+    },
     async loginTeacher({ commit }, payload) {
-      /* auth teacher and it data that required */
+      /* login teacher and it data that required */
       const auth = await AuthService.teacherLogin({
         idNumber: payload.id,
         securityKey: payload.key
       })
 
       /* commit auth data to 'SET_TEACHER' mutations */
-      commit('SET_TEACHER', auth.data)
+      commit('SET_TEACHER', auth.data.teacher)
+      commit('SET_TOKEN', auth.data.token)
+    },
+    async registerStudent({ commit }, payload) {
+      /* register teacher and send the request data */
+      const auth = await AuthService.studentRegister(payload)
+
+      /* commit auth data to 'SET_TEACHER' mutations */
+      commit('SET_STUDENT', auth.data.student)
+      commit('SET_TOKEN', auth.data.token)
+    },
+    async loginStudent({ commit }, payload) {
+      /* login teacher and it data that required */
+      const auth = await AuthService.studentLogin({
+        idNumber: payload.id,
+        securityKey: payload.key
+      })
+
+      /* commit auth data to 'SET_TEACHER' mutations */
+      commit('SET_STUDENT', auth.data.student)
+      commit('SET_TOKEN', auth.data.token)
+    },
+    async logOutUser({ commit }) {
+      commit('LOG_OUT')
     },
 
     /* <-- get --> */
     async getTeacherTasks({ commit }, payload) {
       /* send the request tasks to server  */
-      const teacherTasks = await TeacherService.teacherTasks({
+      const teacherTasks = await TeacherServices.teacherTasks({
         idNumber: payload.idNumber,
         page: payload.page
       })
@@ -110,28 +170,58 @@ export default new Vuex.Store({
       let pagination = await data.pagination
 
       /* commit the instances */
-      commit('SET_TASK', tasks)
+      commit('SET_TASKS', tasks)
       commit('SET_RECENT_TASKS', recents)
       commit('SET_PAGINATION', pagination)
+    },
+    async getStudentTasks({ commit }, payload) {
+      const studentTasks = await StudentServices.teacherTasks({
+        idNumber: payload.idNumber,
+        page: payload.page
+      })
+
+      /* data intances from teacherTasks.data */
+      let data = await studentTasks.data
+
+      /* new instances for each data */
+      let tasks = await data.tasks
+      let recents = await data.tasks.slice(0, 2)
+      let pagination = await data.pagination
+
+      /* commit the instances */
+      commit('SET_TASKS', tasks)
+      commit('SET_RECENT_TASKS', recents)
+      commit('SET_PAGINATION', pagination)
+    },
+    async getTask({ commit }, payload) {
+      /* task request to server */
+      const task = await TaskServices.index(payload)
+
+      /* commit the task data into task object */
+      commit('SET_TASK', task.data)
     },
 
     /* <-- set --> */
     async postTask({ state, getters }, payload) {
-      const task = await TaskServices.addTask({
+      await TaskServices.post({
         name: payload.name,
+        background: payload.background,
         subjectName: payload.subject,
         date: payload.date,
         questions: payload.questions,
-        refences: payload.refences,
+        references: payload.references,
         roomIdNumber: getters.teacherClass.idNumber,
         teacherIdNumber: state.teacher.idNumber,
         schoolIdNumber: state.teacher.schoolIdNumber
       })
-
-      console.log(task)
     },
-    async setCurrentPage({ commit }) {
-      commit('SET_CURRENT_PAGE')
+    addCurrentPage({ commit }) {
+      let add = 1
+      commit('SET_CURRENT_PAGE', add)
+    },
+    refreshCurrentPage({ commit }) {
+      let refresh = -1
+      commit('SET_CURRENT_PAGE', refresh)
     }
   },
   getters: {

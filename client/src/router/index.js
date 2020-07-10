@@ -14,7 +14,10 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
@@ -23,10 +26,19 @@ const routes = [
       import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () =>
+      import(/* webpackChunkName: "register" */ '../views/Register.vue')
+  },
+  {
     path: '/students',
     name: 'Students',
     component: () =>
-      import(/* webpackChunkName: "teacher" */ '../views/Students.vue')
+      import(/* webpackChunkName: "teacher" */ '../views/Students.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/task/:id',
@@ -35,18 +47,13 @@ const routes = [
       import(/* webpackChunkName: "taskView" */ '../views/ViewTask.vue')
   },
   {
-    path: '/create',
-    name: 'Create',
+    path: '/create/task',
+    name: 'CreateTask',
     component: () =>
-      import(/* webpackChunkName: "createParent" */ '../views/Create.vue'),
-    children: [
-      {
-        path: 'task',
-        name: 'CreateTask',
-        component: () =>
-          import(/* webpackChunkName: "taskCreate" */ '../views/CreateTask.vue')
-      }
-    ]
+      import(/* webpackChunkName: "taskCreate" */ '../views/CreateTask.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -57,21 +64,35 @@ const router = new VueRouter({
   routes
 })
 
-/* navigation guard */
 router.beforeEach((to, from, next) => {
-  /* define the teacher and student fro store */
+  let teacher = store.state.teacher
+  let student = store.state.student
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (teacher.idNumber || student.idNumber) next()
+    else next('/login')
+  } else {
+    next()
+  }
+})
+
+/* navigation guard */
+/*router.beforeEach((to, from, next) => {
+   define the teacher and student fro store 
   const teacher = store.state.teacher
   const student = store.state.student
 
   if (to.name === 'Error') return next()
 
-  if (to.fullPath === '/login') {
+  if (to.name === 'Login') {
     if (teacher.idNumber || student.idNumber) next('/')
     else next()
   }
 
+  if (to.name === 'Register') return next()
+
   if (to.name === 'Home') {
-    if (!teacher.idNumber) next('/login')
+    if (!teacher.idNumber || !student.idNumber) next('/login')
+    else if (from.name === 'Register') next()
     else next()
   }
 
@@ -91,6 +112,6 @@ router.beforeEach((to, from, next) => {
     if (teacher.idNumber) next()
     else next('/')
   }
-})
+}) */
 
 export default router

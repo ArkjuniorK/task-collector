@@ -1,5 +1,5 @@
 <template>
-  <div id="empty-svg" class="w-1/2 mx-auto xl:w-/6">
+  <div id="empty-svg" class="w-1/2 mx-auto xl:w-3/12">
     <svg
       class="w-full h-full"
       width="871"

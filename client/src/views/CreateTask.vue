@@ -199,9 +199,9 @@
                   </div>
                   <div id="help-input" class="mt-6">
                     <input-text
-                      v-for="(field, index) in refences"
+                      v-for="(field, index) in references"
                       :key="index"
-                      v-model="field.refence"
+                      v-model="field.reference"
                       parClass="mb-4"
                       inClass="text-base w-full xl:text-lg"
                       input="true"
@@ -310,7 +310,7 @@ export default {
       but this... this truly a great idea 
     */
     questions: [{ question: '' }],
-    refences: [{ refence: '' }],
+    references: [{ reference: '' }],
     name: null,
     subject: null
   }),
@@ -343,11 +343,12 @@ export default {
         subject: this.subject,
         name: this.name,
         questions: this.questions.map(field => field.question),
-        refences: this.references.map(field => field.reference),
+        references: this.references.map(field => field.reference),
         date: new Date()
       }
 
       this.postTask(task)
+      this.$router.push('/')
     },
     addQuest() {
       /*  add question field into questions array */
@@ -356,7 +357,7 @@ export default {
     },
     addReferences() {
       /* add new reference field into references array  */
-      let refence = { refence: '' }
+      let reference = { reference: '' }
       this.references.push(reference)
     },
     ...mapActions(['postTask'])

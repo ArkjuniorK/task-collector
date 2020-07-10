@@ -99,7 +99,9 @@
                       class="p-2 overflow-hidden text-left rounded-full"
                     >
                       <th class="p-3">{{ student.idNumber }}</th>
-                      <th class="p-3">{{ student.name }}</th>
+                      <th class="p-3">
+                        {{ student.frontName + ' ' + student.backName }}
+                      </th>
                       <th class="p-3">{{ student.gender }}</th>
                       <th class="p-3">{{ student.address }}</th>
                       <th class="p-3">{{ student.born }}</th>

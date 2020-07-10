@@ -2,7 +2,7 @@
   <div id="input" @click="$emit('clicked')">
     <div
       id="input-child"
-      class="flex justify-between p-4 font-sans rounded bg-light-200"
+      class="flex justify-between p-4 font-sans rounded select-none bg-light-200"
       :class="parClass"
     >
       <input
@@ -10,9 +10,8 @@
         v-model="localValue"
         :class="inClass"
         :placeholder="placeholder"
-        type="text"
+        :type="type"
         class="bg-light-200"
-        height="50px"
         name="input"
       />
       <textarea
@@ -39,6 +38,7 @@ export default {
     'placeholder',
     'input',
     'textarea',
+    'type',
     'inClass',
     'txtClass'
   ],

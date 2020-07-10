@@ -1,16 +1,16 @@
 <template>
   <div
     id="login"
-    class="text-center flex flex-col justify-center mx-5 md:h-screen-80 xl:h-auto xxl:mt-24"
+    class="flex flex-col justify-center mx-5 text-center md:h-screen-80 xl:h-auto xxl:mt-24"
   >
     <div
       v-if="res"
-      class="res transition duration-500 mb-6 mx-auto bg-red p-2 rounded flex flex-row text-dark-100 text-left w-11/12 leading-tight md:w-1/2 lg:w-1/3"
+      class="flex flex-row w-11/12 p-2 mx-auto mb-6 leading-tight text-left rounded res transition duration-500 bg-red text-dark-100 md:w-1/2 lg:w-1/3"
       :class="resTransition"
     >
-      <div class="icon w-6 px-1">
+      <div class="w-6 px-1 icon">
         <svg
-          class="fill-current w-full h-full"
+          class="w-full h-full fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
         >
@@ -19,22 +19,22 @@
           />
         </svg>
       </div>
-      <span class="font-display font-light text-sm w-11/12 ml-2 lg:text-base">
+      <span class="w-11/12 ml-2 text-sm font-light font-display lg:text-base">
         {{ res }}
       </span>
     </div>
     <login-svg></login-svg>
-    <div class="title-form w-full">
-      <div class="child mt-6 lg:w-2/3 lg:mx-auto lg:align-top xl:flex xl:mt-8">
+    <div class="w-full title-form">
+      <div class="mt-6 child lg:w-2/3 lg:mx-auto lg:align-top xl:flex xl:mt-8">
         <div class="title xl:text-right xl:w-full xl:mr-4">
           <span
-            class="font-bold font-display text-lg md:text-xl lg:text-4xl lg:w-2/6 xxl:text-5xl"
+            class="text-lg font-bold font-display md:text-xl lg:text-4xl lg:w-2/6 xxl:text-5xl"
             >Lihat, Atur dan <br v-if="textBreak" />
             Kerjakan Tugasmu <br v-if="textBreak" />
             Dengan Mudah</span
           >
         </div>
-        <div class="form mt-4 md:mx-40 xl:m-0 xl:text-left xl:w-full xl:ml-4">
+        <div class="mt-4 form md:mx-40 xl:m-0 xl:text-left xl:w-full xl:ml-4">
           <span class="font-display xl:text-xl">Masuk ke Akun Anda</span>
           <form
             @submit.prevent="login"
@@ -43,18 +43,54 @@
           >
             <input
               type="number"
-              class="p-3 bg-light-200 rounded focus:outline-none appearance-none w-full"
+              class="w-full p-3 rounded appearance-none bg-light-200 focus:outline-none"
               placeholder="Nomor Induk Pengguna"
               v-model.number="user.id"
             />
             <input
               type="password"
-              class="p-3 bg-light-200 rounded focus:outline-none appearance-none mt-4 w-full"
+              class="w-full p-3 mt-4 rounded appearance-none bg-light-200 focus:outline-none"
               placeholder="Kunci Keamanan"
               v-model="user.key"
             />
 
-            <div class="btn-action mt-10 block lg:flex lg:items-center">
+            <div
+              id="register-as"
+              class="block p-4 my-4 text-left border rounded xl:items-center xl:flex xl:justify-between font-display border-light-300"
+            >
+              <div class="text-lg font-bold title">Masuk Sebagai</div>
+              <div class="mt-3 list xl:flex xl:items-center xl:mt-0">
+                <label
+                  class="relative block pl-8 mb-3 text-base cursor-pointer select-none xl:mr-3 xl:mb-0 label"
+                  >Siswa
+                  <input
+                    type="radio"
+                    checked="checked"
+                    name="radio"
+                    value="Siswa"
+                    v-model="loginAs"
+                  />
+                  <span
+                    class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark hover:bg-light-300 transition duration-200 border-light-300"
+                  ></span>
+                </label>
+                <label
+                  class="relative block pl-8 text-base cursor-pointer select-none label"
+                  >Guru
+                  <input
+                    type="radio"
+                    name="radio"
+                    value="Guru"
+                    v-model="loginAs"
+                  />
+                  <span
+                    class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark border-light-300 hover:bg-light-300 transition duration-200"
+                  ></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="block mt-10 btn-action lg:flex lg:items-center">
               <my-btn
                 type="button"
                 name="Reset"
@@ -69,7 +105,7 @@
               >
                 <template v-slot:icon>
                   <svg
-                    class="fill-current w-4 ml-2"
+                    class="w-4 ml-2 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                   >
@@ -80,6 +116,11 @@
                 </template>
               </my-btn>
             </div>
+            <div id="link" class="mt-5">
+              <router-link to="/register" class="text-sm border-b font-display"
+                >Tidak Punya Akun? Silahkan Daftar</router-link
+              >
+            </div>
           </form>
         </div>
       </div>
@@ -89,6 +130,7 @@
 
 <script>
 import AuthService from '../services/AuthServices'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -97,6 +139,7 @@ export default {
       id: null,
       key: null
     },
+    loginAs: null,
     res: null
   }),
   components: {
@@ -114,11 +157,14 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$store.dispatch('loginTeacher', this.user)
+        if (this.loginAs === 'Guru') await this.loginTeacher(this.user)
+        if (this.loginAs === 'Siswa') await this.loginStudent(this.user)
+
         this.user = {
           id: await null,
           key: await null
         }
+
         this.$router.push({ path: '/' })
       } catch (err) {
         this.res = err.response.data.error
@@ -129,7 +175,8 @@ export default {
         id: null,
         key: null
       }
-    }
+    },
+    ...mapActions(['loginTeacher', 'loginStudent'])
   }
 }
 </script>
@@ -148,5 +195,30 @@ export default {
   to {
     transform: translateX(0);
   }
+}
+
+.label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.label input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.label input:checked ~ .checkmark:after {
+  display: block;
+}
+.label .checkmark:after {
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
 }
 </style>
