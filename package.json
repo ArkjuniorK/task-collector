@@ -4,12 +4,12 @@
   "description": "Vue and Express App for Managing Task",
   "engines": {
     "node": "10.x",
-    "npm": "5.x"
+    "npm": "6.x"
   },
   "scripts": {
     "heroku-postbuild": "npm run build-client && npm run install-server",
     "start": "node server/src/app.js",
-    "build-client": "cd /client && npm install",
+    "build-client": "cd ./client && npm install && npm run build",
     "install-server": "cd ./server && npm install"
   },
   "cacheDirectories": [
