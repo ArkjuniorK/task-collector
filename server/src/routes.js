@@ -1,6 +1,5 @@
-const TeacherControllers = require('./controllers/TeacherControllers')
 const SchoolControllers = require('./controllers/SchoolControllers')
-const RoomControllers = require('./controllers/RoomControllers')
+const TeacherControllers = require('./controllers/TeacherControllers')
 const TaskControllers = require('./controllers/TaskControllers')
 const StudentControllers = require('./controllers/StudentControllers')
 
@@ -19,16 +18,4 @@ module.exports = (app) => {
   /* task route */
   app.get('/task/:id', TaskControllers.index)
   app.post('/task', TaskControllers.post)
-
-  /* test route */
-  app.get('/room', RoomControllers.test)
-
-  // get the teacher or student data
-  app.post('/teacher', TeacherControllers.create)
-  app.put('/teacher/:idNumber', TeacherControllers.update)
-
-  app.get('/schools', SchoolControllers.index)
-  app.post('/schools', SchoolControllers.post)
-
-  app.get('/rooms', RoomControllers.index)
 }
