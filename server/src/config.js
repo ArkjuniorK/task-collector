@@ -5,8 +5,9 @@ module.exports = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     options: {
-      dialect: process.env.DIALECT || 'postgres',
+      dialect: process.env.DIALECT || 'sqlite',
       host: process.env.HOST || 'localhost',
+      storage: '../db.sqlite',
     },
   },
   jwtSecret: process.env.JWT_SECRET || 'roomtaskcontroller',
