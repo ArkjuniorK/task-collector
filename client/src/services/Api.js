@@ -3,7 +3,8 @@ import store from '../store'
 
 export default () => {
   return axios.create({
-    baseURL: 'https://task-collector-server.herokuapp.com/',
+    baseURL: 'https://task-collector.herokuapp.com/',
+    /* baseURL: 'http://localhost:8081', */
     headers: {
       Authorization: `Bearer ${store.state.token}`
     }

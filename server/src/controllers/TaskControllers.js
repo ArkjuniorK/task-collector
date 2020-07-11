@@ -11,8 +11,8 @@ module.exports = {
 
       //change the value of references and questions
       //from LONGTEXT into JSON/ARRAY
-      viewTask.references = JSON.parse(viewTask.references)
-      viewTask.questions = JSON.parse(viewTask.questions)
+      /* viewTask.references = JSON.parse(viewTask.references) */
+      /* viewTask.questions = JSON.parse(viewTask.questions) */
 
       res.send(viewTask)
     } catch (err) {
