@@ -26,14 +26,18 @@ const Schools = require('./Schools.json')
 const Rooms = require('./Rooms.json')
 const Subjects = require('./Subject.json')
 const Teachers = require('./Teachers.json')
+const Students = require('./Students.json')
 const Tasks = require('./Tasks.json')
 const Themes = require('./Theme.json')
 const Subthemes = require('./Subtheme.json')
-const TeacherThemes = require('./TeacherTheme.json')
-const TeacherSubthemes = require('./TeacherSubtheme.json')
-const TeacherTasks = require('./TeachersTask.json')
-const TeacherRooms = require('./TeachersRoom.json')
-const StudentRoom = require('./StudentsRoom.json')
+const TeachersThemes = require('./TeachersTheme.json')
+const TeachersSubthemes = require('./TeachersSubtheme.json')
+const TeachersTasks = require('./TeachersTask.json')
+const TeachersRooms = require('./TeachersRoom.json')
+const StudentsRooms = require('./StudentsRoom.json')
+const StudentsThemes = require('./StudentsTheme.json')
+const StudentsSubthemes = require('./StudentsSubtheme.json')
+const StudentsTasks = require('./StudentsTask.json')
 const SchoolRooms = require('./SchoolsRoom.json')
 
 sequelize.sync({ force: true }).then(async function () {
@@ -88,29 +92,45 @@ sequelize.sync({ force: true }).then(async function () {
 
   // Teacher Room
   await Promise.all(
-    TeacherRooms.map((Room) => {
+    TeachersRooms.map((Room) => {
       teacherRoom.create(Room)
     })
   )
 
   // Teacher Theme
   await Promise.all(
-    TeacherThemes.map((Theme) => {
+    TeachersThemes.map((Theme) => {
       teacherTheme.create(Theme)
     })
   )
 
   // Techer Subtheme
   await Promise.all(
-    TeacherSubthemes.map((Subtheme) => {
+    TeachersSubthemes.map((Subtheme) => {
       teacherSubtheme.create(Subtheme)
     })
   )
 
   // Teacher Task
   await Promise.all(
-    TeacherTasks.map((Task) => {
+    TeachersTasks.map((Task) => {
       teacherTask.create(Task)
     })
   )
+
+  await Promise.all(Students.map((Student) => student.create(Student)))
+
+  // Student Room
+  await Promise.all(StudentsRooms.map((Room) => studentRoom.create(Room)))
+
+  // Student Theme
+  await Promise.all(StudentsThemes.map((Theme) => studentTheme.create(Theme)))
+
+  // Student Subtheme
+  await Promise.all(
+    StudentsSubthemes.map((Subtheme) => studentSubtheme.create(Subtheme))
+  )
+
+  // Student Task
+  await Promise.all(StudentsTasks.map((Task) => studentTask.create(Task)))
 })

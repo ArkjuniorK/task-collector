@@ -50,9 +50,9 @@ module.exports = (sequelize, DataTypes) => {
       through: 'studentRoom',
       as: 'class',
     })
-    Student.belongsToMany(models.task, {
-      through: 'studentTask',
-    })
+    Student.belongsToMany(models.theme, { through: 'studentTheme' })
+    Student.belongsToMany(models.subtheme, { through: 'studentSubtheme' })
+    Student.belongsToMany(models.task, { through: 'studentTask' })
   }
 
   return Student
