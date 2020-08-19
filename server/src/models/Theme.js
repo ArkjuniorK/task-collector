@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     name: DataTypes.STRING,
+    title: DataTypes.STRING,
     background: DataTypes.STRING,
   })
 
@@ -16,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Theme.belongsToMany(models.student, {
       through: 'studentTheme',
     })
+    Theme.hasMany(models.subtheme)
   }
 
   return Theme

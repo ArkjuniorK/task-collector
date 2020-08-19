@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       through: 'teacherTask',
     })
     Task.belongsTo(models.subject)
+    Task.belongsTo(models.subtheme)
   }
 
   return Task

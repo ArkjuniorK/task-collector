@@ -25,7 +25,6 @@ module.exports = {
   },
   async post(req, res) {
     try {
-      // request from body
       const {
         name,
         date,
@@ -38,7 +37,7 @@ module.exports = {
         questions,
       } = req.body
 
-      // find room and student
+      /* TODO: Find students by roomId and schoolId */
       const rooms = await room.findOne({
         where: {
           idNumber: roomIdNumber,
@@ -53,7 +52,7 @@ module.exports = {
         ],
       })
 
-      // create task
+      /* TODO: Create task */
       const tasks = await task.create({
         name: name,
         date: date,

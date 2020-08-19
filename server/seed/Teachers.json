@@ -1,29 +1,11 @@
 [
   {
-    "idNumber": 4030244601,
-    "name": "ArkjuniorK",
+    "idNumber": 40302743171299,
+    "frontName": "ArkjuniorK",
+    "backName": "Yudistira",
     "gender": "male",
-    "status": "active",
-    "age": 22,
-    "securityKey": "4030244601",
-    "schoolIdNumber": 40302446
-  },
-  {
-    "idNumber": 4030244602,
-    "name": "Kiaa Yudistira",
-    "gender": "female",
-    "status": "active",
-    "age": 22,
-    "securityKey": "4030244602",
-    "schoolIdNumber": 40302446
-  },
-  {
-    "idNumber": 4030244603,
-    "name": "Rina Adam",
-    "gender": "female",
-    "status": "active",
-    "age": 22,
-    "securityKey": "4030244603",
-    "schoolIdNumber": 40302446
+    "born": "Cangkano, 17 Desember 1999",
+    "securityKey": "40302743171299",
+    "schoolIdNumber": 40302743
   }
 ]

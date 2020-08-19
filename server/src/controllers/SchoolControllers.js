@@ -8,6 +8,9 @@ module.exports = {
       res.send(schoolList)
     } catch (err) {
       console.log(err)
+      res.status(400).send({
+        error: 'Terjadi Kesalahan, Periksa Koneksi Anda',
+      })
     }
   },
 }

@@ -1,47 +1,52 @@
 [
   {
     "idNumber": 1234567820,
-    "name": "Chun Ha Cun",
-    "age": 8,
+    "frontName": "Chun",
+    "backName": "Ha Cun",
+    "born": "Makassar, 17 Agustus 2006",
     "gender": "female",
     "securityKey": "1234567820",
-    "schoolIdNumber": 40302446,
-    "teacherIdNumber": 4030244601
+    "schoolIdNumber": 40302743,
+    "teacherIdNumber": 40302743171299
   },
   {
     "idNumber": 1234567821,
-    "name": "Lee Hi",
-    "age": 8,
+    "frontName": "Lee",
+    "backName": "Hi",
+    "born": "Makassar, 17 Agustus 2006",
     "gender": "female",
     "securityKey": "1234567821",
-    "schoolIdNumber": 40302446,
-    "teacherIdNumber": 4030244601
+    "schoolIdNumber": 40302743,
+    "teacherIdNumber": 40302743171299
   },
   {
     "idNumber": 1234567822,
-    "name": "Michael Heart",
-    "age": 8,
+    "frontName": "Michael",
+    "backName": "Heart",
+    "born": "Makassar, 17 Agustus 2006",
     "gender": "male",
     "securityKey": "1234567822",
-    "schoolIdNumber": 40302446,
-    "teacherIdNumber": 4030244601
+    "schoolIdNumber": 40302743,
+    "teacherIdNumber": 40302743171299
   },
   {
     "idNumber": 1234567823,
-    "name": "Chrollo Luficer",
-    "age": 8,
+    "frontName": "Chrollo",
+    "backName": "Lucifer",
+    "born": "Makassar, 17 Agustus 2006",
     "gender": "male",
     "securityKey": "1234567823",
-    "schoolIdNumber": 40302446,
-    "teacherIdNumber": 4030244601
+    "schoolIdNumber": 40302743,
+    "teacherIdNumber": 40302743171299
   },
   {
     "idNumber": 1234567824,
-    "name": "Travis Scoot",
-    "age": 8,
+    "frontName": "Travis",
+    "backName": "Scoot",
+    "born": "Makassar, 17 Agustus 2006",
     "gender": "male",
     "securityKey": "1234567824",
-    "schoolIdNumber": 40302446,
-    "teacherIdNumber": 4030244601
+    "schoolIdNumber": 40302743,
+    "teacherIdNumber": 40302743171299
   }
 ]
