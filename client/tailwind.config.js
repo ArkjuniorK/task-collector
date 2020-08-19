@@ -26,12 +26,27 @@ module.exports = {
       },
       transparent: 'transparent',
       white: '#ffffff',
+      // Task Color
       pink: '#ffb7eb',
       red: '#FFB7B7',
       green: '#B7FFC7',
       blue: '#B7CFFF',
       yellow: '#FFF8B7',
-      orange: '#FFD1B7'
+      orange: '#FFD1B7',
+      // Theme Color
+      theone: '#CAB7FF',
+      thetwo: '#DFFFB7',
+      thethree: '#B7FFE5',
+      thefour: '#B7E5FF',
+      thefive: '#FFEBB7',
+      thesix: '#FFC8B7',
+      // Subtheme Color
+      subone: '#FFB7D1',
+      subtwo: '#B7D4FF',
+      subthere: '#FFB7F8',
+      subfour: '#FFB7B7',
+      subfive: '#C1B7FF',
+      subsix: '#B7FFD4'
     },
     screens: {
       xs: '300px',

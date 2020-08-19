@@ -13,7 +13,7 @@ export default new Vuex.Store({
   plugins: [
     /* only save the instance that defined in paths array */
     persistanceState({
-      paths: ['teacher', 'student', 'token', 'subjects']
+      paths: ['teacher', 'student', 'token', 'subjects', 'viewType']
     })
   ],
   state: {
@@ -26,6 +26,8 @@ export default new Vuex.Store({
       'Seni Budaya'
     ],
     currentPage: 1,
+    dataType: 'theme',
+    data: [],
     teacher: {},
     student: {},
     tasks: [],
@@ -154,6 +156,11 @@ export default new Vuex.Store({
     },
 
     /* <-- get --> */
+    /* new technique */
+    async getThemes({ commit }, payload) {
+      const themesReq = 'hello'
+    },
+    /* old technique */
     async getTeacherTasks({ commit }, payload) {
       /* send the request tasks to server  */
       const teacherTasks = await TeacherServices.teacherTasks({

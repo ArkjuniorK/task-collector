@@ -28,15 +28,37 @@
             </div>
           </div>
         </template>
+        <template v-slot:center-one>
+          <div id="center">
+            <search-input
+              routeName="Home"
+              srClass="xs:hidden xl:flex xxl:text-lg"
+              placeholder="Cari Tugas atau Mata Pelajaran"
+            >
+              <template v-slot:icon>
+                <svg
+                  class="fill-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
+                  />
+                </svg>
+              </template>
+            </search-input>
+          </div>
+        </template>
         <template v-slot:right-one>
           <div class="upper-right">
-            <div class="one">
+            <div id="one">
               <my-btn
-                btnClass="bg-light-200 p-2 text-dark-200 xl:hidden"
+                btnClass="bg-light-200 p-2 text-dark-200 xl:hidden flex-row-reverse"
                 @clicked="$router.push('/search')"
               >
+                Cari
                 <template v-slot:icon>
-                  <div class="w-4 icon">
+                  <div class="w-4 mr-2 icon">
                     <svg
                       class="fill-current"
                       xmlns="http://www.w3.org/2000/svg"
@@ -49,25 +71,51 @@
                   </div>
                 </template>
               </my-btn>
-              <search-input
-                routeName="Home"
-                srClass="xs:hidden xl:flex xxl:text-lg"
-                placeholder="Cari Tugas atau Mata Pelajaran"
-              >
-                <template v-slot:icon>
-                  <svg
-                    class="fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
-                    />
-                  </svg>
-                </template>
-              </search-input>
             </div>
-            <div class="two"></div>
+            <div id="two" class="flex items-center">
+              <div id="left" class="mr-5">
+                <span class="font-display">Lihat Berdasarkan</span>
+              </div>
+              <div id="right" class="flex">
+                <!-- <my-btn
+                  v-for="(btn, index) in btnData"
+                  :key="index"
+                  btnClass="bg-blue p-3 text-dark-200 ml-2"
+                  :btnDisabled="btn.disabled"
+                  @clicked="showValue(btn.value)"
+                  >{{ btn.name }}</my-btn
+                > -->
+                <my-btn
+                  btnClass="bg-blue p-3 text-dark-200"
+                  :btnDisabled="themeStatus"
+                  >Tema</my-btn
+                >
+                <my-btn
+                  btnClass="bg-blue p-3 text-dark-200 mx-2"
+                  :btnDisabled="subthemeStatus"
+                  >Subtema</my-btn
+                >
+                <my-btn
+                  btnClass="bg-blue p-3 text-dark-200"
+                  :btnDisabled="taskStatus"
+                  >Tugas</my-btn
+                >
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-slot:first-two>
+          <div class="flex items-center justify-between option">
+            <div id="left" class="text-left">
+              <span class="text-sm font-display">Lihat<br />Berdasarkan</span>
+            </div>
+            <div id="right" class="flex">
+              <my-btn btnClass="bg-light-200 p-2 text-dark-200">Tema</my-btn>
+              <my-btn btnClass="bg-light-200 p-2 text-dark-200 mx-2"
+                >Subtema</my-btn
+              >
+              <my-btn btnClass="bg-light-200 p-2 text-dark-200">Tugas</my-btn>
+            </div>
           </div>
         </template>
         <template v-slot:content>
@@ -111,8 +159,6 @@
   </div>
 </template>
 <script>
-import teacherService from '../services/TeacherServices'
-import _ from 'lodash'
 import { mapState, mapActions } from 'vuex'
 
 // @ is an alias to /src
@@ -132,9 +178,48 @@ export default {
     condition: false
   }),
   computed: {
-    ...mapState(['teacher', 'student', 'tasks', 'pagination', 'currentPage'])
+    themeStatus() {
+      return this.viewType === 'theme' ? true : false
+    },
+    subthemeStatus() {
+      return this.viewType === 'subtheme' ? true : false
+    },
+    taskStatus() {
+      return this.viewType === 'task' ? true : false
+    },
+    ...mapState([
+      'teacher',
+      'student',
+      'tasks',
+      'pagination',
+      'currentPage',
+      'viewType'
+    ])
   },
   methods: {
+    /* showValue(data) {
+      let theme = this.btnData[0]
+      let subtheme = this.btnData[1]
+      let task = this.btnData[2]
+
+      switch (data) {
+        case 'themes':
+          theme.disabled = true
+          subtheme.disabled = false
+          task.disabled = false
+          break
+        case 'subthemes':
+          theme.disabled = false
+          subtheme.disabled = true
+          task.disabled = false
+          break
+        case 'tasks':
+          theme.disabled = false
+          subtheme.disabled = false
+          task.disabled = true
+          break
+      }
+    }, */
     getTasks() {
       if (this.teacher.idNumber) {
         let payload = {
@@ -151,6 +236,7 @@ export default {
       } else {
       }
     },
+    /* refactor getTasks() function */
     async goToTask(val) {
       /* make request to the server */
       this.getTask(val)

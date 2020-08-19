@@ -54,11 +54,11 @@
             <div class="mt-2 text-lg class-students">
               <span v-if="teacher.idNumber"
                 >Kelas
-                {{ teacher.class[0].name }}
+                <!-- {{ teacher.class[0].name }} -->
               </span>
               <span v-else-if="student.idNumber"
                 >Kelas
-                {{ student.class[0].name }}
+                <!-- {{ student.class[0].name }} -->
               </span>
               |
               <span v-if="teacher.idNumber">
