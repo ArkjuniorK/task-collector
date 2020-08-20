@@ -34,8 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       hooks: {
-        /* beforeCreate: hashKey, */
-        /* beforeUpdate: hashKey, */
         beforeSave: hashKey,
       },
     }
@@ -76,9 +74,9 @@ module.exports = (sequelize, DataTypes) => {
       through: 'teacherRoom',
       as: 'class',
     })
-    Teacher.belongsToMany(models.task, {
-      through: 'teacherTask',
-    })
+    Teacher.belongsToMany(models.theme, { through: 'teacherTheme' })
+    Teacher.belongsToMany(models.subtheme, { through: 'teacherSubtheme' })
+    Teacher.belongsToMany(models.task, { through: 'teacherTask' })
   }
 
   return Teacher

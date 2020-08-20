@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Subtheme = sequelize.define('subtheme', {
-    idNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-    },
     name: DataTypes.STRING,
     title: DataTypes.STRING,
     background: DataTypes.STRING,
@@ -18,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       through: 'studentSubtheme',
     })
     Subtheme.belongsTo(models.theme)
+    Subtheme.hasMany(models.task)
   }
 
   return Subtheme

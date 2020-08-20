@@ -1,22 +1,22 @@
 [
   {
     "studentIdNumber": 1234567820,
-    "subthemeIdNumber": 1
+    "subthemeId": 1
   },
   {
     "studentIdNumber": 1234567821,
-    "subthemeIdNumber": 1
+    "subthemeId": 1
   },
   {
     "studentIdNumber": 1234567822,
-    "subthemeIdNumber": 1
+    "subthemeId": 1
   },
   {
     "studentIdNumber": 1234567823,
-    "subthemeIdNumber": 1
+    "subthemeId": 1
   },
   {
     "studentIdNumber": 1234567824,
-    "subthemeIdNumber": 1
+    "subthemeId": 1
   }
 ]

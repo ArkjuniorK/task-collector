@@ -1,23 +1,23 @@
 const {
-  room,
   teacher,
   student,
-  theme,
   subtheme,
-  teacherTheme,
+  task,
+  room,
+  teacherSubtheme,
+  studentSubtheme,
   teacherRoom,
-  studentTheme,
 } = require('../models')
 
 module.exports = {
-  /* TODO: Get themes iteration */
+  /* TODO: Index subthemes  */
   async index(req, res) {
     try {
       const { type, idNumber } = req.params
       const { page } = req.query
       const perPage = 12
       let auth = null
-      let themes = null
+      let subthemes = null
 
       /* TODO:
        * Check the type of user
@@ -25,25 +25,25 @@ module.exports = {
        * Then set the themes */
       if (type === 'teacher') {
         auth = await teacher.findByPk(idNumber)
-        themes = await teacherTheme.findAndCountAll({
+        subthemes = await teacherSubtheme.findAndCountAll({
           where: { teacherIdNumber: idNumber },
           limit: perPage,
           offset: perPage * (page - 1),
-          /* TODO include themes and their subthemes*/
-          include: [{ model: theme, include: [{ model: subtheme }] }],
-          order: [[theme, 'updatedAt', 'DESC']],
+          /* TODO: include themes and their subthemes*/
+          include: [{ model: subtheme, include: [{ model: task }] }],
+          order: [[subtheme, 'updatedAt', 'DESC']],
         })
       }
 
       if (type === 'student') {
         auth = await student.findByPk(idNumber)
-        themes = await studentTheme.findAndCountAll({
+        subthemes = await studentSubtheme.findAndCountAll({
           where: { studentIdNumber: idNumber },
           limit: perPage,
           offset: perPage * (page - 1),
           /* TODO: include themes and their subthemes*/
-          include: [{ model: theme, include: [{ model: subtheme }] }],
-          order: [[theme, 'updatedAt', 'DESC']],
+          include: [{ model: subtheme, include: [{ model: task }] }],
+          order: [[subtheme, 'updatedAt', 'DESC']],
         })
       }
 
@@ -55,46 +55,45 @@ module.exports = {
       }
 
       /* TODO: Create new instances  */
-      const countThemes = themes.count
-      const Themes = themes.rows.map((val) => {
-        let theme = val.theme
+      const countSubthemes = subthemes.count
+      const Subthemes = subthemes.rows.map((val) => {
+        let subtheme = val.subtheme
         let instances = {
-          id: theme.id,
-          name: theme.name,
-          title: theme.title,
-          background: theme.background,
-          date: theme.updatedAt,
-          subthemes: theme.subthemes.length, //display subthemes length
+          id: subtheme.id,
+          name: subtheme.name,
+          title: subtheme.title,
+          background: subtheme.background,
+          date: subtheme.updatedAt,
+          tasks: subtheme.tasks.length, // display subthemes length
         }
 
         return instances
       })
-      const pageThemes = parseInt(page) //invert string to number */
+      const pageSubthemes = parseInt(page) // invert string to number */
 
       /* TODO: Wrap the instances */
-      const indexThemes = {
-        themes: Themes,
+      const indexSubthemes = {
+        subthemes: Subthemes,
         pagination: {
-          totalThemes: countThemes,
+          totalSubthemes: countSubthemes,
           perPage: perPage,
-          totalPage: Math.ceil(countThemes / perPage),
-          currentPage: pageThemes,
+          totalPage: Math.ceil(countSubthemes / perPage),
+          currentPage: pageSubthemes,
         },
       }
 
       /* TODO: Send the response */
-      res.send(indexThemes)
+      res.send(indexSubthemes)
     } catch (err) {
-      res.send(err)
       console.log(err)
     }
   },
 
-  /* TODO: View one theme */
+  /* TODO: View subtheme */
   async view(req, res) {
     try {
       const { type, idNumber } = req.params
-      const { themeId } = req.query
+      const { subthemeId } = req.query
       let auth = null
 
       /* TODO: Check user credential */
@@ -109,19 +108,19 @@ module.exports = {
       }
 
       /* TODO: Get theme and send the response */
-      const viewTheme = await theme.findByPk(themeId, {
-        include: [{ model: subtheme }],
+      const viewSubtheme = await subtheme.findByPk(subthemeId, {
+        include: [{ model: task }],
       })
-      res.send(viewTheme)
+      res.send(viewSubtheme)
     } catch (err) {
-      res.send(err)
+      console.log(err)
     }
   },
 
-  /* TODO: Post new theme */
+  /* TODO: Post subtheme */
   async post(req, res) {
     try {
-      const reqTheme = req.body
+      const reqSubtheme = req.body
       const { teacherId } = req.params
 
       /* TODO:
@@ -140,7 +139,7 @@ module.exports = {
       /* TODO: If it's not teacher, then send error */
       if (!checkTeacher) {
         return res.status(500).send({
-          error: 'Anda tidak memiliki kuasa untuk menambah Tema',
+          error: 'Anda tidak memiliki kuasa untuk menambah Subtema',
         })
       }
 
@@ -154,12 +153,12 @@ module.exports = {
       })
 
       /* TODO: Create the theme*/
-      const themes = await theme.create(reqTheme) // For themes table`s
+      const subthemes = await subtheme.create(reqSubtheme) // For themes table`s
 
       /* TODO: Create teacherThemes */
-      await teacherTheme.create({
+      await teacherSubtheme.create({
         teacherIdNumber: teacherId,
-        themeId: themes.id,
+        subthemeId: subthemes.id,
       })
 
       /* TODO:
@@ -167,15 +166,15 @@ module.exports = {
        * Then create the studentThemes for each student */
       const studentId = await studentsList.students.map((data) => data.idNumber)
       await studentId.forEach(async (id) => {
-        await studentTheme.create({
+        await studentSubtheme.create({
           studentIdNumber: id,
-          themeId: themes.id,
+          subthemeId: subthemes.id,
         })
       })
 
-      res.send(themes)
+      res.send(subthemes)
     } catch (err) {
-      res.send(err)
+      console.log(err)
     }
   },
 }

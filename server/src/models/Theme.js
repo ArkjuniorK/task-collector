@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Theme = sequelize.define('theme', {
-    idNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-    },
     name: DataTypes.STRING,
     title: DataTypes.STRING,
     background: DataTypes.STRING,
@@ -17,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     Theme.belongsToMany(models.student, {
       through: 'studentTheme',
     })
+    /* XXX Create hasMany association so it can included XXX */
     Theme.hasMany(models.subtheme)
   }
 

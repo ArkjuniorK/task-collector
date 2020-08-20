@@ -1,31 +1,36 @@
 const SchoolControllers = require('./controllers/SchoolControllers')
 const TeacherControllers = require('./controllers/TeacherControllers')
-const TaskControllers = require('./controllers/TaskControllers')
 const StudentControllers = require('./controllers/StudentControllers')
 const ThemeControllers = require('./controllers/ThemeControllers')
+const SubthemeControllers = require('./controllers/SubthemeControllers')
+const TaskControllers = require('./controllers/TaskControllers')
+
+/* 
+  req.query = url?query=queryData
+  req.params = url/:params
+  req.body = from body
+*/
 
 module.exports = (app) => {
-  /* auth route */
-  app.get('/api/register', SchoolControllers.index) // school list
+  /* XXX Auth routes XXX */
+  app.get('/api/register', SchoolControllers.index) //school list
   app.post('/api/register/teacher', TeacherControllers.create)
   app.post('/api/login/teacher', TeacherControllers.post)
   app.post('/api/register/student', StudentControllers.create)
   app.post('/api/login/student', StudentControllers.post)
 
-  /* TODO:
-   * only use teacher and student controller for auth
-   * create theme, subtheme, and task controller
-   */
+  /* XXX Theme routes XXX*/
+  app.get('/api/theme/:type/:idNumber', ThemeControllers.index)
+  app.get('/api/theme/:type/:idNumber/view', ThemeControllers.view)
+  app.post('/api/theme/:teacherId', ThemeControllers.post)
 
-  /* index route */
-  /* app.get('/api/teacher/:idNumber', TeacherControllers.index) */
-  /* app.get('/api/student/:idNumber', StudentControllers.index) */
+  /* XXX Subtheme routes XXX */
+  app.get('/api/subtheme/:type/:idNumber', SubthemeControllers.index)
+  app.get('/api/subtheme/:type/:idNumber/view', SubthemeControllers.view)
+  app.post('/api/subtheme/:teacherId', SubthemeControllers.post)
 
-  /* TODO: Theme routes */
-  app.get('/api/theme/:type/:teacherId/:page', ThemeControllers.index)
-  app.get('/api/theme/:type/:teacherId', ThemeControllers.post)
-
-  /* task route */
-  app.get('/api/task/:id', TaskControllers.index)
-  app.post('/api/task', TaskControllers.post)
+  /* XXX Task routes XXX */
+  app.get('/api/task/:type/:idNumber', TaskControllers.index)
+  app.get('/api/task/:type/:idNumber/view', TaskControllers.view)
+  app.post('/api/task/:teacherId', TaskControllers.post)
 }

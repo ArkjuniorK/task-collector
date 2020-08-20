@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     Room.belongsToMany(models.school, {
       through: 'schoolRoom',
     })
-    // Room.belongsTo()
     Room.belongsToMany(models.teacher, {
       through: 'teacherRoom',
     })

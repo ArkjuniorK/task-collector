@@ -1,9 +1,9 @@
 [
   {
-    "idNumber": 1,
+    "id": 1,
     "name": "Subtema Satu",
     "title": "Hewan Menyusui dan Tidak Menyusui",
     "background": "bg-subone",
-    "themeIdNumber": 1
+    "themeId": 1
   }
 ]

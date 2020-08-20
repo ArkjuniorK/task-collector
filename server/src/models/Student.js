@@ -16,7 +16,7 @@ function hashKey(user, options) {
 }
 
 module.exports = (sequelize, DataTypes) => {
-  // define the table and field
+  // TODO: define columns and table`s function
   const Student = sequelize.define(
     'student',
     {
@@ -39,13 +39,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
 
+  // TODO: Verify password
   Student.prototype.compareKey = function (securityKey) {
     return bcrypt.compareAsync(securityKey, this.securityKey)
   }
 
-  // define the association
+  // TODO: Define association
   Student.associate = function (models) {
-    Student.belongsTo(models.school)
+    Student.belongsTo(models.school, {
+      foreignKey: 'schoolIdNumber',
+      targetKey: 'idNumber',
+    })
     Student.belongsToMany(models.room, {
       through: 'studentRoom',
       as: 'class',

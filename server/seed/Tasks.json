@@ -9,6 +9,6 @@
     "references": ["Buku Paket Halaman 32", "LKS Halaman 12"],
     "subjectName": "Bahasa Indonesia",
     "background": "bg-light-200",
-    "subthemeIdNumber": "1"
+    "subthemeId": "1"
   }
 ]

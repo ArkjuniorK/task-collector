@@ -14,6 +14,8 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static(path.join(__dirname, '../../client/dist'))) // <-- added
 
+/* FIXME SOLUTION TODO XXX : */
+
 /*
  *
  * ----- HOW IT IS WORK -----

@@ -49,11 +49,7 @@ module.exports = {
         token: jwtSignTeacher(teacherJson),
       })
     } catch (err) {
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
+      res.send(err)
     }
   },
   async index(req, res) {
@@ -101,13 +97,7 @@ module.exports = {
 
       res.send(teacherTaskRes)
     } catch (err) {
-      res.status(500).send({
-        error: 'Kesalahan saat menghubungi server, periksa jaringan anda',
-      })
-      console.log(err)
-      console.log(err)
-      console.log(err)
-      console.log(err)
+      res.send(err)
     }
   },
   async create(req, res) {
@@ -163,13 +153,11 @@ module.exports = {
         token: jwtSignTeacher(teacherJson),
       })
     } catch (err) {
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
+      res.send(err)
     }
   },
+
+  /* TODO: Implement Update Req */
   async update(req, res) {
     try {
       const { name, gender, status, age, schoolIdNumber } = req.body

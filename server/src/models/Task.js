@@ -1,5 +1,3 @@
-// const { Sequelize } = require('sequelize/types')
-
 module.exports = (sequelize, DataTypes) => {
   // define table's name and field
   const Task = sequelize.define('task', {
