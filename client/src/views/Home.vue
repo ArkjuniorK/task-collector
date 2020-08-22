@@ -30,7 +30,7 @@
         </template>
         <template v-slot:center-one>
           <div id="center">
-            <search-input
+            <!-- <search-input
               routeName="Home"
               srClass="xs:hidden xl:flex xxl:text-lg"
               placeholder="Cari Tugas atau Mata Pelajaran"
@@ -46,7 +46,19 @@
                   />
                 </svg>
               </template>
-            </search-input>
+            </search-input> -->
+            <div id="two" class="justify-center xl:flex xs:hidden">
+              <my-btn :btnClass="['p-3 text-dark-200 text-lg', themeStatus]"
+                >Tema</my-btn
+              >
+              <my-btn
+                :btnClass="['p-3 text-dark-200 mx-2 text-lg', subthemeStatus]"
+                >Subtema</my-btn
+              >
+              <my-btn :btnClass="['p-3 text-dark-200 text-lg', taskStatus]"
+                >Tugas</my-btn
+              >
+            </div>
           </div>
         </template>
         <template v-slot:right-one>
@@ -58,7 +70,7 @@
               >
                 Cari
                 <template v-slot:icon>
-                  <div class="w-4 mr-2 icon">
+                  <div class="w-3 mr-2 icon">
                     <svg
                       class="fill-current"
                       xmlns="http://www.w3.org/2000/svg"
@@ -73,49 +85,17 @@
               </my-btn>
             </div>
             <div id="two" class="flex items-center">
-              <div id="left" class="mr-5">
-                <span class="font-display">Lihat Berdasarkan</span>
-              </div>
-              <div id="right" class="flex">
-                <!-- <my-btn
-                  v-for="(btn, index) in btnData"
-                  :key="index"
-                  btnClass="bg-blue p-3 text-dark-200 ml-2"
-                  :btnDisabled="btn.disabled"
-                  @clicked="showValue(btn.value)"
-                  >{{ btn.name }}</my-btn
-                > -->
-                <my-btn
-                  btnClass="bg-blue p-3 text-dark-200"
-                  :btnDisabled="themeStatus"
-                  >Tema</my-btn
-                >
-                <my-btn
-                  btnClass="bg-blue p-3 text-dark-200 mx-2"
-                  :btnDisabled="subthemeStatus"
-                  >Subtema</my-btn
-                >
-                <my-btn
-                  btnClass="bg-blue p-3 text-dark-200"
-                  :btnDisabled="taskStatus"
-                  >Tugas</my-btn
-                >
-              </div>
+              <div id="right" class="flex"></div>
             </div>
           </div>
         </template>
-        <template v-slot:first-two>
-          <div class="flex items-center justify-between option">
-            <div id="left" class="text-left">
-              <span class="text-sm font-display">Lihat<br />Berdasarkan</span>
-            </div>
-            <div id="right" class="flex">
-              <my-btn btnClass="bg-light-200 p-2 text-dark-200">Tema</my-btn>
-              <my-btn btnClass="bg-light-200 p-2 text-dark-200 mx-2"
-                >Subtema</my-btn
-              >
-              <my-btn btnClass="bg-light-200 p-2 text-dark-200">Tugas</my-btn>
-            </div>
+        <template v-slot:center-two>
+          <div id="right" class="flex items-center justify-center">
+            <my-btn :btnClass="['p-2 text-dark-200', themeStatus]">Tema</my-btn>
+            <my-btn :btnClass="['p-2 text-dark-200', subthemeStatus]"
+              >Subtema</my-btn
+            >
+            <my-btn :btnClass="['p-2 text-dark-200', taskStatus]">Tugas</my-btn>
           </div>
         </template>
         <template v-slot:content>
@@ -170,7 +150,7 @@ export default {
     taskCard: () => import('../components/complements/TaskCard'),
     scrollPagination: () => import('../components/ScrollPagination'),
     myBtn: () => import('../components/complements/Button'),
-    searchInput: () => import('../components/complements/Search'),
+    /* searchInput: () => import('../components/complements/Search'), */
     emptySvg: () => import('../components/illustration/TasksEmptSvg')
   },
   data: () => ({
@@ -179,13 +159,17 @@ export default {
   }),
   computed: {
     themeStatus() {
-      return this.viewType === 'theme' ? true : false
+      return this.dataType === 'theme'
+        ? 'border-b-2 no-round border-dark-400 text-dark-400'
+        : ''
     },
     subthemeStatus() {
-      return this.viewType === 'subtheme' ? true : false
+      return this.dataType === 'subtheme'
+        ? 'border-b-4 no-round border-blue'
+        : ''
     },
     taskStatus() {
-      return this.viewType === 'task' ? true : false
+      return this.dataType === 'task' ? true : false
     },
     ...mapState([
       'teacher',
@@ -193,7 +177,7 @@ export default {
       'tasks',
       'pagination',
       'currentPage',
-      'viewType'
+      'dataType'
     ])
   },
   methods: {
@@ -279,3 +263,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.no-round {
+  border-radius: 0 !important;
+}
+</style>

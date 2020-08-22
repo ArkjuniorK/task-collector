@@ -13,7 +13,7 @@ export default new Vuex.Store({
   plugins: [
     /* only save the instance that defined in paths array */
     persistanceState({
-      paths: ['teacher', 'student', 'token', 'subjects', 'viewType']
+      paths: ['teacher', 'student', 'token', 'subjects', 'dataType']
     })
   ],
   state: {
@@ -26,6 +26,7 @@ export default new Vuex.Store({
       'Seni Budaya'
     ],
     currentPage: 1,
+    userType: 'teacher',
     dataType: 'theme',
     data: [],
     teacher: {},
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     SET_TOKEN(state, payload) {
       state.token = payload
     },
+    /* TODO:
+     * Refactor Task Mutation
+     * Then add Theme and Subtheme Mutations*/
     SET_TASKS(state, payload) {
       /* defina new tasks array */
       const tasks = payload.map(task => {
@@ -76,16 +80,19 @@ export default new Vuex.Store({
     },
     SET_RECENT_TASKS(state, payload) {
       /* define the recents array */
-      const recents = payload.map(recent => {
+      /* 
+      const recents = payload.map(task => {
         const recentObject = {
-          index: recent.id,
+          index: task.id,
           date: recent.date,
           title: recent.name,
           subject: recent.subjectName
         }
         return recentObject
-      })
+      }) */
 
+      let recents = payload.map(val => val.task)
+      console.log(recents)
       state.recents = recents
     },
     SET_PAGINATION(state, payload) {
@@ -160,6 +167,14 @@ export default new Vuex.Store({
     async getThemes({ commit }, payload) {
       const themesReq = 'hello'
     },
+    async getRecentTasks({ state, commit }) {
+      const recentTasks = await TaskServices.recent({
+        type: state.userType,
+        idNumber: state.teacher.idNumber
+      })
+
+      commit('SET_RECENT_TASKS', recentTasks.data)
+    },
     /* old technique */
     async getTeacherTasks({ commit }, payload) {
       /* send the request tasks to server  */
@@ -178,7 +193,6 @@ export default new Vuex.Store({
 
       /* commit the instances */
       commit('SET_TASKS', tasks)
-      commit('SET_RECENT_TASKS', recents)
       commit('SET_PAGINATION', pagination)
     },
     async getStudentTasks({ commit }, payload) {

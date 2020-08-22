@@ -13,9 +13,17 @@
 <script>
 export default {
   name: 'Button',
-  props: {
+  props: [
+    'name',
+    'btnClass',
+    'btnType',
+    'btnDisabled',
+    { small: { type: String, default: 'xl:text-sm' } },
+    { normal: { type: String, default: '' } }
+  ],
+  /* props: {
     name: String || Number,
-    btnClass: String,
+    btnClass: String || Array,
     btnType: String,
     btnDisabled: Boolean,
     small: {
@@ -26,7 +34,7 @@ export default {
       type: String,
       default: ''
     }
-  },
+  }, */
   computed: {
     disabled() {
       return this.btnDisabled ? 'opacity-50 cursor-not-allowed' : ''

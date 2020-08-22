@@ -4,6 +4,7 @@
       <div class="up-middle">
         <div class="up">
           <div
+            id="one"
             class="flex items-center justify-between one xl:grid xl:grid-cols-3"
           >
             <div id="left-one" class="mr-auto xl:col-span-1">
@@ -16,8 +17,8 @@
               <slot name="right-one"></slot>
             </div>
           </div>
-          <div class="mt-4 two xl:hidden">
-            <slot name="first-two"></slot>
+          <div id="two" class="mt-4 xl:hidden">
+            <slot name="center-two"></slot>
           </div>
         </div>
         <div class="mt-6 middle">

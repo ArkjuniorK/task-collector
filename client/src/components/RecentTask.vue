@@ -1,9 +1,9 @@
 <template>
   <div id="task-card" :class="recentClass">
-    <div class="head text-dark-400 flex">
-      <div class="icon w-4 mr-2">
+    <div class="flex head text-dark-400">
+      <div class="w-4 mr-2 icon">
         <svg
-          class="fill-current w-full h-full"
+          class="w-full h-full fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
         >
@@ -13,35 +13,34 @@
         </svg>
       </div>
       <div class="title">
-        <span class="font-display text-sm lg:text-base xxl:text-lg"
+        <span class="text-sm font-display lg:text-base xxl:text-lg"
           >Tugas Terbaru</span
         >
       </div>
     </div>
-    <div class="body h-full mt-2 grid grid-cols-1 xl:grid-cols-3">
+    <div class="h-full mt-2 body grid grid-cols-1 xl:grid-cols-3">
       <div
-        class="one text-left text-dark-400 flex xl:flex-row-reverse xl:col-span-1 xl:items-start"
+        class="flex text-left one text-dark-400 xl:flex-row-reverse xl:col-span-1 xl:items-start"
       >
         <task-svg childClass="md:w-1/5 xl:w-1/2"></task-svg>
-        <div class="text ml-3 mr-3 py-2 md:w-4/5 xl:w-1/2">
+        <div class="py-2 ml-3 mr-3 text md:w-4/5 xl:w-1/2">
           <span
-            class="font-sans font-bold leading-tight items-start sm:text-xl md:text-2xl xl:text-xl xxl:text-2xl xxxl:text-3xl"
+            class="items-start font-sans font-bold leading-tight sm:text-xl md:text-2xl xl:text-xl xxl:text-2xl xxxl:text-3xl"
           >
             {{ title }}
           </span>
         </div>
       </div>
       <div
-        class="two grid grid-cols-2 gap-3 mt-4 xl:mt-0 xl:col-span-2 xl:ml-12 xl:gap-6 xxl:col-span-2"
+        class="mt-4 two grid grid-cols-2 gap-3 xl:mt-0 xl:col-span-2 xl:ml-12 xl:gap-6 xxl:col-span-2"
       >
         <task-card
           v-for="task in recents"
-          :key="task.index"
-          :title="task.title"
-          :subject="task.subject"
+          :key="task.id"
+          :title="task.name"
+          :subject="task.subjectName"
           :date="task.date"
-          @cardClicked="viewTask"
-          cardClass="bg-light-100"
+          cardClass="bg-light-200"
         ></task-card>
       </div>
     </div>
@@ -49,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
 
@@ -73,12 +72,11 @@ export default {
     ...mapState(['recents'])
   },
   methods: {
-    viewTask() {
-      console.log('Hello From Recent')
-    }
+    ...mapActions(['getRecentTasks'])
   },
-  mounted() {
-    console.log(this.recents)
+  async mounted() {
+    /* TODO: Get recent task on mounted */
+    this.getRecentTasks()
   }
 }
 </script>

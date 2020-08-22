@@ -1,22 +1,16 @@
 import Api from './Api'
 
 export default {
-  /* register end point */
-  /* get school list */
-  register() {
+  /* TODO Get school list */
+  index() {
     return Api().get('register')
   },
-  teacherRegister(payload) {
-    return Api().post('register/teacher', payload)
+  /* TODO Register endpoint */
+  create(type, payload) {
+    return Api().post(`register/${type}`, payload)
   },
-  studentRegister(payload) {
-    return Api().post('register/student', payload)
-  },
-  /* login endpoint */
-  teacherLogin(credential) {
-    return Api().post('login/teacher', credential)
-  },
-  studentLogin(credential) {
-    return Api().post('login/student', credential)
+  /* TODO Login endpoint */
+  post(type, payload) {
+    return Api().post(`login/${type}`, payload)
   }
 }
