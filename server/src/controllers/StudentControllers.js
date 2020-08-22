@@ -1,11 +1,4 @@
-const {
-  teacher,
-  student,
-  studentRoom,
-  studentTask,
-  task,
-  room,
-} = require('../models')
+const { teacher, student, studentRoom, room } = require('../models')
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
@@ -18,57 +11,7 @@ function jwtSignStudent(student) {
 }
 
 module.exports = {
-  async index(req, res) {
-    try {
-      /* 
-      req.query = url?query=queryData
-      req.params = url/:params
-      req.body = from body
-      */
-      const { idNumber } = req.params
-      const { page } = req.query
-      const perPage = 12
-
-      const studentTasks = await studentTask.findAndCountAll({
-        where: {
-          studentIdNumber: idNumber,
-        },
-        limit: perPage,
-        /* offset by default use 0 as the first number of paginating */
-        offset: perPage * (page - 1),
-        include: [
-          {
-            model: task,
-          },
-        ],
-        order: [[task, 'date', 'DESC']],
-      })
-
-      /* create new instance */
-      const countTasks = studentTasks.count
-      const Tasks = studentTasks.rows.map((tasks) => tasks.task)
-      const pageTasks = parseInt(page)
-
-      /* wrap all the instances */
-      const studentTaskRes = {
-        tasks: Tasks,
-        recents: Tasks,
-        pagination: {
-          totalTasks: countTasks,
-          perPage: perPage,
-          totalPages: Math.ceil(countTasks / perPage),
-          currentPage: pageTasks,
-        },
-      }
-
-      res.send(studentTaskRes)
-    } catch (err) {
-      console.log(err)
-      console.log(err)
-      console.log(err)
-      console.log(err)
-    }
-  },
+  /* TODO: Login student */
   async post(req, res) {
     try {
       const { idNumber, securityKey } = req.body
@@ -100,13 +43,10 @@ module.exports = {
         token: jwtSignStudent(studentJson),
       })
     } catch (err) {
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
-      console.log('Error', err)
+      res.send(err)
     }
   },
+  /* TODO: Create student */
   async create(req, res) {
     try {
       const {

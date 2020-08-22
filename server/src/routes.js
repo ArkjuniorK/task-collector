@@ -1,9 +1,9 @@
-const SchoolControllers = require('./controllers/SchoolControllers')
 const TeacherControllers = require('./controllers/TeacherControllers')
 const StudentControllers = require('./controllers/StudentControllers')
 const ThemeControllers = require('./controllers/ThemeControllers')
 const SubthemeControllers = require('./controllers/SubthemeControllers')
 const TaskControllers = require('./controllers/TaskControllers')
+const AuthControllers = require('./controllers/AuthControllers')
 
 /* 
   req.query = url?query=queryData
@@ -13,11 +13,9 @@ const TaskControllers = require('./controllers/TaskControllers')
 
 module.exports = (app) => {
   /* XXX Auth routes XXX */
-  app.get('/api/register', SchoolControllers.index) //school list
-  app.post('/api/register/teacher', TeacherControllers.create)
-  app.post('/api/login/teacher', TeacherControllers.post)
-  app.post('/api/register/student', StudentControllers.create)
-  app.post('/api/login/student', StudentControllers.post)
+  app.get('/api/register', AuthControllers.index)
+  app.post('/api/register/:type', AuthControllers.create)
+  app.post('/api/login/:type', AuthControllers.post)
 
   /* XXX Theme routes XXX*/
   app.get('/api/theme/:type/:idNumber', ThemeControllers.index)
@@ -31,6 +29,7 @@ module.exports = (app) => {
 
   /* XXX Task routes XXX */
   app.get('/api/task/:type/:idNumber', TaskControllers.index)
+  app.get('/api/task/:type/:idNumber/recents', TaskControllers.recents)
   app.get('/api/task/:type/:idNumber/view', TaskControllers.view)
   app.post('/api/task/:teacherId', TaskControllers.post)
 }

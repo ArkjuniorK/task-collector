@@ -8,6 +8,9 @@ const {
   studentTask,
 } = require('../models')
 
+const sequelize = require('sequelize')
+const Op = sequelize.Op
+
 module.exports = {
   async index(req, res) {
     try {
@@ -70,6 +73,69 @@ module.exports = {
       res.send(indexTasks)
     } catch (err) {
       res.send(err)
+    }
+  },
+  async recents(req, res) {
+    try {
+      const { type, idNumber } = req.params
+      let auth = null
+      let recents = null
+
+      /* TODO: Verify user and get the recent tasks*/
+      if (type === 'teacher') {
+        auth = await teacher.findByPk(idNumber)
+        recents = await teacherTask.findAll({
+          where: { teacherIdNumber: idNumber },
+          attributes: ['taskId', 'teacherIdNumber'],
+          include: [
+            {
+              model: task,
+              attributes: [
+                'name',
+                'date',
+                'background',
+                'subjectName',
+                'subthemeId',
+              ],
+            },
+          ],
+          limit: 2,
+          order: [['task', 'date', 'DESC']],
+        })
+      }
+      if (type === 'student') {
+        auth = await student.findByPk(idNumber)
+        recents = await studentTask.findAll({
+          where: { studentIdNumber: idNumber },
+          attributes: ['taskId', 'studentIdNumber'],
+          include: [
+            {
+              model: task,
+              attributes: [
+                'name',
+                'date',
+                'background',
+                'subjectName',
+                'subthemeId',
+              ],
+            },
+          ],
+          limit: 2,
+          order: [['task', 'date', 'DESC']],
+        })
+      }
+
+      /* TODO: Send error when user is not identify */
+      if (!auth) {
+        return res.status(401).send({
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+        })
+      }
+
+      /* TODO Send the recents task */
+      res.send(recents)
+    } catch (err) {
+      console.log(err)
     }
   },
   async view(req, res) {
