@@ -1,5 +1,3 @@
-const TeacherControllers = require('./controllers/TeacherControllers')
-const StudentControllers = require('./controllers/StudentControllers')
 const ThemeControllers = require('./controllers/ThemeControllers')
 const SubthemeControllers = require('./controllers/SubthemeControllers')
 const TaskControllers = require('./controllers/TaskControllers')

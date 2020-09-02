@@ -15,12 +15,11 @@ module.exports = {
     try {
       const { type, idNumber } = req.params
       const { page } = req.query
-      const perPage = 12
+      const perPage = 6
       let auth = null
       let themes = null
 
-      /* TODO:
-       * Check the type of user
+      /* Check the type of user
        * And verify the idNumber
        * Then set the themes */
       if (type === 'teacher') {
@@ -29,9 +28,9 @@ module.exports = {
           where: { teacherIdNumber: idNumber },
           limit: perPage,
           offset: perPage * (page - 1),
-          /* TODO include themes and their subthemes*/
+          /* Include themes and their subthemes*/
           include: [{ model: theme, include: [{ model: subtheme }] }],
-          order: [[theme, 'updatedAt', 'DESC']],
+          order: [[theme, 'updatedAt', 'ASC']],
         })
       }
 
@@ -41,7 +40,7 @@ module.exports = {
           where: { studentIdNumber: idNumber },
           limit: perPage,
           offset: perPage * (page - 1),
-          /* TODO: include themes and their subthemes*/
+          /* Include themes and their subthemes*/
           include: [{ model: theme, include: [{ model: subtheme }] }],
           order: [[theme, 'updatedAt', 'DESC']],
         })

@@ -3,6 +3,72 @@
     "id": 1,
     "name": "Tema Satu",
     "title": "Hewan Mamalia dan Bukan Mamalia",
-    "background": "bg-theone"
+    "background": "bg-blue-theme"
+  },
+  {
+    "id": 2,
+    "name": "Tema Dua",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-red-theme"
+  },
+  {
+    "id": 3,
+    "name": "Tema Tiga",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-orange-theme"
+  },
+  {
+    "id": 4,
+    "name": "Tema Empat",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-green-theme"
+  },
+  {
+    "id": 5,
+    "name": "Tema Lima",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-yellow-theme"
+  },
+  {
+    "id": 6,
+    "name": "Tema Enam",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-light-200"
+  },
+  {
+    "id": 7,
+    "name": "Tema Satu",
+    "title": "Hewan Mamalia dan Bukan Mamalia",
+    "background": "bg-blue-theme"
+  },
+  {
+    "id": 8,
+    "name": "Tema Dua",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-red-theme"
+  },
+  {
+    "id": 9,
+    "name": "Tema Tiga",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-orange-theme"
+  },
+  {
+    "id": 10,
+    "name": "Tema Empat",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-green-theme"
+  },
+  {
+    "id": 11,
+    "name": "Tema Lima",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-yellow-theme"
+  },
+  {
+    "id": 12,
+    "name": "Tema Enam",
+    "title": "Hewan Melata Yang Tidak Melata",
+    "background": "bg-light-200"
   }
 ]
