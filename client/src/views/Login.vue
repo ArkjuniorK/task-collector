@@ -67,8 +67,8 @@
                     type="radio"
                     checked="checked"
                     name="radio"
-                    value="Siswa"
-                    v-model="loginAs"
+                    value="student"
+                    v-model="user.type"
                   />
                   <span
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark hover:bg-light-300 transition duration-200 border-light-300"
@@ -80,8 +80,8 @@
                   <input
                     type="radio"
                     name="radio"
-                    value="Guru"
-                    v-model="loginAs"
+                    value="teacher"
+                    v-model="user.type"
                   />
                   <span
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark border-light-300 hover:bg-light-300 transition duration-200"
@@ -100,7 +100,7 @@
               <my-btn
                 type="button"
                 name="Masuk"
-                btnClass="bg-blue p-2 hover:bg-light-200 mt-3 lg:mt-0 lg:ml-2"
+                class="p-2 mt-3 bg-blue-task hover:bg-light-200 lg:mt-0 lg:ml-2"
                 @clicked="login"
               >
                 <template v-slot:icon>
@@ -116,7 +116,7 @@
                 </template>
               </my-btn>
             </div>
-            <div id="link" class="mt-5">
+            <div id="link" class="my-8">
               <router-link to="/register" class="text-sm border-b font-display"
                 >Tidak Punya Akun? Silahkan Daftar</router-link
               >
@@ -130,16 +130,16 @@
 
 <script>
 import AuthService from '../services/AuthServices'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Login',
   data: () => ({
     user: {
       id: null,
-      key: null
+      key: null,
+      type: null
     },
-    loginAs: null,
     res: null
   }),
   components: {
@@ -152,31 +152,33 @@ export default {
     },
     resTransition() {
       return this.res ? '' : ''
-    }
+    },
+    setUserType: {
+      get() {
+        return this.userType
+      },
+      set(newVal) {
+        this.$store.commit('SET_USER_TYPE', newVal)
+      }
+    },
+    ...mapState(['userType'])
   },
   methods: {
+    reset() {
+      Object.keys(this.user).forEach(val => {
+        this.user[val] = null
+      })
+    },
     async login() {
       try {
-        if (this.loginAs === 'Guru') await this.loginTeacher(this.user)
-        if (this.loginAs === 'Siswa') await this.loginStudent(this.user)
-
-        this.user = {
-          id: await null,
-          key: await null
-        }
-
-        this.$router.push({ path: '/' })
+        await this.loginUser(this.user) // Make request via Vuex server
+        this.reset()
+        this.$router.push({ path: '/' }) // Push to Home if success
       } catch (err) {
-        this.res = err.response.data.error
+        this.res = err.response.data.err
       }
     },
-    reset() {
-      this.user = {
-        id: null,
-        key: null
-      }
-    },
-    ...mapActions(['loginTeacher', 'loginStudent'])
+    ...mapActions(['loginUser'])
   }
 }
 </script>

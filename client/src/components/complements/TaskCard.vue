@@ -15,8 +15,14 @@
       </span>
     </div>
     <div class="flex items-center justify-between down">
-      <span class="text-xs xl:text-sm xxxl:text-base">
+      <span v-if="subtheme >= 0" class="text-xs xl:text-sm xxxl:text-base">
+        {{ subtheme }} Subtema
+      </span>
+      <span v-if="date" class="text-xs xl:text-sm xxxl:text-base">
         {{ date | date('id') }}
+      </span>
+      <span v-if="task >= 0" class="text-xs xl:text-sm xxxl:text-base">
+        {{ task }} Tugas
       </span>
       <my-btn
         name="Lihat"
@@ -45,7 +51,7 @@ import moment from 'moment'
 
 export default {
   name: 'TaskCard',
-  props: ['subject', 'title', 'date', 'cardClass'],
+  props: ['subject', 'title', 'date', 'subtheme', 'task', 'cardClass'],
   components: {
     myBtn: () => import('./Button'),
     VClamp: () => import('vue-clamp')
@@ -54,19 +60,13 @@ export default {
     async cardClicked() {},
     async btnClicked() {}
   },
-  computed: {
-    clamp() {
-      return 't'
-    }
-  },
   filters: {
     date(val, valB) {
       return moment(val)
         .locale(valB)
         .format('DD MMMM YYYY')
     }
-  },
-  watch: {}
+  }
 }
 </script>
 

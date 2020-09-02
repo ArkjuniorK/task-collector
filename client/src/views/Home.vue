@@ -2,11 +2,11 @@
   <div id="home" class="w-full">
     <div class="home-child">
       <recent-task
+        v-if="recentStatus"
         recentClass="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64 mb-4 xl:mb-10"
       ></recent-task>
       <main-section
-        mainClass="bg-light-100"
-        subClass="mx-5 py-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+        subClass="mx-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
       >
         <template v-slot:left-one>
           <div class="flex items-center upper-left text-dark-200">
@@ -23,7 +23,7 @@
             </div>
             <div class="title">
               <span class="text-sm font-display lg:text-base xxl:text-lg"
-                >Daftar Tugas</span
+                >Daftar {{ type }}</span
               >
             </div>
           </div>
@@ -48,14 +48,19 @@
               </template>
             </search-input> -->
             <div id="two" class="justify-center xl:flex xs:hidden">
-              <my-btn :btnClass="['p-3 text-dark-200 text-lg', themeStatus]"
+              <my-btn
+                :class="['p-3 text-dark-200 text-lg', themeStatus]"
+                @clicked="setTheme"
                 >Tema</my-btn
               >
               <my-btn
                 :btnClass="['p-3 text-dark-200 mx-2 text-lg', subthemeStatus]"
+                @clicked="setSubtheme"
                 >Subtema</my-btn
               >
-              <my-btn :btnClass="['p-3 text-dark-200 text-lg', taskStatus]"
+              <my-btn
+                :btnClass="['p-3 text-dark-200 text-lg', taskStatus]"
+                @clicked="setTask"
                 >Tugas</my-btn
               >
             </div>
@@ -65,7 +70,7 @@
           <div class="upper-right">
             <div id="one">
               <my-btn
-                btnClass="bg-light-200 p-2 text-dark-200 xl:hidden flex-row-reverse"
+                class="flex-row-reverse p-2 bg-light-200 text-dark-200 xl:hidden"
                 @clicked="$router.push('/search')"
               >
                 Cari
@@ -90,56 +95,57 @@
           </div>
         </template>
         <template v-slot:center-two>
-          <div id="right" class="flex items-center justify-center">
-            <my-btn :btnClass="['p-2 text-dark-200', themeStatus]">Tema</my-btn>
-            <my-btn :btnClass="['p-2 text-dark-200', subthemeStatus]"
+          <div
+            id="right"
+            class="flex items-center justify-center font-display text-dark-100"
+          >
+            <!-- <my-btn
+              :class="['p-2 text-dark-200', themeStatus]"
+              @clicked="setTheme"
+              >Tema</my-btn
+            >
+            <my-btn
+              :class="['p-2 text-dark-200', subthemeStatus]"
+              @clicked="setSubtheme"
               >Subtema</my-btn
             >
-            <my-btn :btnClass="['p-2 text-dark-200', taskStatus]">Tugas</my-btn>
+            <my-btn
+              :class="['p-2 text-dark-200', taskStatus]"
+              @clicked="setTask"
+              >Tugas</my-btn
+            > -->
+            <router-link
+              class="w-full p-2"
+              exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-task"
+              :to="{ name: 'Theme' }"
+            >
+              Tema
+            </router-link>
+            <router-link
+              class="w-full p-2"
+              exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-task"
+              :to="{ name: 'Subtheme' }"
+              >Subtema</router-link
+            >
+            <router-link
+              class="w-full p-2"
+              :to="{ name: 'Task' }"
+              exact-active-class="border-b bg-green-task bg-opacity-25 border-green-task"
+              >Tugas</router-link
+            >
           </div>
         </template>
         <template v-slot:content>
           <div class="content">
-            <div
-              v-if="tasks.length === 0"
-              class="flex flex-col justify-center no-task"
-            >
-              <empty-svg></empty-svg>
-              <div class="mt-5 caption">
-                <span class="text-sm font-display">Tidak Ada Tugas</span>
-              </div>
-            </div>
-            <div
-              v-if="tasks.length >= 1"
-              class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
-            >
-              <task-card
-                v-for="(task, index) in tasksList"
-                :key="index"
-                :title="task.title"
-                :subject="task.subject"
-                :date="task.date"
-                :cardClass="[task.background, 'xl:rounded-lg']"
-                @cardClicked="goToTask(task.index)"
-              ></task-card>
-            </div>
+            <router-view></router-view>
           </div>
-        </template>
-        <template v-slot:paginate>
-          <scroll-pagination
-            @load="addCurrentPage"
-            :currentPage="currentPage"
-            :totalPages="pagination.totalPages"
-            :totalRecords="pagination.totalTasks"
-            :totalTasks="tasks.length"
-          ></scroll-pagination>
         </template>
       </main-section>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 // @ is an alias to /src
 export default {
@@ -147,108 +153,80 @@ export default {
   components: {
     recentTask: () => import('../components/RecentTask'),
     mainSection: () => import('../components/MainSection'),
-    taskCard: () => import('../components/complements/TaskCard'),
-    scrollPagination: () => import('../components/ScrollPagination'),
-    myBtn: () => import('../components/complements/Button'),
-    /* searchInput: () => import('../components/complements/Search'), */
-    emptySvg: () => import('../components/illustration/TasksEmptSvg')
+    /* dataCard: () => import('../components/complements/TaskCard'), */
+    /* scrollPagination: () => import('../components/ScrollPagination'), */
+    myBtn: () => import('../components/complements/Button')
+    /* sadEmot: () => import('../components/illustration/SadEmot') */
   },
   data: () => ({
-    tasksList: [],
+    dataList: [],
+    dataThemes: [],
+    dataSubthemes: [],
+    dataTasks: [],
     condition: false
   }),
   computed: {
     themeStatus() {
       return this.dataType === 'theme'
-        ? 'border-b-2 no-round border-dark-400 text-dark-400'
+        ? 'bg-blue-task bg-opacity-25 border-b border-blue-task no-round text-dark-400'
         : ''
     },
     subthemeStatus() {
       return this.dataType === 'subtheme'
-        ? 'border-b-4 no-round border-blue'
+        ? 'bg-orange-task bg-opacity-25 border-b no-round border-orange-task text-dark-400'
         : ''
     },
     taskStatus() {
-      return this.dataType === 'task' ? true : false
+      return this.dataType === 'task'
+        ? 'bg-green-task bg-opacity-25 border-b no-round border-green-task text-dark-400'
+        : ''
+    },
+    type() {
+      return this.dataType === 'theme'
+        ? 'Tema'
+        : this.dataType === 'subtheme'
+        ? 'Subtema'
+        : 'Tugas'
+    },
+    recentStatus() {
+      return this.recents.length > 0 ? 1 : -1
     },
     ...mapState([
-      'teacher',
-      'student',
-      'tasks',
       'pagination',
       'currentPage',
-      'dataType'
+      'dataType',
+      'themes',
+      'subthemes',
+      'recents'
     ])
   },
   methods: {
-    /* showValue(data) {
-      let theme = this.btnData[0]
-      let subtheme = this.btnData[1]
-      let task = this.btnData[2]
-
-      switch (data) {
-        case 'themes':
-          theme.disabled = true
-          subtheme.disabled = false
-          task.disabled = false
-          break
-        case 'subthemes':
-          theme.disabled = false
-          subtheme.disabled = true
-          task.disabled = false
-          break
-        case 'tasks':
-          theme.disabled = false
-          subtheme.disabled = false
-          task.disabled = true
-          break
-      }
-    }, */
-    getTasks() {
-      if (this.teacher.idNumber) {
-        let payload = {
-          idNumber: this.teacher.idNumber,
-          page: this.currentPage
-        }
-        this.getTeacherTasks(payload)
-      } else if (this.student.idNumber) {
-        let payload = {
-          idNumber: this.student.idNumber,
-          page: this.currentPage
-        }
-        this.getStudentTasks(payload)
-      } else {
-      }
+    addCurrentPage() {
+      let one = 1
+      this.SET_CURRENT_PAGE(one)
     },
-    /* refactor getTasks() function */
-    async goToTask(val) {
-      /* make request to the server */
-      this.getTask(val)
-
-      /* push the ViewTask with the val as params */
-      this.$router.push({
-        name: 'ViewTask',
-        params: {
-          id: val
-        }
-      })
+    refreshCurrentPage() {
+      let minOne = -1
+      this.SET_CURRENT_PAGE(minOne)
     },
-    ...mapActions([
-      'getTeacherTasks',
-      'getStudentTasks',
-      'addCurrentPage',
-      'getTask',
-      'refreshCurrentPage'
-    ])
+    setTheme() {
+      this.refreshCurrentPage()
+      this.$router.push({ name: 'Theme' })
+      this.SET_DATA_TYPE('theme')
+    },
+    setSubtheme() {
+      this.refreshCurrentPage()
+      this.$router.push({ name: 'Subtheme' })
+      this.SET_DATA_TYPE('subtheme')
+    },
+    setTask() {
+      this.refreshCurrentPage()
+      this.SET_DATA_TYPE('task')
+    },
+    ...mapMutations(['SET_CURRENT_PAGE', 'SET_DATA_TYPE']),
+    ...mapActions(['getTask', 'getThemes', 'getSubthemes'])
   },
-  watch: {
-    currentPage() {
-      this.getTasks()
-    },
-    tasks() {
-      return this.tasks.map(task => this.tasksList.push(task))
-    }
-  },
+  watch: {},
   async mounted() {
     /* 
 			when the page is refreshed, it will trigger the created hook
@@ -258,8 +236,16 @@ export default {
 			and then run the 'getTasks()' to get the list of task based on
 			'this.currentPage'
 		*/
-    this.refreshCurrentPage()
-    this.getTasks()
+    /* this.refreshCurrentPage()
+    switch (this.dataType) {
+      case 'theme':
+        this.getThemes()
+        break
+      case 'subtheme':
+        this.getSubthemes()
+        break
+      case 'task':
+    } */
   }
 }
 </script>
@@ -267,5 +253,8 @@ export default {
 <style>
 .no-round {
   border-radius: 0 !important;
+}
+.w-custom {
+  width: 60%;
 }
 </style>

@@ -8,6 +8,8 @@ import VueMq from 'vue-mq'
 
 // import tailwind's css file
 import './assets/css/tailwind.css'
+import 'typeface-roboto'
+import 'typeface-roboto-condensed'
 
 // define VueMq breakpoint based on max-width
 Vue.use(VueMq, {

@@ -12,12 +12,27 @@ const routes = [
       import(/* webpackChunkName: "error" */ '../views/Error.vue')
   },
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    redirect: '/theme',
     meta: {
       requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: 'theme',
+        name: 'Theme',
+        component: () =>
+          import(/* webpackChunkName: "theme" */ '../components/Theme.vue')
+      },
+      {
+        path: 'subtheme',
+        name: 'Subtheme',
+        component: () =>
+          import(/* webpackChunkName: "theme" */ '../components/Theme.vue')
+      }
+    ]
   },
   {
     path: '/login',
@@ -41,19 +56,37 @@ const routes = [
     }
   },
   {
-    path: '/task/:id',
+    path: '/theme/view/:id',
+    name: 'ViewTheme',
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/theme/create',
+    name: 'CreateTheme',
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/subtheme/view/:id',
+    name: 'ViewSubtheme',
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/subtheme/create',
+    name: 'CreateSubtheme',
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/task/view/:id',
     name: 'ViewTask',
     component: () =>
       import(/* webpackChunkName: "taskView" */ '../views/ViewTask.vue')
   },
   {
-    path: '/create/task',
+    path: '/task/create',
     name: 'CreateTask',
     component: () =>
       import(/* webpackChunkName: "taskCreate" */ '../views/CreateTask.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -65,10 +98,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let teacher = store.state.teacher
-  let student = store.state.student
+  let user = store.state.user
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (teacher.idNumber || student.idNumber) next()
+    if (user.idNumber) next()
     else next('/login')
   } else {
     next()

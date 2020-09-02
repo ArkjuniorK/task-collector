@@ -1,5 +1,5 @@
 <template>
-  <section id="main-section" :class="mainClass" class="">
+  <section id="main-section" :class="mainClass">
     <div class="flex flex-col justify-between main-content" :class="subClass">
       <div class="up-middle">
         <div class="up">

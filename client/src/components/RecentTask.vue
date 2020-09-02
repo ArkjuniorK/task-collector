@@ -1,6 +1,6 @@
 <template>
   <div id="task-card" :class="recentClass">
-    <div class="flex head text-dark-400">
+    <div class="flex text-dark-400">
       <div class="w-4 mr-2 icon">
         <svg
           class="w-full h-full fill-current"
@@ -40,7 +40,7 @@
           :title="task.name"
           :subject="task.subjectName"
           :date="task.date"
-          cardClass="bg-light-200"
+          class="border bg-light-100 border-dark-400 border-opacity-25"
         ></task-card>
       </div>
     </div>

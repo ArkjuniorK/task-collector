@@ -27,13 +27,32 @@ module.exports = {
       transparent: 'transparent',
       white: '#ffffff',
       // Task Color
-      pink: '#ffb7eb',
-      red: '#FFB7B7',
-      green: '#B7FFC7',
-      blue: '#B7CFFF',
-      yellow: '#FFF8B7',
-      orange: '#FFD1B7',
-      // Theme Color
+      red: {
+        task: '#FFB7B7',
+        subtheme: '#FFB7D1',
+        theme: '#FFC8B7'
+      },
+      green: {
+        task: '#B7FFC7',
+        subtheme: '#B7FFD4',
+        theme: '#B7FFE5'
+      },
+      blue: {
+        task: '#B7CFFF',
+        subtheme: '#B7D4FF',
+        theme: '#CAB7FF'
+      },
+      yellow: {
+        task: '#FFF8B7',
+        subtheme: '#E8FFB7',
+        theme: '#DFFFB7'
+      },
+      orange: {
+        task: '#FFD1B7',
+        subtheme: '#FFB7B7',
+        theme: '#FFEBB7'
+      }
+      /* // Theme Color
       theone: '#CAB7FF',
       thetwo: '#DFFFB7',
       thethree: '#B7FFE5',
@@ -46,7 +65,7 @@ module.exports = {
       subthere: '#FFB7F8',
       subfour: '#FFB7B7',
       subfive: '#C1B7FF',
-      subsix: '#B7FFD4'
+      subsix: '#B7FFD4' */
     },
     screens: {
       xs: '300px',

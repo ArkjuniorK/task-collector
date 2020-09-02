@@ -1,7 +1,7 @@
 <template>
   <nav
     id="navbar"
-    class="fixed top-0 w-full px-4 py-1 bg-white border-b lg:py-2 xxl:py-4 border-light-300"
+    class="fixed top-0 w-full px-4 py-2 bg-white border-b shadow-sm lg:py-2 xxl:py-4 border-light-300"
   >
     <div class="relative child">
       <div class="z-0 flex items-center justify-center one xl:mx-5">
@@ -31,45 +31,29 @@
             </my-btn>
           </div>
           <div class="ml-3 username">
-            <span
-              class="text-sm font-black font-display text-dark-200 xl:text-base xxl:text-lg"
+            <my-btn
+              @clicked="$emit('openMenu')"
+              btnType="button"
+              btnClass="font-bold text-md "
             >
               {{ username }}
-            </span>
-          </div>
-          <div id="action-three" class="ml-3 xs:hidden xl:block">
-            <my-btn
-              @clicked="logOut"
-              btnClass="bg-red text-light-40 xl:text-sm xl:p-1 xxl:py-1 xxl:px-2"
-            >
-              Keluar
               <template v-slot:icon>
-                <div class="w-3 ml-1 rounded-full icon">
+                <div class="ml-2">
                   <svg
-                    class="fill-current"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
                   >
-                    <path d="M10 7H2v6h8v5l8-8-8-8v5z" />
+                    <path
+                      d="M3.66663 14.6667H7.33329V18.3333H3.66663V14.6667ZM9.16663 3.66668H12.8333V7.33334H9.16663V3.66668ZM3.66663 3.66668H7.33329V7.33334H3.66663V3.66668ZM3.66663 9.16668H7.33329V12.8333H3.66663V9.16668ZM9.16663 9.16668H12.8333V12.8333H9.16663V9.16668ZM14.6666 18.3333V14.6667H18.3333V18.3333H14.6666ZM9.16663 14.6667H12.8333V18.3333H9.16663V14.6667ZM14.6666 9.16668H18.3333V12.8333H14.6666V9.16668ZM14.6666 3.66668H18.3333V7.33334H14.6666V3.66668Z"
+                      fill="#3F5359"
+                    />
                   </svg>
                 </div>
               </template>
             </my-btn>
-          </div>
-          <div class="ml-2 action">
-            <button
-              id="menu-open"
-              @click="openNavbar"
-              class="w-6 p-1 rounded-sm menu focus:outline-none focus:bg-light-300 text-dark-200 xl:hidden"
-            >
-              <svg
-                class="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
@@ -98,9 +82,6 @@ export default {
     open: true
   }),
   computed: {
-    status() {
-      return this.student.idNumber ? false : true
-    },
     display() {
       return this.$route.name == 'Login'
         ? 'hidden'
@@ -111,16 +92,12 @@ export default {
         : 'flex'
     },
     username() {
-      const teacher = this.teacher
-      const student = this.student
-
-      return teacher.idNumber
-        ? teacher.frontName
-        : student.idNumber
-        ? student.frontName
-        : null
+      return this.user.frontName
     },
-    ...mapState(['teacher', 'student'])
+    status() {
+      return this.userType === 'teacher' ? 1 : -1
+    },
+    ...mapState(['user', 'userType'])
   },
   methods: {
     openNavbar() {

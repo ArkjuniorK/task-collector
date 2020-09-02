@@ -31,7 +31,7 @@ export default {
   components: {
     myBtn: () => import('../components/complements/Button')
   },
-  props: ['totalPages', 'totalRecords', 'totalTasks', 'currentPage'],
+  props: ['totalPages', 'totalRecords', 'totalData', 'currentPage'],
   computed: {
     loadShow() {
       return this.totalPages == null || !this.totalPages ? 'hidden' : ''
