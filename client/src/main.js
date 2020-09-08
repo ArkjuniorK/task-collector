@@ -6,7 +6,7 @@ import store from './store'
 import { sync } from 'vuex-router-sync'
 import VueMq from 'vue-mq'
 
-// import tailwind's css file
+// import tailwind's css file and fonts
 import './assets/css/tailwind.css'
 import 'typeface-roboto'
 import 'typeface-roboto-condensed'
@@ -14,11 +14,6 @@ import 'typeface-roboto-condensed'
 // define VueMq breakpoint based on max-width
 Vue.use(VueMq, {
   breakpoints: {
-    // mb: 640,
-    // tb: 786,
-    // tblp: 1024,
-    // lp: 1200,
-    // dp: Infinity
     xs: 400,
     sm: 700,
     smmd: 800,

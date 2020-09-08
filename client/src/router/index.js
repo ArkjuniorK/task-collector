@@ -13,9 +13,9 @@ const routes = [
   },
   {
     path: '/home',
+    alias: '/',
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
-    redirect: '/theme',
     meta: {
       requiresAuth: true
     },
@@ -30,7 +30,13 @@ const routes = [
         path: 'subtheme',
         name: 'Subtheme',
         component: () =>
-          import(/* webpackChunkName: "theme" */ '../components/Theme.vue')
+          import(
+            /* webpackChunkName: "subtheme" */ '../components/Subtheme.vue'
+          )
+      },
+      {
+        path: 'task',
+        name: 'Task'
       }
     ]
   },
@@ -92,7 +98,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  linkExactActiveClass: 'text-light-300',
+  linkExactActiveClass: 'text-light-task',
   base: process.env.BASE_URL,
   routes
 })

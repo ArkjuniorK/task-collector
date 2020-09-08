@@ -46,7 +46,7 @@
                   />
                 </svg>
               </template>
-            </search-input> -->
+            </search-input>-->
             <div id="two" class="justify-center xl:flex xs:hidden">
               <my-btn
                 :class="['p-3 text-dark-200 text-lg', themeStatus]"
@@ -113,14 +113,13 @@
               :class="['p-2 text-dark-200', taskStatus]"
               @clicked="setTask"
               >Tugas</my-btn
-            > -->
+            >-->
             <router-link
               class="w-full p-2"
               exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-task"
               :to="{ name: 'Theme' }"
+              >Tema</router-link
             >
-              Tema
-            </router-link>
             <router-link
               class="w-full p-2"
               exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-task"
@@ -137,7 +136,7 @@
         </template>
         <template v-slot:content>
           <div class="content">
-            <router-view></router-view>
+            <router-view class="view" />
           </div>
         </template>
       </main-section>
