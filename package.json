@@ -10,12 +10,15 @@
     "heroku-postbuild": "npm run build-client && npm run install-server",
     "start": "node server/src/app.js",
     "build-client": "cd ./client && npm install",
-    "install-server": "cd ./server && npm install && npm run seed"
+    "install-server": "cd ./server && npm install && npm run seed",
+    "client": "cd ./client && npm run serve",
+    "server": "cd ./server && npm run start"
   },
   "cacheDirectories": [
     "client/node_modules",
     "server/node_modules"
   ],
   "author": "ArkjuniorK",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }

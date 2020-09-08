@@ -1,0 +1,8 @@
+{
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.run": "onSave",
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.workingDirectories": ["./client", "./server"]
+}
