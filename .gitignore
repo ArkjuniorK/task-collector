@@ -11,4 +11,5 @@ client/.env.*.local
 
 # Server Folder
 server/node_modules
+server/.vscode
 
