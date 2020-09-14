@@ -6,14 +6,14 @@ module.exports = {
   extends: [
     'plugin:vue/essential',
     'plugin:prettier/recommended',
-    '@vue/prettier,'
+    '@vue/prettier'
   ],
   parserOptions: {
-    parser: 'babel-eslin,t'
+    parser: 'babel-eslint'
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'o,ff'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   },
   overrides: [
     {

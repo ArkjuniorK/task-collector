@@ -1,47 +1,36 @@
 <template>
-  <section id="menu-dropdown" class="fixed z-20 w-full ">
+  <section id="menu-dropdown" class="fixed z-20 w-full md:max-w-xs md:right-0">
     <div
       id="menu-child"
       class="block mx-5 border shadow-sm border-dark-400 border-opacity-25 bg-light-100 rounded-md"
       :class="menuTransition"
     >
-      <div
-        id="child-one"
-        class="my-8 font-sans text-xl font-black text-dark-200"
-      >
+      <div id="child-one" class="mt-8 font-sans text-xl font-black text-dark-200">
         <span>{{ user.frontName }}</span>
         <br />
         <span>{{ user.backName }}</span>
       </div>
-      <div id="child-two" class="px-5 mt-8 text-left">
+      <div id="child-two" class="px-5 py-5 text-left block">
         <my-btn
           @clicked="$router.push('/')"
-          class="flex-row-reverse p-2 text-left bg-blue-task text-dark-200 bg-opacity-25 text-md justify-end-custom"
-          >Tambah Tema Baru
+          class="flex-row-reverse p-2 text-left bg-blue-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
+        >
+          Tambah Tema Baru
           <template v-slot:icon>
             <div id="icon" class="mx-2">
-              <svg
-                class="w-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  d="M7 0H6L0 3v6l4-1v12h12V8l4 1V3l-6-3h-1a3 3 0 0 1-6 0z"
-                />
+              <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M7 0H6L0 3v6l4-1v12h12V8l4 1V3l-6-3h-1a3 3 0 0 1-6 0z" />
               </svg>
             </div>
           </template>
         </my-btn>
         <my-btn
-          class="flex-row-reverse p-2 mt-3 text-left bg-orange-task text-dark-200 bg-opacity-25 text-md justify-end-custom"
-          >Tambah Subtema Baru
+          class="flex-row-reverse p-2 mt-3 text-left bg-orange-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
+        >
+          Tambah Subtema Baru
           <template v-slot:icon>
             <div id="icon" class="mx-2">
-              <svg
-                class="w-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
+              <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path
                   d="M4 11H2a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h2V1h14v10a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4zm0-2V5H2v4h2zm-2 8v-1h18v1l-4 2H6l-4-2z"
                 />
@@ -50,15 +39,12 @@
           </template>
         </my-btn>
         <my-btn
-          class="flex-row-reverse p-2 mt-3 text-left bg-green-task text-dark-200 bg-opacity-25 text-md justify-end-custom"
-          >Tambah Tugas Baru
+          class="flex-row-reverse p-2 mt-3 text-left bg-green-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
+        >
+          Tambah Tugas Baru
           <template v-slot:icon>
             <div id="icon" class="mx-2">
-              <svg
-                class="w-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
+              <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path
                   d="M6 4H5a1 1 0 1 1 0-2h11V1a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V5a1 1 0 0 0-1-1h-7v8l-2-2-2 2V4z"
                 />
@@ -69,14 +55,10 @@
       </div>
       <div
         id="child-three"
-        class="flex py-4 mt-4 border-t border-opacity-25 border-dark-300"
+        class="flex py-4 mt-4 border-t border-opacity-25 border-dark-300 lg:hidden"
       >
-        <router-link to="/" class="w-full font-bold font-display"
-          >Tugas</router-link
-        >
-        <router-link to="/siswa" class="w-full font-bold font-display"
-          >Siswa</router-link
-        >
+        <router-link to="/home" class="w-full font-bold font-display">Tugas</router-link>
+        <router-link to="/siswa" class="w-full font-bold font-display">Siswa</router-link>
       </div>
       <div
         id="child-four"
@@ -86,15 +68,11 @@
         <span>{{ user.school.name }}</span>
         <span>{{ user.class[0].name }} ({{ user.class[0].idNumber }})</span>
       </div>
-      <div
-        id="child-five"
-        class="w-full py-5 border-t border-opacity-25 w border-dark-300"
-      >
+      <div id="child-five" class="w-full py-5 border-t border-opacity-25 w border-dark-300">
         <my-btn
           @clicked="logOutUser"
           btnClass="bg-red-task p-2 font-black w-24-custom mx-auto"
-          >Keluar</my-btn
-        >
+        >Keluar</my-btn>
       </div>
     </div>
   </section>

@@ -61,7 +61,7 @@
         class="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center w-6/12 mx-auto two xs:hidden xl:flex xxl:text-lg"
       >
         <div :class="display" v-show="status" class="nav-link font-display">
-          <router-link to="/" class="mr-2">Tugas</router-link>
+          <router-link to="/home" class="mr-2">Tugas</router-link>
           <router-link to="/students" class="ml-2">Siswa</router-link>
         </div>
       </div>

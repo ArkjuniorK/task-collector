@@ -3,7 +3,7 @@
     <div
       v-if="themes.length == 0"
       id="no-theme"
-      class="flex flex-col items-center justify-around"
+      class="flex flex-col items-center justify-around h-screen-50"
     >
       <div class="flex flex-col items-center">
         <sad-emot></sad-emot>
@@ -13,7 +13,7 @@
     <div
       id="theme-existed"
       v-if="themes.length >= 1"
-      class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
+      class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-4 xl:gap-6 xxxl:gap-6"
     >
       <data-card
         v-for="(theme, index) in themes"
@@ -24,7 +24,7 @@
         :class="[theme.background, 'xl:rounded-lg']"
       ></data-card>
     </div>
-    <div id="pagination" class="mt-6">
+    <div id="pagination" class="my-6">
       <scroll-pagination
         @load="addCurrentPage"
         :currentPage="currentPage"
@@ -47,11 +47,13 @@ export default {
   components: {
     sadEmot: () => import('../components/illustration/SadEmot'),
     dataCard: () => import('../components/complements/TaskCard'),
-    scrollPagination: () => import('../compon,,,ents/ScrollPagination')
+    scrollPagination: () => import('../components/ScrollPagination')
   },
   computed: {
     ...mapState({
-      currentPage: state => state.currentPage
+      themes: state => state.data,
+      currentPage: state => state.currentPage,
+      pagination: state => state.pagination
     })
   },
   methods: {

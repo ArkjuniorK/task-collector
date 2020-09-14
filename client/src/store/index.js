@@ -4,20 +4,21 @@ import persistanceState from 'vuex-persistedstate'
 
 import AuthService from '../services/AuthServices'
 import TaskServices from '../services/TaskServices'
-import SubthemeServices from '../services/SubthemeServices'
 
 import data from './data'
-import themeActions from './themeActions'
-import subthemeActions from './subthemeActions'
+import themeActions from './ThemeActions'
+import subthemeActions from './SubthemeActions'
+import taskActions from './TaskActions'
 
 // 🔥🔥 Merge two object 🔥🔥
 const theme = { ...data, ...themeActions }
 const subtheme = { ...data, ...subthemeActions }
+const task = { ...data, ...taskActions }
 
 Vue.use(Vuex)
 
-/* TODO Create themes, subthemes, and tasks state with their own pagination */
-/* TODO Create modules for each data */
+/* TODO Create themes, subthemes, and tasks state with their own pagination DONE  */
+/* TODO Create modules for each data DONE */
 
 export default new Vuex.Store({
   plugins: [
@@ -37,29 +38,18 @@ export default new Vuex.Store({
     ],
     userType: null,
     user: {},
-    dataType: 'theme',
-    tasks: [],
-    task: {},
     students: [],
-    recents: [],
-    pagination: []
+    recents: []
   },
   mutations: {
     SET_USER(state, payload) {
       state.user = payload
     },
-    SET_TOKEN(state, payload) {
-      state.token = payload
-    },
     SET_USER_TYPE(state, payload) {
       state.userType = payload
     },
-    SET_DATA_TYPE(state, payload) {
-      state.dataType = payload
-    },
     SET_RECENT_TASKS(state, payload) {
-      let recents = payload.map(val => val.task)
-      state.recents = recents
+      state.recents = payload.map(v => v.task)
     },
     LOG_OUT(state) {
       let array = []
@@ -75,22 +65,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    /* Register actions */
+    // Register User
     async registerUser({ commit }, payload) {},
-    /* Login actions */
+    // Login User
     async loginUser({ commit }, payload) {
-      const authProcess = await AuthService.post(payload.type, {
+      const auth = await AuthService.post(payload.type, {
         idNumber: payload.id,
         securityKey: payload.key
       })
 
-      commit('SET_USER', authProcess.data.user)
+      commit('SET_USER', auth.data.user)
       commit('SET_USER_TYPE', payload.type)
     },
     async logOutUser({ commit }) {
       commit('LOG_OUT')
     },
-    /* Get recent task */
+    // Recent Tasks
     async getRecentTasks({ state, commit }) {
       const recentTasks = await TaskServices.recent({
         type: state.userType,
@@ -116,6 +106,7 @@ export default new Vuex.Store({
   },
   modules: {
     theme,
-    subtheme
+    subtheme,
+    task
   }
 })

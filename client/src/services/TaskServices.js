@@ -1,12 +1,20 @@
 import Api from './Api'
 
 export default {
-  /* TODO Get recent tasks */
+  // Get Tasks
+  index({ type, idNumber }, page) {
+    return Api().get(`task/${type}/${idNumber}`, {
+      params: {
+        page: page
+      }
+    })
+  },
+  /* Get recent tasks */
   recent({ type, idNumber }) {
     return Api().get(`task/${type}/${idNumber}/recents`)
   },
   // get one task with taskId as parameter
-  index(taskId) {
+  one(taskId) {
     return Api().get(`task/${taskId}`)
   },
   // post one task

@@ -46,5 +46,29 @@
   {
     "teacherIdNumber": 40302743171299,
     "themeId": 12
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 1
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 2
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 3
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 4
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 5
+  },
+  {
+    "teacherIdNumber": 12345678,
+    "themeId": 6
   }
 ]

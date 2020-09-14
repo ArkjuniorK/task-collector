@@ -6,7 +6,7 @@ const config = require('../config')
 function jwtSignStudent(student) {
   const ONE_WEEK = 60 * 60 * 24 * 7
   return jwt.sign(student, config.jwtSecret, {
-    expiresIn: ONE_WEEK,
+    expiresIn: ONE_WEEK
   })
 }
 
@@ -18,13 +18,13 @@ module.exports = {
 
       /* var name must be differernt with table name */
       const studentLogin = await student.findByPk(idNumber, {
-        include: ['class', 'school'],
+        include: ['class', 'school']
       })
 
       /* if is not student send 403 status */
       if (!studentLogin) {
         return res.status(403).send({
-          error: 'Nomor Induk Tidak Cocok, Coba Periksa Kembali',
+          error: 'Nomor Induk Tidak Cocok, Coba Periksa Kembali'
         })
       }
 
@@ -32,7 +32,7 @@ module.exports = {
 
       if (!checkId) {
         return res.status(403).send({
-          error: 'Kunci Keamanan Salah, Coba Periksa Kembali',
+          error: 'Kunci Keamanan Salah, Coba Periksa Kembali'
         })
       }
 
@@ -40,7 +40,7 @@ module.exports = {
 
       res.send({
         student: studentJson,
-        token: jwtSignStudent(studentJson),
+        token: jwtSignStudent(studentJson)
       })
     } catch (err) {
       res.send(err)
@@ -56,7 +56,7 @@ module.exports = {
         gender,
         born,
         schoolIdNumber,
-        roomIdNumber,
+        roomIdNumber
       } = req.body
 
       /* change idNumber to securityKey as String */
@@ -68,7 +68,7 @@ module.exports = {
       if (studentValidation) {
         res.status(400).send({
           error:
-            'Nomor Induk telah digunakan, harap menggunakan nomor induk asli anda',
+            'Nomor Induk telah digunakan, harap menggunakan nomor induk asli anda'
         })
       }
 
@@ -78,9 +78,9 @@ module.exports = {
         include: [
           {
             model: teacher,
-            where: { schoolIdNumber: schoolIdNumber },
-          },
-        ],
+            where: { schoolIdNumber: schoolIdNumber }
+          }
+        ]
       })
 
       /* take the teacher idNumber */
@@ -95,28 +95,28 @@ module.exports = {
         gender: gender,
         born: born,
         schoolIdNumber: schoolIdNumber,
-        teacherIdNumber: teacherId,
+        teacherIdNumber: teacherId
       })
 
       /* create studentRoom association */
       await studentRoom.create({
         roomIdNumber: roomIdNumber,
-        studentIdNumber: idNumber,
+        studentIdNumber: idNumber
       })
 
       /* after create the student, init the student data that would be send to the Front End */
       const studentData = await student.findByPk(idNumber, {
-        include: ['class', 'school'],
+        include: ['class', 'school']
       })
 
       const studentJson = studentData.toJSON()
 
       res.send({
         student: studentJson,
-        token: jwtSignStudent(studentJson),
+        token: jwtSignStudent(studentJson)
       })
     } catch (err) {
       console.log('Error', err)
     }
-  },
+  }
 }

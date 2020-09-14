@@ -5,31 +5,24 @@
     @click="$emit('cardClicked')"
   >
     <div class="flex flex-col up">
-      <span class="font-sans text-xs xxxl:text-base">
-        {{ subject }}
-      </span>
+      <span class="font-display text-xs lg:text-base">{{ subject }}</span>
       <span
         class="h-10 mt-2 text-base font-bold sm:text-base md:leading-tight xl:text-2xl xl:leading-tight xxxl:text-3xl"
       >
-        <v-clamp autoresize :max-lines="2"> {{ title }} </v-clamp>
+        <v-clamp autoresize :max-lines="2">{{ title }}</v-clamp>
       </span>
     </div>
     <div class="flex items-center justify-between down">
-      <span v-if="subtheme >= 0" class="text-xs xl:text-sm xxxl:text-base">
-        {{ subtheme }} Subtema
-      </span>
-      <span v-if="date" class="text-xs xl:text-sm xxxl:text-base">
-        {{ date | date('id') }}
-      </span>
-      <span v-if="task >= 0" class="text-xs xl:text-sm xxxl:text-base">
-        {{ task }} Tugas
-      </span>
+      <span v-if="subtheme >= 0" class="text-xs xl:text-sm xxxl:text-base">{{ subtheme }} Subtema</span>
+      <span v-else-if="task >= 0" class="text-xs xl:text-sm xxxl:text-base">{{ task }} Tugas</span>
+      <span v-else class="text-xs xl:text-sm xxxl:text-base">{{ date | date('id') }}</span>
+
       <my-btn
-        name="Lihat"
-        btnClass="hover:text-dark-300 xs:hidden xl:flex p-1"
+        btnClass="hover:text-dark-100 xs:hidden xl:flex p-1"
         btnType="button"
         @clicked="btnClicked"
       >
+        Lihat
         <template v-slot:icon>
           <svg
             class="w-4 ml-2 fill-current"

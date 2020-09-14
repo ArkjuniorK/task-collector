@@ -5,7 +5,7 @@
   >
     <div
       v-if="res"
-      class="flex flex-row w-11/12 p-2 mx-auto mb-6 leading-tight text-left rounded res transition duration-500 bg-red text-dark-100 md:w-1/2 lg:w-1/3"
+      class="flex flex-row w-11/12 p-2 mx-auto mb-6 leading-tight text-left rounded transition duration-500 bg-red-task text-dark-100 md:w-1/2 lg:w-1/3"
       :class="resTransition"
     >
       <div class="w-6 px-1 icon">
@@ -19,20 +19,17 @@
           />
         </svg>
       </div>
-      <span class="w-11/12 ml-2 text-sm font-light font-display lg:text-base">
-        {{ res }}
-      </span>
+      <span class="w-11/12 ml-2 text-sm font-light font-display lg:text-base">{{ res }}</span>
     </div>
     <login-svg></login-svg>
     <div class="w-full title-form">
       <div class="mt-6 child lg:w-2/3 lg:mx-auto lg:align-top xl:flex xl:mt-8">
         <div class="title xl:text-right xl:w-full xl:mr-4">
-          <span
-            class="text-lg font-bold font-display md:text-xl lg:text-4xl lg:w-2/6 xxl:text-5xl"
-            >Lihat, Atur dan <br v-if="textBreak" />
-            Kerjakan Tugasmu <br v-if="textBreak" />
-            Dengan Mudah</span
-          >
+          <span class="text-lg font-bold font-display md:text-xl lg:text-4xl lg:w-2/6 xxl:text-5xl">
+            Lihat, Atur dan
+            <br v-if="textBreak" />Kerjakan Tugasmu
+            <br v-if="textBreak" />Dengan Mudah
+          </span>
         </div>
         <div class="mt-4 form md:mx-40 xl:m-0 xl:text-left xl:w-full xl:ml-4">
           <span class="font-display xl:text-xl">Masuk ke Akun Anda</span>
@@ -62,7 +59,8 @@
               <div class="mt-3 list xl:flex xl:items-center xl:mt-0">
                 <label
                   class="relative block pl-8 mb-3 text-base cursor-pointer select-none xl:mr-3 xl:mb-0 label"
-                  >Siswa
+                >
+                  Siswa
                   <input
                     type="radio"
                     checked="checked"
@@ -74,15 +72,9 @@
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark hover:bg-light-300 transition duration-200 border-light-300"
                   ></span>
                 </label>
-                <label
-                  class="relative block pl-8 text-base cursor-pointer select-none label"
-                  >Guru
-                  <input
-                    type="radio"
-                    name="radio"
-                    value="teacher"
-                    v-model="user.type"
-                  />
+                <label class="relative block pl-8 text-base cursor-pointer select-none label">
+                  Guru
+                  <input type="radio" name="radio" value="teacher" v-model="user.type" />
                   <span
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark border-light-300 hover:bg-light-300 transition duration-200"
                   ></span>
@@ -117,9 +109,10 @@
               </my-btn>
             </div>
             <div id="link" class="my-8">
-              <router-link to="/register" class="text-sm border-b font-display"
-                >Tidak Punya Akun? Silahkan Daftar</router-link
-              >
+              <router-link
+                to="/register"
+                class="text-sm border-b font-display"
+              >Tidak Punya Akun? Silahkan Daftar</router-link>
             </div>
           </form>
         </div>
@@ -175,7 +168,7 @@ export default {
         this.reset()
         this.$router.push({ path: '/' }) // Push to Home if success
       } catch (err) {
-        this.res = err.response.data.err
+        this.res = err.response.data.error
       }
     },
     ...mapActions(['loginUser'])

@@ -3,10 +3,7 @@
     <div class="flex flex-col justify-between main-content" :class="subClass">
       <div class="up-middle">
         <div class="up">
-          <div
-            id="one"
-            class="flex items-center justify-between one xl:grid xl:grid-cols-3"
-          >
+          <div id="one" class="flex items-center justify-between one xl:grid xl:grid-cols-3">
             <div id="left-one" class="mr-auto xl:col-span-1">
               <slot name="left-one"></slot>
             </div>
@@ -24,10 +21,6 @@
         <div class="mt-6 middle">
           <slot name="content"></slot>
         </div>
-      </div>
-
-      <div class="mt-8 bottom">
-        <slot name="paginate"></slot>
       </div>
     </div>
   </section>

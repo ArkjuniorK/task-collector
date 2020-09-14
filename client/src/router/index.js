@@ -12,9 +12,14 @@ const routes = [
       import(/* webpackChunkName: "error" */ '../views/Error.vue')
   },
   {
+    path: '/',
+    name: 'Root',
+    redirect: '/home/theme'
+  },
+  {
     path: '/home',
-    alias: '/',
     name: 'Home',
+    redirect: '/home/theme',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
     meta: {
       requiresAuth: true
@@ -24,7 +29,10 @@ const routes = [
         path: 'theme',
         name: 'Theme',
         component: () =>
-          import(/* webpackChunkName: "theme" */ '../components/Theme.vue')
+          import(/* webpackChunkName: "theme" */ '../components/Theme.vue'),
+        meta: {
+          name: 'Tema'
+        }
       },
       {
         path: 'subtheme',
@@ -32,11 +40,19 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "subtheme" */ '../components/Subtheme.vue'
-          )
+          ),
+        meta: {
+          name: 'Subtema'
+        }
       },
       {
         path: 'task',
-        name: 'Task'
+        name: 'Task',
+        component: () =>
+          import(/* webpackChunkName: "task" */ '../components/Task.vue'),
+        meta: {
+          name: 'Tugas'
+        }
       }
     ]
   },
@@ -98,7 +114,8 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  linkExactActiveClass: 'text-light-task',
+  linkExactActiveClass: 'text-dark-300',
+  linkActiveClass: 'text-dark-300',
   base: process.env.BASE_URL,
   routes
 })

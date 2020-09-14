@@ -1,22 +1,33 @@
 <template>
-  <div id="task-card" :class="recentClass">
-    <div class="flex text-dark-400">
-      <div class="w-4 mr-2 icon">
-        <svg
-          class="w-full h-full fill-current"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
+  <div id="task-card" :class="[recentClass, closeRecents]">
+    <div class="flex justify-between">
+      <div id="title" class="flex text-dark-400">
+        <div class="w-4 mr-2 icon">
+          <svg
+            class="w-full h-full fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z"
+            />
+          </svg>
+        </div>
+        <div class="title">
+          <span class="text-sm font-display lg:text-base xxl:text-lg">Tugas Terbaru</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        @click="close"
+        class="outline-none focus:outline-none text-dark-200 rounded-full px-1"
+      >
+        <svg class="w-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path
-            d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z"
+            d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"
           />
         </svg>
-      </div>
-      <div class="title">
-        <span class="text-sm font-display lg:text-base xxl:text-lg"
-          >Tugas Terbaru</span
-        >
-      </div>
+      </button>
     </div>
     <div class="h-full mt-2 body grid grid-cols-1 xl:grid-cols-3">
       <div
@@ -26,9 +37,7 @@
         <div class="py-2 ml-3 mr-3 text md:w-4/5 xl:w-1/2">
           <span
             class="items-start font-sans font-bold leading-tight sm:text-xl md:text-2xl xl:text-xl xxl:text-2xl xxxl:text-3xl"
-          >
-            {{ title }}
-          </span>
+          >{{ title }}</span>
         </div>
       </div>
       <div
@@ -62,20 +71,19 @@ export default {
     recentClass: String
   },
   data: () => ({
-    title: 'Daftar Tugas Terbaru Yang Telah di Bagikan Kepada Siswa'
+    title: 'Daftar Tugas Terbaru Yang Telah di Bagikan Kepada Siswa',
+    closeRecents: ''
   }),
   computed: {
-    // recentTask() {
-    //   /* use lodash orderBy then slice 2 latest task */
-    //   return _.orderBy(this.tasks, 'index', 'asc').slice(0, 2)
-    // },
     ...mapState(['recents'])
   },
   methods: {
+    close() {
+      this.closeRecents = 'hidden'
+    },
     ...mapActions(['getRecentTasks'])
   },
   async mounted() {
-    /* TODO: Get recent task on mounted */
     this.getRecentTasks()
   }
 }
