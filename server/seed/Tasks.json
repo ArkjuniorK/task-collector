@@ -20,7 +20,7 @@
     ],
     "references": ["Buku Paket Kelas 2", "Buku mewarnai TK"],
     "subjectName": "Matematika",
-    "background": "bg-red",
+    "background": "bg-red-task",
     "subthemeId": "1"
   }
 ]
