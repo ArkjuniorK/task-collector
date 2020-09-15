@@ -5,18 +5,26 @@
         v-if="recentStatus"
         recentClass="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64 mb-4 xl:mb-10"
       ></recent-task>
-      <main-section subClass="mx-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64">
+      <main-section
+        subClass="mx-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+      >
         <template v-slot:left-one>
           <div class="flex items-center upper-left text-dark-200">
             <div class="w-4 mr-3 icon">
-              <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <svg
+                class="fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
                 <path
                   d="M0 2C0 .9.9 0 2 0h16a2 2 0 0 1 2 2v2H0V2zm1 3h18v13a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm6 2v2h6V7H7z"
                 />
               </svg>
             </div>
             <div class="title">
-              <span class="text-sm font-display lg:text-base xxl:text-lg">Daftar {{ type }}</span>
+              <span class="text-sm font-display lg:text-base xxl:text-lg"
+                >Daftar {{ type }}</span
+              >
             </div>
           </div>
         </template>
@@ -25,19 +33,22 @@
             <div id="two" class="justify-center xl:flex xs:hidden w-64 mx-auto">
               <router-link
                 class="w-full p-2"
-                exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-task"
+                exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-100"
                 :to="{ name: 'Theme' }"
-              >Tema</router-link>
+                >Tema</router-link
+              >
               <router-link
                 class="w-full p-2"
-                exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-task"
+                exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-100"
                 :to="{ name: 'Subtheme' }"
-              >Subtema</router-link>
+                >Subtema</router-link
+              >
               <router-link
                 class="w-full p-2"
                 :to="{ name: 'Task' }"
-                exact-active-class="border-b bg-green-task bg-opacity-25 border-green-task"
-              >Tugas</router-link>
+                exact-active-class="border-b bg-green-task bg-opacity-25 border-green-100"
+                >Tugas</router-link
+              >
             </div>
           </div>
         </template>
@@ -70,22 +81,28 @@
           </div>
         </template>
         <template v-slot:center-two>
-          <div id="right" class="flex items-center justify-center font-display text-dark-100">
+          <div
+            id="right"
+            class="flex items-center justify-center font-display text-dark-100"
+          >
             <router-link
               class="w-full p-2"
-              exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-task"
+              exact-active-class="border-b bg-blue-task bg-opacity-25 border-blue-100"
               :to="{ name: 'Theme' }"
-            >Tema</router-link>
+              >Tema</router-link
+            >
             <router-link
               class="w-full p-2"
-              exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-task"
+              exact-active-class="border-b bg-orange-task bg-opacity-25 border-orange-100"
               :to="{ name: 'Subtheme' }"
-            >Subtema</router-link>
+              >Subtema</router-link
+            >
             <router-link
               class="w-full p-2"
               :to="{ name: 'Task' }"
-              exact-active-class="border-b bg-green-task bg-opacity-25 border-green-task"
-            >Tugas</router-link>
+              exact-active-class="border-b bg-green-task bg-opacity-25 border-green-100"
+              >Tugas</router-link
+            >
           </div>
         </template>
         <template v-slot:content>
@@ -108,12 +125,15 @@ export default {
     mainSection: () => import('../components/MainSection'),
     myBtn: () => import('../components/complements/Button')
   },
+  data: () => ({}),
   computed: {
     recentStatus() {
       return this.recents.length > 0 ? 1 : -1
     },
     ...mapState(['recents'])
-  }
+  },
+  watch: {},
+  mounted() {}
 }
 </script>
 

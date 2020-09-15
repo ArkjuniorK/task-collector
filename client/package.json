@@ -26,6 +26,7 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.3.0",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-plugin-pwa": "~4.4.0",
