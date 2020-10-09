@@ -1,8 +1,8 @@
 <template>
   <div id="subtheme">
     <div
-      id="no-subtheme"
       v-if="subthemes.length < 1"
+      id="no-subtheme"
       class="flex flex-col items-center justify-around h-screen-50"
     >
       <div class="flex flex-col items-center">
@@ -11,8 +11,8 @@
       </div>
     </div>
     <div
-      id="subtheme-existed"
       v-if="subthemes.length >= 1"
+      id="subtheme-existed"
       class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
     >
       <data-card
@@ -22,15 +22,17 @@
         :subject="subtheme.name"
         :task="subtheme.tasks"
         :class="[subtheme.background, 'xl:rounded-lg']"
+        @cardClicked="gotoSubtheme(subtheme.id)"
+        @btnClicked="gotoSubtheme(subtheme.id)"
       ></data-card>
     </div>
     <div id="pagination" class="mt-6">
       <scroll-pagination
+        :current-page="currentPage"
+        :total-pages="pagination.totalPage"
+        :total-records="pagination.totalSubthemes"
+        :total-data="subthemes.length"
         @load="addCurrentPage"
-        :currentPage="currentPage"
-        :totalPages="pagination.totalPage"
-        :totalRecords="pagination.totalSubthemes"
-        :totalData="subthemes.length"
       ></scroll-pagination>
     </div>
   </div>
@@ -57,16 +59,6 @@ export default {
       pagination: state => state.pagination
     })
   },
-  methods: {
-    addCurrentPage() {
-      this.SET_CURRENT_PAGE(1)
-    },
-    refreshCurrentPage() {
-      this.SET_CURRENT_PAGE(-1)
-    },
-    ...mapMutations(['SET_CURRENT_PAGE']),
-    ...mapActions(['getSubthemes'])
-  },
   watch: {
     currentPage() {
       this.getSubthemes()
@@ -74,6 +66,19 @@ export default {
   },
   mounted() {
     this.getSubthemes()
+  },
+  methods: {
+    addCurrentPage() {
+      this.SET_CURRENT_PAGE(1)
+    },
+    refreshCurrentPage() {
+      this.SET_CURRENT_PAGE(-1)
+    },
+    gotoSubtheme(v) {
+      this.$router.push({ name: 'viewSubtheme', params: { id: v } })
+    },
+    ...mapMutations(['SET_CURRENT_PAGE']),
+    ...mapActions(['getSubthemes'])
   }
 }
 </script>

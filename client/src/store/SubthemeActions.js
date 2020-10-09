@@ -24,6 +24,18 @@ let subthemeActions = {
       // subtheme/SET_DATA refer to theme module that registered on vuex
       commit('subtheme/SET_DATA', data.subthemes, { root: true })
       commit('subtheme/SET_PAGINATION', data.pagination, { root: true })
+    },
+    async getSubtheme({ commit, rootState }, payload) {
+      const req = await SubthemeServices.get(
+        {
+          type: rootState.userType,
+          idNumber: rootState.user.idNumber
+        },
+        payload
+      )
+
+      const data = req.data
+      commit('subtheme/SET_INFO', data, { root: true })
     }
   }
 }

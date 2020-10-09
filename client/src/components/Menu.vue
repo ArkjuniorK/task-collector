@@ -15,8 +15,8 @@
       </div>
       <div id="child-two" class="px-5 py-5 text-left block">
         <my-btn
-          @clicked="$router.push('/')"
           class="flex-row-reverse p-2 text-left bg-blue-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
+          @clicked="$router.push({ name: 'createTheme' })"
         >
           Tambah Tema Baru
           <template v-slot:icon>
@@ -77,7 +77,7 @@
         <router-link to="/home" class="w-full font-bold font-display"
           >Tugas</router-link
         >
-        <router-link to="/siswa" class="w-full font-bold font-display"
+        <router-link to="/students" class="w-full font-bold font-display"
           >Siswa</router-link
         >
       </div>
@@ -94,8 +94,8 @@
         class="w-full py-5 border-t border-opacity-25 w border-dark-300"
       >
         <my-btn
+          btn-class="bg-red-theme p-2 font-black w-24-custom mx-auto"
           @clicked="logOutUser"
-          btnClass="bg-red-theme p-2 font-black w-24-custom mx-auto"
           >Keluar</my-btn
         >
       </div>

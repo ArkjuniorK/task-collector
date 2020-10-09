@@ -1,8 +1,8 @@
 <template>
   <div id="task">
     <div
-      id="no-task"
       v-if="tasks.length < 1"
+      id="no-task"
       class="flex flex-col items-center justify-around h-screen-50"
     >
       <div class="flex flex-col items-center">
@@ -11,8 +11,8 @@
       </div>
     </div>
     <div
+      v-else
       id="task-existed"
-      v-if="tasks.length >= 1"
       class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-3 xxl:grid-cols-4 xl:gap-6 xxxl:gap-6"
     >
       <data-card
@@ -22,15 +22,17 @@
         :subject="task.subjectName"
         :date="task.date"
         :class="[task.background, 'xl:rounded-lg']"
+        @cardClicked="gotoTask(task.id)"
+        @btnClicked="gotoTask(task.id)"
       ></data-card>
     </div>
     <div id="pagination" class="mt-6">
       <scroll-pagination
+        :current-page="currentPage"
+        :total-pages="pagination.totalPage"
+        :total-records="pagination.totalSubthemes"
+        :total-data="tasks.length"
         @load="addCurrentPage"
-        :currentPage="currentPage"
-        :totalPages="pagination.totalPage"
-        :totalRecords="pagination.totalSubthemes"
-        :totalData="tasks.length"
       ></scroll-pagination>
     </div>
   </div>
@@ -55,16 +57,6 @@ export default {
       pagination: state => state.pagination
     })
   },
-  methods: {
-    addCurrentPage() {
-      this.SET_CURRENT_PAGE(1)
-    },
-    refreshCurrentPage() {
-      this.SET_CURRENT_PAGE(-1)
-    },
-    ...mapMutations(['SET_CURRENT_PAGE']),
-    ...mapActions(['getTasks'])
-  },
   watch: {
     currentPage() {
       this.getTasks()
@@ -72,6 +64,19 @@ export default {
   },
   mounted() {
     this.getTasks()
+  },
+  methods: {
+    addCurrentPage() {
+      this.SET_CURRENT_PAGE(1)
+    },
+    refreshCurrentPage() {
+      this.SET_CURRENT_PAGE(-1)
+    },
+    gotoTask(v) {
+      this.$router.push({ name: 'viewTask', params: { id: v } })
+    },
+    ...mapMutations(['SET_CURRENT_PAGE']),
+    ...mapActions(['getTasks'])
   }
 }
 </script>

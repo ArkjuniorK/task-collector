@@ -9,9 +9,15 @@ export default {
       }
     })
   },
-  /* Get recent tasks */
+  // Get recent tasks
   recent({ type, idNumber }) {
     return Api().get(`task/${type}/${idNumber}/recents`)
+  },
+  // Get task
+  get({ type, idNumber }, id) {
+    return Api().get(`task/${type}/${idNumber}/view`, {
+      params: { id }
+    })
   },
   // get one task with taskId as parameter
   one(taskId) {

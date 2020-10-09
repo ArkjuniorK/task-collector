@@ -10,7 +10,7 @@ import themeActions from './ThemeActions'
 import subthemeActions from './SubthemeActions'
 import taskActions from './TaskActions'
 
-// 🔥🔥 Merge two object 🔥🔥
+//  🔥🔥 Merge two object using spread object 🔥
 const theme = { ...data, ...themeActions }
 const subtheme = { ...data, ...subthemeActions }
 const task = { ...data, ...taskActions }
@@ -38,7 +38,6 @@ export default new Vuex.Store({
     ],
     userType: null,
     user: {},
-    students: [],
     recents: []
   },
   mutations: {
@@ -79,6 +78,7 @@ export default new Vuex.Store({
     },
     async logOutUser({ commit }) {
       commit('LOG_OUT')
+      router.push('/login')
     },
     // Recent Tasks
     async getRecentTasks({ state, commit }) {

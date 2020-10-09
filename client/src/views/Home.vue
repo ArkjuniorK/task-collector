@@ -3,10 +3,10 @@
     <div class="home-child">
       <recent-task
         v-if="recentStatus"
-        recentClass="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64 mb-4 xl:mb-10"
+        recent-class="mx-5 md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64 mb-4 xl:mb-10"
       ></recent-task>
       <main-section
-        subClass="mx-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+        sub-class="mx-5 h-full md:mx-32 md:py-6 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
       >
         <template v-slot:left-one>
           <div class="flex items-center upper-left text-dark-200">
@@ -23,8 +23,8 @@
             </div>
             <div class="title">
               <span class="text-sm font-display lg:text-base xxl:text-lg"
-                >Daftar {{ type }}</span
-              >
+                >Daftar
+              </span>
             </div>
           </div>
         </template>
@@ -115,7 +115,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 // @ is an alias to /src
 export default {
@@ -125,15 +125,18 @@ export default {
     mainSection: () => import('../components/MainSection'),
     myBtn: () => import('../components/complements/Button')
   },
-  data: () => ({}),
   computed: {
     recentStatus() {
       return this.recents.length > 0 ? 1 : -1
     },
     ...mapState(['recents'])
   },
-  watch: {},
-  mounted() {}
+  created() {
+    this.registerUser()
+  },
+  methods: {
+    ...mapActions(['registerUser'])
+  }
 }
 </script>
 

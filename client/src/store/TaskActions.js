@@ -26,6 +26,18 @@ let taskActions = {
       // task/SET_DATA refer to theme module that registered on vuex
       commit('task/SET_DATA', data.tasks, { root: true })
       commit('task/SET_PAGINATION', data.pagination, { root: true })
+    },
+    async getTask({ commit, rootState }, payload) {
+      const req = await TaskServices.get(
+        {
+          type: rootState.userType,
+          idNumber: rootState.user.idNumber
+        },
+        payload
+      )
+
+      const data = req.data
+      commit('task/SET_INFO', data, { root: true })
     }
   }
 }

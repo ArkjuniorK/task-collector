@@ -17,9 +17,9 @@ export default {
     'name',
     'btnClass',
     'btnType',
-    'btnDisabled',
-    { small: { type: String, default: 'xl:text-sm' } },
-    { normal: { type: String, default: '' } }
+    'btnDisabled'
+    // { small: { type: String, default: 'xl:text-sm' } },
+    // { normal: { type: String, default: '' } }
   ],
   /* props: {
     name: String || Number,

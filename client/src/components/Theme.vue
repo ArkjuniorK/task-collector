@@ -11,8 +11,8 @@
       </div>
     </div>
     <div
-      id="theme-existed"
       v-if="themes.length >= 1"
+      id="theme-existed"
       class="task-grid grid grid-cols-2 gap-3 xl:grid-cols-4 xl:gap-6 xxxl:gap-6"
     >
       <data-card
@@ -22,15 +22,17 @@
         :subject="theme.name"
         :subtheme="theme.subthemes"
         :class="[theme.background, 'xl:rounded-lg']"
+        @cardClicked="gotoTheme(theme.id)"
+        @btnClicked="gotoTheme(theme.id)"
       ></data-card>
     </div>
     <div id="pagination" class="my-6">
       <scroll-pagination
+        :current-page="currentPage"
+        :total-pages="pagination.totalPage"
+        :total-records="pagination.totalThemes"
+        :total-data="themes.length"
         @load="addCurrentPage"
-        :currentPage="currentPage"
-        :totalPages="pagination.totalPage"
-        :totalRecords="pagination.totalThemes"
-        :totalData="themes.length"
       ></scroll-pagination>
     </div>
   </div>
@@ -56,16 +58,6 @@ export default {
       pagination: state => state.pagination
     })
   },
-  methods: {
-    addCurrentPage() {
-      this.SET_CURRENT_PAGE(1)
-    },
-    refreshCurrentPage() {
-      this.SET_CURRENT_PAGE(-1)
-    },
-    ...mapMutations(['SET_CURRENT_PAGE']),
-    ...mapActions(['getThemes'])
-  },
   watch: {
     currentPage() {
       this.getThemes()
@@ -73,6 +65,19 @@ export default {
   },
   async mounted() {
     this.getThemes()
+  },
+  methods: {
+    addCurrentPage() {
+      this.SET_CURRENT_PAGE(1)
+    },
+    refreshCurrentPage() {
+      this.SET_CURRENT_PAGE(-1)
+    },
+    gotoTheme(v) {
+      this.$router.push({ name: 'viewTheme', params: { id: v } })
+    },
+    ...mapMutations(['SET_CURRENT_PAGE']),
+    ...mapActions(['getThemes'])
   }
 }
 </script>

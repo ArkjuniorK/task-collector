@@ -2,7 +2,7 @@
   <div id="students" class="w-full">
     <div class="students-child">
       <main-section
-        mainClass="mx-5 h-full md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+        main-class="mx-5 h-full md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
       >
         <template v-slot:left-one>
           <div class="flex items-center upper-left text-dark-200">
@@ -24,11 +24,11 @@
             </div>
           </div>
         </template>
-        <template v-slot:right-one>
+        <template v-slot:center-one>
           <search-input
-            v-if="$mq == 'xl'"
             placeholder="Cari Siswa atau Nomor Induk"
-            routeName="Students"
+            route-name="Students"
+            class="xs:hidden xl:flex"
           >
             <template v-slot:icon>
               <svg
@@ -43,12 +43,11 @@
             </template>
           </search-input>
         </template>
-        <template v-slot:first-two>
+        <template v-slot:center-two>
           <search-input
             placeholder="Cari Siswa atau Nomor Induk"
-            routeName="Students"
-            srClass="xl:hidden"
-            @seacrh="search"
+            route-name="Students"
+            class="xl:hidden"
           >
             <template v-slot:icon>
               <svg
@@ -70,16 +69,16 @@
               <div
                 class="flex flex-col py-2 ml-3 mr-3 font-sans font-bold text sm:text-xl md:text-2xl xl:text-xl xxl:text-2xl xxxl:text-3xl md:w-4/5 xl:w-1/2 xl:hidden"
               >
-                <span>Daftar Siswa Kelas {{ teacher.class[0].idNumber }}</span>
-                <span> {{ teacher.school.name }}</span>
+                <span>Daftar Siswa Kelas {{ user.class[0].idNumber }}</span>
+                <span>{{ user.school.name }}</span>
               </div>
             </div>
-            <div class="w-full mt-4 two xl:w-5/6 xl:ml-12">
+            <div class="w-full my-4 two xl:w-5/6 xl:ml-12">
               <div
                 class="hidden font-sans text-2xl font-bold text-left xl:flex xl:flex-col"
               >
-                <span>Daftar Siswa Kelas {{ teacher.class[0].idNumber }} </span>
-                <span> {{ teacher.school.name }} </span>
+                <span>Daftar Siswa Kelas {{ user.class[0].idNumber }}</span>
+                <span>{{ user.school.name }}</span>
               </div>
               <div id="table-parent" class="relative mt-10 xs:hidden xl:block">
                 <table class="w-full table-auto">
@@ -102,7 +101,11 @@
                       <th class="p-3">
                         {{ student.frontName + ' ' + student.backName }}
                       </th>
-                      <th class="p-3">{{ student.gender }}</th>
+                      <th class="p-3">
+                        {{
+                          student.gender == 'male' ? 'Laki-laki' : 'Perempuan'
+                        }}
+                      </th>
                       <th class="p-3">{{ student.address }}</th>
                       <th class="p-3">{{ student.born }}</th>
                     </tr>
@@ -112,12 +115,12 @@
               <div id="card-parent" class="relative xl:hidden">
                 <student-card
                   v-for="(student, index) in students"
-                  :key="index"
                   :id="student.idNumber"
-                  :name="student.name"
-                  :gender="student.gender"
+                  :key="index"
+                  :name="student.frontName + ' ' + student.backName"
+                  :gender="student.gender == 'male' ? 'Laki-laki' : 'Perempuan'"
                   :address="student.address"
-                  :birth="student.birth"
+                  :birth="student.born"
                 ></student-card>
               </div>
             </div>
@@ -144,33 +147,25 @@ export default {
   data: () => ({}),
   computed: {
     students() {
-      let studentsArr = this.teacher.students
+      let studentsArr = this.user.students
       let search = this.route.query.search
 
-      if (!search) {
-        return studentsArr
-      }
+      if (!search) return studentsArr
 
       let searchString = search.trim().toLowerCase()
-
       studentsArr = studentsArr.filter(item => {
         if (item.name.toLowerCase().indexOf(search) !== -1) return item
       })
 
       return studentsArr
     },
-    ...mapState(['teacher', 'route'])
+    ...mapState(['user', 'route'])
   },
   methods: {
     search(val) {
       console.log(val)
     }
-  },
-  mounted() {
-    console.log('from students', this.students)
-    console.log('from teacher', this.teacher.students)
-  },
-  watch: {}
+  }
 }
 </script>
 

@@ -5,14 +5,14 @@
   >
     <div class="relative child">
       <div class="z-0 flex items-center justify-center one xl:mx-5">
-        <div id="right" class="flex">
+        <a id="right" href="/" class="flex">
           <svg-logo></svg-logo>
-        </div>
+        </a>
         <div id="left" class="items-center ml-auto" :class="display">
-          <div class="action-one xs:hidden xl:block" v-show="status">
+          <div v-show="status" class="action-one xs:hidden xl:block">
             <my-btn
-              btnType="button"
-              btnClass="flex-row-reverse rounded-full text-dark-200 hover:bg-opacity-75 p-1 xxl:p-2 text-sm xxl:text-base"
+              btn-type="button"
+              btn-class="flex-row-reverse rounded-full text-dark-200 hover:bg-opacity-75 p-1 xxl:p-2 text-sm xxl:text-base"
               @clicked="$router.push({ name: 'CreateTask' })"
             >
               <template>
@@ -32,9 +32,9 @@
           </div>
           <div class="ml-3 username">
             <my-btn
+              btn-type="button"
+              btn-class="font-bold text-md "
               @clicked="$emit('openMenu')"
-              btnType="button"
-              btnClass="font-bold text-md "
             >
               {{ username }}
               <template v-slot:icon>
@@ -60,7 +60,7 @@
       <div
         class="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center w-6/12 mx-auto two xs:hidden xl:flex xxl:text-lg"
       >
-        <div :class="display" v-show="status" class="nav-link font-display">
+        <div v-show="status" :class="display" class="nav-link font-display">
           <router-link to="/home" class="mr-2">Tugas</router-link>
           <router-link to="/students" class="ml-2">Siswa</router-link>
         </div>

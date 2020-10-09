@@ -71,26 +71,34 @@ const routes = [
   {
     path: '/students',
     name: 'Students',
+    meta: { requiresAuth: true },
     component: () =>
-      import(/* webpackChunkName: "teacher" */ '../views/Students.vue'),
-    meta: {
-      requiresAuth: true
-    }
+      import(/* webpackChunkName: "teacher" */ '../views/Students.vue')
   },
   {
-    path: '/theme/view/:id',
-    name: 'ViewTheme',
-    meta: { requiresAuth: true }
+    path: '/home/theme/:id',
+    name: 'viewTheme',
+    meta: { requiresAuth: true },
+    props: true,
+    component: () =>
+      import(/* webpackChunkNmae: "themeView" */ '../views/ViewTheme.vue')
   },
   {
     path: '/theme/create',
-    name: 'CreateTheme',
-    meta: { requiresAuth: true }
+    name: 'createTheme',
+    meta: { requiresAuth: true, groupName: 'Create Page' },
+    component: () =>
+      import(/* webpackChunckName: "themeCreate" */ '../views/CreateTheme.vue')
   },
   {
-    path: '/subtheme/view/:id',
-    name: 'ViewSubtheme',
-    meta: { requiresAuth: true }
+    path: '/home/subtheme/:id',
+    name: 'viewSubtheme',
+    meta: { requiresAuth: true },
+    props: true,
+    component: () =>
+      import(
+        /* webpackChunckName: "subthemeView" */ '../views/ViewSubtheme.vue'
+      )
   },
   {
     path: '/subtheme/create',
@@ -99,7 +107,9 @@ const routes = [
   },
   {
     path: '/task/view/:id',
-    name: 'ViewTask',
+    name: 'viewTask',
+    meta: { requiresAuth: true },
+    props: true,
     component: () =>
       import(/* webpackChunkName: "taskView" */ '../views/ViewTask.vue')
   },
@@ -112,7 +122,7 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+global.router = new VueRouter({
   mode: 'history',
   linkExactActiveClass: 'text-dark-300',
   linkActiveClass: 'text-dark-300',
@@ -129,44 +139,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
-/* navigation guard */
-/*router.beforeEach((to, from, next) => {
-   define the teacher and student fro store 
-  const teacher = store.state.teacher
-  const student = store.state.student
-
-  if (to.name === 'Error') return next()
-
-  if (to.name === 'Login') {
-    if (teacher.idNumber || student.idNumber) next('/')
-    else next()
-  }
-
-  if (to.name === 'Register') return next()
-
-  if (to.name === 'Home') {
-    if (!teacher.idNumber || !student.idNumber) next('/login')
-    else if (from.name === 'Register') next()
-    else next()
-  }
-
-  if (to.name === 'Students') {
-    if (teacher.idNumber) next()
-    else next('/login')
-  }
-
-  if (to.name === 'ViewTask') {
-    if (teacher.idNumber) next()
-    else next('/')
-  }
-
-  if (to.name === 'Create') next('/')
-
-  if (to.name === 'CreateTask') {
-    if (teacher.idNumber) next()
-    else next('/')
-  }
-}) */
 
 export default router

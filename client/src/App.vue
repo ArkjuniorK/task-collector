@@ -15,7 +15,7 @@
       </main>
     </div>
     <footer
-      class="relative bottom-0 left-0 right-0 p-3 border-t border-light-300 bg-light-100"
+      class="hidden xl:block relative bottom-0 left-0 right-0 p-3 border-t border-light-300 bg-light-100"
     >
       <span class="text-sm name font-display">ArkjuniorK</span>
     </footer>
@@ -38,7 +38,10 @@ export default {
     menuTransition() {
       return this.menu ? 'menu-show' : 'menu-hidden'
     },
-    ...mapState(['user'])
+    showFooter() {
+      return this.route.meta.groupName == 'Create Page' ? 'hidden' : ''
+    },
+    ...mapState(['user', 'route'])
   }
 }
 </script>

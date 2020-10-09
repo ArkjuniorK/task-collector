@@ -49,29 +49,29 @@ module.exports = {
       white: '#ffffff',
       // Task Color
       red: {
-        theme: '#FFB7B7',
+        task: '#FFB7B7',
         subtheme: '#FFB7D1',
-        task: '#FFC8B7'
+        theme: '#FFC8B7'
       },
       green: {
-        theme: '#B7FFC7',
+        task: '#B7FFC7',
         subtheme: '#B7FFD4',
-        task: '#B7FFE5'
+        theme: '#B7FFE5'
       },
       blue: {
-        theme: '#B7CFFF',
+        task: '#B7CFFF',
         subtheme: '#B7D4FF',
-        task: '#CAB7FF'
+        theme: '#CAB7FF'
       },
       yellow: {
-        theme: '#FFF8B7',
+        task: '#FFF8B7',
         subtheme: '#E8FFB7',
-        task: '#DFFFB7'
+        theme: '#DFFFB7'
       },
       orange: {
-        theme: '#FFD1B7',
+        task: '#FFD1B7',
         subtheme: '#FFB7B7',
-        task: '#FFEBB7'
+        theme: '#FFEBB7'
       }
     },
     screens: {

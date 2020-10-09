@@ -18,9 +18,9 @@
       <span v-else class="text-xs xl:text-sm xxxl:text-base">{{ date | date('id') }}</span>
 
       <my-btn
-        btnClass="hover:text-dark-100 xs:hidden xl:flex p-1"
-        btnType="button"
-        @clicked="btnClicked"
+        btn-class="hover:text-dark-100 xs:hidden xl:flex p-1"
+        btn-type="button"
+        @clicked="$emit('btnClicked')"
       >
         Lihat
         <template v-slot:icon>
@@ -44,14 +44,9 @@ import moment from 'moment'
 
 export default {
   name: 'TaskCard',
-  props: ['subject', 'title', 'date', 'subtheme', 'task', 'cardClass'],
   components: {
     myBtn: () => import('./Button'),
     VClamp: () => import('vue-clamp')
-  },
-  methods: {
-    async cardClicked() {},
-    async btnClicked() {}
   },
   filters: {
     date(val, valB) {
@@ -59,7 +54,8 @@ export default {
         .locale(valB)
         .format('DD MMMM YYYY')
     }
-  }
+  },
+  props: ['subject', 'title', 'date', 'subtheme', 'task', 'cardClass']
 }
 </script>
 

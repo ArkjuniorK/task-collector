@@ -34,12 +34,12 @@
           <div class="right">
             <div id="dropdown-schools" class="relative w-full mb-4">
               <input-form
-                @clicked="dropdownSchools = !dropdownSchools"
                 v-model="school.name"
-                inClass="w-full "
+                in-class="w-full "
                 type="text"
                 input="true"
                 placeholder="Nama Sekolah"
+                @clicked="dropdownSchools = !dropdownSchools"
               >
                 <template v-slot:icon>
                   <div class="w-4 cursor-pointer icon">
@@ -62,36 +62,36 @@
               >
                 <span
                   v-for="(school, index) in schools"
-                  @click="selectSchool(school.name)"
                   :key="index"
                   class="block w-full p-2 border-b border-light-300"
+                  @click="selectSchool(school.name)"
                   >{{ school.name }}</span
                 >
               </div>
             </div>
             <div id="schoolId" class="p-4 mb-4 text-left">
-              <span class="font-bold font-display" v-show="school.idNumber"
+              <span v-show="school.idNumber" class="font-bold font-display"
                 >NIPSN Sekolah: {{ school.idNumber }}</span
               >
-              <span class="font-bold font-display" v-show="!school.idNumber"
+              <span v-show="!school.idNumber" class="font-bold font-display"
                 >Pilih Sekolah Untuk Melihat NIPSN</span
               >
             </div>
             <input-form
-              input="true"
               v-model.number="idNumber"
-              parClass="mb-4"
-              inClass="w-full"
+              input="true"
+              par-class="mb-4"
+              in-class="w-full"
               placeholder="Nomor Induk"
             ></input-form>
             <div id="gender-room" class="mb-4 grid grid-cols-2">
               <div id="room" class="relative mr-2">
                 <input-form
-                  @clicked="dropdownRoom = !dropdownRoom"
                   v-model="roomIdNumber"
                   input="true"
-                  inClass="w-4/5"
+                  in-class="w-4/5"
                   placeholder="Kelas"
+                  @clicked="dropdownRoom = !dropdownRoom"
                 >
                   <template v-slot:icon>
                     <div class="w-4 cursor-pointer icon">
@@ -114,20 +114,20 @@
                 >
                   <span
                     v-for="(room, index) in rooms"
-                    @click="selectRoom(room)"
                     :key="index"
                     class="block w-full p-2 border-b border-light-300"
+                    @click="selectRoom(room)"
                     >{{ room }}</span
                   >
                 </div>
               </div>
               <div id="gender" class="relative">
                 <input-form
-                  @clicked="dropdownGender = !dropdownGender"
                   v-model="gender"
                   input="true"
-                  inClass="w-4/5"
+                  in-class="w-4/5"
                   placeholder="Jenis Kelamin"
+                  @clicked="dropdownGender = !dropdownGender"
                 >
                   <template v-slot:icon>
                     <div class="w-4 cursor-pointer icon">
@@ -150,9 +150,9 @@
                 >
                   <span
                     v-for="(gender, index) in genders"
-                    @click="selectGender(gender)"
                     :key="index"
                     class="block w-full p-2 border-b border-light-300"
+                    @click="selectGender(gender)"
                     >{{ gender }}</span
                   >
                 </div>
@@ -164,22 +164,22 @@
               v-model="frontName"
               input="true"
               placeholder="Nama Depan"
-              parClass="mb-4"
-              inClass="w-full"
+              par-class="mb-4"
+              in-class="w-full"
             ></input-form>
             <input-form
               v-model="backName"
               input="true"
               placeholder="Nama Belakang"
-              parClass="mb-4"
-              inClass="w-full"
+              par-class="mb-4"
+              in-class="w-full"
             ></input-form>
             <input-form
               v-model="born"
               input="true"
               placeholder="Tempat, Tanggal Lahir"
-              parClass="mb-4"
-              inClass="w-full"
+              par-class="mb-4"
+              in-class="w-full"
             ></input-form>
             <div
               id="register-as"
@@ -191,11 +191,11 @@
                   class="relative block pl-8 mb-3 text-base cursor-pointer select-none xl:mr-3 xl:mb-0 label"
                   >Siswa
                   <input
+                    v-model="registerAs"
                     type="radio"
                     checked="checked"
                     name="radio"
                     value="Siswa"
-                    v-model="registerAs"
                   />
                   <span
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark hover:bg-light-300 transition duration-200 border-light-300"
@@ -205,10 +205,10 @@
                   class="relative block pl-8 text-base cursor-pointer select-none label"
                   >Guru
                   <input
+                    v-model="registerAs"
                     type="radio"
                     name="radio"
                     value="Guru"
-                    v-model="registerAs"
                   />
                   <span
                     class="absolute top-0 left-0 w-5 h-5 border rounded-full checkmark border-light-300 hover:bg-light-300 transition duration-200"
@@ -222,7 +222,7 @@
               <div class="mb-6 btn xl:flex xl:mb-0 xl:flex-row-reverse">
                 <my-btn
                   type="submit"
-                  btnClass="p-2 transition duration-500 hover:bg-opacity-75 bg-blue mb-3 xl:mb-0 xl:ml-3"
+                  btn-class="p-2 transition duration-500 hover:bg-opacity-75 bg-blue mb-3 xl:mb-0 xl:ml-3"
                   >Daftar
                   <template v-slot:icon>
                     <div class="w-3 ml-2 icon">
@@ -240,7 +240,7 @@
                 </my-btn>
                 <my-btn
                   type="button"
-                  btnClass="p-2 bg-light-100 transition duration-500 hover:bg-light-200"
+                  btn-class="p-2 bg-light-100 transition duration-500 hover:bg-light-200"
                   >Reset</my-btn
                 >
               </div>
@@ -267,6 +267,8 @@
 <script>
 import AuthServices from '../services/AuthServices'
 import { mapActions } from 'vuex'
+
+/* TODO Refactor Register */
 
 export default {
   name: 'Register',
@@ -298,6 +300,9 @@ export default {
     /* error and info handling */
     message: null
   }),
+  async created() {
+    this.schools = (await AuthServices.register()).data
+  },
   methods: {
     async registerUser() {
       try {
@@ -361,9 +366,6 @@ export default {
       this.dropdownGender = false
     },
     ...mapActions(['registerTeacher', 'registerStudent'])
-  },
-  async created() {
-    this.schools = (await AuthServices.register()).data
   }
 }
 </script>

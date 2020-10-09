@@ -5,8 +5,8 @@
       :class="bgCard"
     >
       <div class="right flex flex-col font-sans">
-        <span class="text-sm"> {{ id }} </span>
-        <span class="font-bold mt-1"> {{ name }} </span>
+        <span class="text-sm">{{ id }}</span>
+        <span class="font-bold mt-1">{{ name }}</span>
       </div>
       <div class="left">
         <my-btn btnClass="rounded-full p-2" @clicked="open = !open">
@@ -30,15 +30,15 @@
       <div class="complement px-3 py-5 flex flex-col">
         <span class="text-sm">
           Jenis Kelamin :
-          <span class="font-bold"> {{ gender }} </span>
+          <span class="font-bold">{{ gender }}</span>
         </span>
         <span class="text-sm mt-1">
           Alamat :
-          <span class="font-bold"> {{ address }} </span>
+          <span class="font-bold">{{ address }}</span>
         </span>
         <span class="text-sm mt-1">
           TTL :
-          <span class="font-bold"> {{ birth }} </span>
+          <span class="font-bold">{{ birth }}</span>
         </span>
       </div>
     </div>
