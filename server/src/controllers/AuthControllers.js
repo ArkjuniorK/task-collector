@@ -5,7 +5,7 @@ const {
   room,
   teacherRoom,
   studentRoom,
-  schoolRoom,
+  schoolRoom
 } = require('../models')
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
@@ -14,7 +14,7 @@ const config = require('../config')
 function jwtSign(user) {
   const ONE_HOUR = 60 * 60
   return jwt.sign(user, config.jwtSecret, {
-    expiresIn: ONE_HOUR,
+    expiresIn: ONE_HOUR
   })
 }
 
@@ -24,15 +24,15 @@ let teacherAttribute = {
   include: [
     {
       model: school,
-      attributes: { exclude: ['updatedAt', 'createdAt', 'idNumber'] },
+      attributes: { exclude: ['updatedAt', 'createdAt', 'idNumber'] }
     },
     {
       model: room,
       as: 'class',
       through: teacherRoom,
       attributes: {
-        exclude: ['updatedAt', 'createdAt', { model: teacherRoom }],
-      },
+        exclude: ['updatedAt', 'createdAt', { model: teacherRoom }]
+      }
     },
     {
       model: student,
@@ -42,11 +42,11 @@ let teacherAttribute = {
           'teacherIdNumber',
           'schoolIdNumber',
           'updatedAt',
-          'createdAt',
-        ],
-      },
-    },
-  ],
+          'createdAt'
+        ]
+      }
+    }
+  ]
 }
 
 let studentAttribute = {
@@ -54,17 +54,17 @@ let studentAttribute = {
   include: [
     {
       model: school,
-      attributes: { exclude: ['updatedAt', 'createdAt', 'idNumber'] },
+      attributes: { exclude: ['updatedAt', 'createdAt', 'idNumber'] }
     },
     {
       model: room,
       as: 'class',
       through: studentRoom,
       attributes: {
-        exclude: ['updatedAt', 'createdAt', { model: teacherRoom }],
-      },
-    },
-  ],
+        exclude: ['updatedAt', 'createdAt', { model: teacherRoom }]
+      }
+    }
+  ]
 }
 
 module.exports = {
@@ -77,7 +77,7 @@ module.exports = {
     } catch (err) {
       console.log(err)
       res.status(400).send({
-        error: 'Terjadi Kesalahan, Periksa Koneksi Anda',
+        error: 'Terjadi Kesalahan, Periksa Koneksi Anda'
       })
     }
   },
@@ -89,7 +89,7 @@ module.exports = {
       let authId = null
       let auth = null
       let authErr = {
-        error: 'Nomor Induk Telah Digunakan, Harap Memasukkan Nomor Induk Lain',
+        error: 'Nomor Induk Telah Digunakan, Harap Memasukkan Nomor Induk Lain'
       }
 
       /* TODO Validate the idNumber */
@@ -106,11 +106,11 @@ module.exports = {
           await teacher.create(authReq)
           await schoolRoom.create({
             roomIdNumber: authReq.roomIdNumber,
-            schoolIdNumber: authReq.schoolIdNumber,
+            schoolIdNumber: authReq.schoolIdNumber
           })
           await teacherRoom.create({
             teacherIdNumber: authReq.idNumber,
-            roomIdNumber: authReq.roomIdNumber,
+            roomIdNumber: authReq.roomIdNumber
           })
           auth = await teacher.findByPk(authReq.idNumber, teacherAttribute)
           break
@@ -120,7 +120,7 @@ module.exports = {
           await student.create(authReq)
           await studentRoom.create({
             roomIdNumber: authReq.roomIdNumber,
-            studentIdNumber: authReq.idNumber,
+            studentIdNumber: authReq.idNumber
           })
           auth = await student.findByPk(authReq.idNumber, studentAttribute)
           break
@@ -133,7 +133,7 @@ module.exports = {
       /* TODO Send the response */
       res.send({
         user: user,
-        token: token,
+        token: token
       })
     } catch (err) {
       console.log(err)
@@ -145,11 +145,8 @@ module.exports = {
       const { type } = req.params
       let authId = null
       let authPass = null
-      const authIdError = {
-        error: 'Nomor Induk Tidak Ditemukan, Coba Periksa Kembali',
-      }
-      const authPassError = {
-        error: 'Kunci Keamanan Salah, Harap Periksa Kembali',
+      const authError = {
+        error: 'Masalah pada nomor induk atau kata sandi anda, periksa kembali'
       }
 
       /* -----TODO-----
@@ -159,16 +156,14 @@ module.exports = {
       switch (type) {
         case 'teacher':
           authId = await teacher.findByPk(idNumber, teacherAttribute)
-          if (!authId) return res.status(401).send(authIdError)
           authPass = await authId.compareKey(securityKey)
-          if (!authPass) return res.status(401).send(authPassError)
+          if (!authId || !authPass) return res.status(401).send(authError)
           break
 
         case 'student':
           authId = await student.findByPk(idNumber, studentAttribute)
-          if (!authId) return res.status(401).send(authIdError)
           authPass = await authId.compareKey(securityKey)
-          if (!authPass) return res.status(401).send(authPassError)
+          if (!authId || !authPass) return res.status(401).send(authError)
           break
       }
 
@@ -179,10 +174,10 @@ module.exports = {
       /* TODO: Send the response */
       res.send({
         user: user,
-        token: token,
+        token: token
       })
     } catch (err) {
       console.log(err)
     }
-  },
+  }
 }

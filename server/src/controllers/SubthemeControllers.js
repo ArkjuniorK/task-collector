@@ -6,7 +6,7 @@ const {
   room,
   teacherSubtheme,
   studentSubtheme,
-  teacherRoom,
+  teacherRoom
 } = require('../models')
 
 module.exports = {
@@ -16,45 +16,41 @@ module.exports = {
       const { type, idNumber } = req.params
       const { page } = req.query
       const perPage = 12
-      let auth = null
-      let subthemes = null
+      let userType, userSubtheme
 
-      /* TODO:
-       * Check the type of user
-       * And verify the idNumber
-       * Then set the themes */
+      let options = {
+        include: [{ model: subtheme, include: [{ model: task }] }],
+        order: [['createdAt', 'DESC']], // order correctly by removing theme model
+        limit: perPage,
+        offset: perPage * (page - 1)
+      }
+
+      // type recognition
       if (type === 'teacher') {
-        auth = await teacher.findByPk(idNumber)
-        subthemes = await teacherSubtheme.findAndCountAll({
-          where: { teacherIdNumber: idNumber },
-          limit: perPage,
-          offset: perPage * (page - 1),
-          /* TODO: include themes and their subthemes*/
-          include: [{ model: subtheme, include: [{ model: task }] }],
-          order: [[subtheme, 'updatedAt', 'DESC']],
+        userType = teacher
+        userSubtheme = teacherSubtheme
+        options.where = { teacherIdNumber: idNumber }
+      } else if (type === 'student') {
+        userType = student
+        userSubtheme = studentSubtheme
+        options.where = { studentIdNumber: idNumber }
+      } else {
+        return res.status(401).send({
+          error: 'Terjadi kesalahan!'
         })
       }
 
-      if (type === 'student') {
-        auth = await student.findByPk(idNumber)
-        subthemes = await studentSubtheme.findAndCountAll({
-          where: { studentIdNumber: idNumber },
-          limit: perPage,
-          offset: perPage * (page - 1),
-          /* TODO: include themes and their subthemes*/
-          include: [{ model: subtheme, include: [{ model: task }] }],
-          order: [[subtheme, 'updatedAt', 'DESC']],
-        })
-      }
-
-      /* TODO: Send error message if user is undefined */
+      /* Check user */
+      const auth = await userType.findByPk(idNumber)
       if (!auth) {
         return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
         })
       }
 
-      /* TODO: Create new instances  */
+      const subthemes = await userSubtheme.findAndCountAll(options)
+
+      /* Create new instances  */
       const countSubthemes = subthemes.count
       const Subthemes = subthemes.rows.map((val) => {
         let subtheme = val.subtheme
@@ -64,25 +60,24 @@ module.exports = {
           title: subtheme.title,
           background: subtheme.background,
           date: subtheme.updatedAt,
-          tasks: subtheme.tasks.length, // display subthemes length
+          tasks: subtheme.tasks.length // display tasks length
         }
 
         return instances
       })
-      const pageSubthemes = parseInt(page) // invert string to number */
 
-      /* TODO: Wrap the instances */
+      /* Wrap the instances */
       const indexSubthemes = {
         subthemes: Subthemes,
         pagination: {
           totalSubthemes: countSubthemes,
           perPage: perPage,
           totalPage: Math.ceil(countSubthemes / perPage),
-          currentPage: pageSubthemes,
-        },
+          currentPage: parseInt(page)
+        }
       }
 
-      /* TODO: Send the response */
+      /* Send the response */
       res.send(indexSubthemes)
     } catch (err) {
       console.log(err)
@@ -93,7 +88,7 @@ module.exports = {
   async view(req, res) {
     try {
       const { type, idNumber } = req.params
-      const { subthemeId } = req.query
+      const { id } = req.query
       let auth = null
 
       /* TODO: Check user credential */
@@ -103,14 +98,15 @@ module.exports = {
       /* TODO: Send error when credential is undifiend */
       if (!auth) {
         return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
         })
       }
 
       /* TODO: Get theme and send the response */
-      const viewSubtheme = await subtheme.findByPk(subthemeId, {
-        include: [{ model: task }],
+      const viewSubtheme = await subtheme.findByPk(id, {
+        include: [{ model: task }]
       })
+
       res.send(viewSubtheme)
     } catch (err) {
       console.log(err)
@@ -131,15 +127,15 @@ module.exports = {
           {
             model: room,
             as: 'class',
-            through: teacherRoom,
-          },
-        ],
+            through: teacherRoom
+          }
+        ]
       })
 
       /* TODO: If it's not teacher, then send error */
       if (!checkTeacher) {
         return res.status(500).send({
-          error: 'Anda tidak memiliki kuasa untuk menambah Subtema',
+          error: 'Anda tidak memiliki kuasa untuk menambah Subtema'
         })
       }
 
@@ -149,7 +145,7 @@ module.exports = {
 
       /* TODO: Find student by roomId and schoolid using room model */
       const studentsList = await room.findByPk(roomId, {
-        include: [{ model: student, where: { schoolIdNumber: schoolId } }],
+        include: [{ model: student, where: { schoolIdNumber: schoolId } }]
       })
 
       /* TODO: Create the theme*/
@@ -158,7 +154,7 @@ module.exports = {
       /* TODO: Create teacherThemes */
       await teacherSubtheme.create({
         teacherIdNumber: teacherId,
-        subthemeId: subthemes.id,
+        subthemeId: subthemes.id
       })
 
       /* TODO:
@@ -168,7 +164,7 @@ module.exports = {
       await studentId.forEach(async (id) => {
         await studentSubtheme.create({
           studentIdNumber: id,
-          subthemeId: subthemes.id,
+          subthemeId: subthemes.id
         })
       })
 
@@ -176,5 +172,5 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
-  },
+  }
 }

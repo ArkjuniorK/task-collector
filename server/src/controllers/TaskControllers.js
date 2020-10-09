@@ -1,15 +1,14 @@
 const {
   task,
+  subtheme,
+  theme,
   teacher,
   room,
   student,
   teacherTask,
   teacherRoom,
-  studentTask,
+  studentTask
 } = require('../models')
-
-const sequelize = require('sequelize')
-const Op = sequelize.Op
 
 module.exports = {
   async index(req, res) {
@@ -17,57 +16,55 @@ module.exports = {
       const { type, idNumber } = req.params
       const { page } = req.query
       const perPage = 12
-      let auth = null
-      let tasks = null
+      let userType, userTask
 
-      /* TODO:
-       * Check the type of user
-       * And verify the idNumber
-       * Then set the themes */
+      let options = {
+        include: ['task'],
+        order: [['createdAt', 'DESC']], // order correctly by removing theme model
+        limit: perPage,
+        offset: perPage * (page - 1)
+      }
 
+      // type recognition
       if (type === 'teacher') {
-        auth = await teacher.findByPk(idNumber)
-        tasks = await teacherTask.findAndCountAll({
-          where: { teacherIdNumber: idNumber },
-          limit: perPage,
-          offset: perPage * (page - 1),
-          include: ['task'],
-          order: [[task, 'date', 'DESC']],
+        userType = teacher
+        userTask = teacherTask
+        options.where = { teacherIdNumber: idNumber }
+      } else if (type === 'student') {
+        userType = student
+        userTask = studentTask
+        options.where = { studentIdNumber: idNumber }
+      } else {
+        return res.status(401).send({
+          error: 'Terjadi kesalahan!'
         })
       }
 
-      if (type === 'student') {
-        auth = await student.findByPk(idNumber)
-        tasks = await studentTask.findAndCountAll({
-          where: { studentIdNumber: idNumber },
-          limit: perPage,
-          offset: perPage * (page - 1),
-          include: ['task'],
-          order: [[task, 'date', 'DESC']],
-        })
-      }
-
-      /* TODO: Send error message if user is undefined */
+      /* Check user */
+      const auth = await userType.findByPk(idNumber)
       if (!auth) {
         return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
         })
       }
 
-      /* TODO: Create new instance */
+      /* Find tasks */
+      const tasks = await userTask.findAndCountAll(options)
+
+      /* Create new instance */
       const countTasks = tasks.count
       const Tasks = tasks.rows.map((val) => val.task)
       const pageTasks = parseInt(page) //Invert string into number
 
-      /* TODO: Wrap the instances */
+      /* Wrap the instances */
       const indexTasks = {
         tasks: Tasks,
         pagination: {
           totalTasks: countTasks,
           perPage: perPage,
           totalPages: Math.ceil(countTasks / perPage),
-          currentPage: pageTasks,
-        },
+          currentPage: pageTasks
+        }
       }
 
       res.send(indexTasks)
@@ -78,71 +75,64 @@ module.exports = {
   async recents(req, res) {
     try {
       const { type, idNumber } = req.params
-      let auth = null
-      let recents = null
+      let userType, userTask
 
-      /* TODO: Verify user and get the recent tasks*/
+      let options = {
+        include: [
+          {
+            model: task,
+            attributes: [
+              'name',
+              'date',
+              'background',
+              'subjectName',
+              'subthemeId'
+            ]
+          }
+        ],
+        limit: 2,
+        order: [['task', 'date', 'DESC']]
+      }
+
+      // type recognition
       if (type === 'teacher') {
-        auth = await teacher.findByPk(idNumber)
-        recents = await teacherTask.findAll({
-          where: { teacherIdNumber: idNumber },
-          attributes: ['taskId', 'teacherIdNumber'],
-          include: [
-            {
-              model: task,
-              attributes: [
-                'name',
-                'date',
-                'background',
-                'subjectName',
-                'subthemeId',
-              ],
-            },
-          ],
-          limit: 2,
-          order: [['task', 'date', 'DESC']],
-        })
-      }
-      if (type === 'student') {
-        auth = await student.findByPk(idNumber)
-        recents = await studentTask.findAll({
-          where: { studentIdNumber: idNumber },
-          attributes: ['taskId', 'studentIdNumber'],
-          include: [
-            {
-              model: task,
-              attributes: [
-                'name',
-                'date',
-                'background',
-                'subjectName',
-                'subthemeId',
-              ],
-            },
-          ],
-          limit: 2,
-          order: [['task', 'date', 'DESC']],
+        userType = teacher
+        userTask = teacherTask
+        options.where = { teacherIdNumber: idNumber }
+        options.attributes = ['taskId', 'teacherIdNumber']
+      } else if (type === 'student') {
+        userType = student
+        userTask = studentTask
+        options.where = { studentIdNumber: idNumber }
+        options.attributes = ['taskId', 'studentIdNumber']
+      } else {
+        return res.status(401).send({
+          error: 'Terjadi kesalahan!'
         })
       }
 
-      /* TODO: Send error when user is not identify */
+      /* Check user */
+      const auth = await userType.findByPk(idNumber)
       if (!auth) {
         return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
         })
       }
+
+      /* Find recent tasks */
+      const recents = await userTask.findAll(options)
 
       /* TODO Send the recents task */
       res.send(recents)
     } catch (err) {
-      console.log(err)
+      res.send(err)
     }
   },
   async view(req, res) {
     try {
       const { type, idNumber } = req.params
-      const { taskId } = req.query
-      let auth = null
+      const { id } = req.query
+      let auth
 
       /* TODO: Check user credential */
       if (type === 'teacher') auth = await teacher.findByPk(idNumber)
@@ -151,19 +141,19 @@ module.exports = {
       /* TODO: Send error when credential is undifined */
       if (!auth) {
         return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!',
+          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
         })
       }
 
-      /* TODO:
-       * Change the value of references and questions
-       * from LONGTEXT into JSON/ARRAY */
+      // from MySQL
+      // viewTask.references = JSON.parse(viewTask.references)
+      // viewTask.questions = JSON.parse(viewTask.questions)
 
-      //viewTask.references = JSON.parse(viewTask.references)
-      //viewTask.questions = JSON.parse(viewTask.questions)
+      // Get task and send the response
+      let viewTask = await task.findByPk(id, {
+        include: [{ model: subtheme, include: ['theme'] }]
+      })
 
-      /* TODO: Get task and send the response */
-      const viewTask = await task.findByPk(taskId)
       res.send(viewTask)
     } catch (err) {
       res.send(err)
@@ -182,15 +172,15 @@ module.exports = {
           {
             model: room,
             as: 'class',
-            through: teacherRoom,
-          },
-        ],
+            through: teacherRoom
+          }
+        ]
       })
 
       /* TODO: If it's not teacher, then send error */
       if (!checkTeacher) {
         return res.status(500).send({
-          error: 'Anda tidak memiliki kuasa untuk menambah Tema',
+          error: 'Anda tidak memiliki kuasa untuk menambah Tema'
         })
       }
 
@@ -200,7 +190,7 @@ module.exports = {
 
       /* TODO: Find student by roomId and schoolid using room model */
       const studentsList = await room.findByPk(roomId, {
-        include: [{ model: student, where: { schoolIdNumber: schoolId } }],
+        include: [{ model: student, where: { schoolIdNumber: schoolId } }]
       })
 
       /* TODO: Create task */
@@ -209,7 +199,7 @@ module.exports = {
       /* TODO: Task for teacherTask */
       await teacherTask.create({
         teacherIdNumber: teacherId,
-        taskId: tasks.id,
+        taskId: tasks.id
       })
 
       /* TODO:
@@ -219,7 +209,7 @@ module.exports = {
       const checkstudent = await studentId.forEach(async (id) => {
         await studentTask.create({
           studentIdNumber: id,
-          taskId: tasks.id,
+          taskId: tasks.id
         })
       })
 
@@ -231,5 +221,5 @@ module.exports = {
       console.log('Error', err)
       console.log('Error', err)
     }
-  },
+  }
 }

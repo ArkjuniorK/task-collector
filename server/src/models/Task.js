@@ -5,16 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATE(6),
     questions: DataTypes.JSON,
     references: DataTypes.JSON,
-    background: DataTypes.STRING,
+    background: DataTypes.STRING
   })
 
   // defined association
   Task.associate = function (models) {
     Task.belongsToMany(models.student, {
-      through: 'studentTask',
+      through: 'studentTask'
     })
     Task.belongsToMany(models.teacher, {
-      through: 'teacherTask',
+      through: 'teacherTask'
     })
     Task.belongsTo(models.subject)
     Task.belongsTo(models.subtheme)

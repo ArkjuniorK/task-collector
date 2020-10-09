@@ -2,15 +2,15 @@ module.exports = (sequelize, DataTypes) => {
   const Subtheme = sequelize.define('subtheme', {
     name: DataTypes.STRING,
     title: DataTypes.STRING,
-    background: DataTypes.STRING,
+    background: DataTypes.STRING
   })
 
   Subtheme.associate = function (models) {
     Subtheme.belongsToMany(models.teacher, {
-      through: 'teacherSubtheme',
+      through: 'teacherSubtheme'
     })
     Subtheme.belongsToMany(models.student, {
-      through: 'studentSubtheme',
+      through: 'studentSubtheme'
     })
     Subtheme.belongsTo(models.theme)
     Subtheme.hasMany(models.task)

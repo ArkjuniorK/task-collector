@@ -9,7 +9,7 @@ const { sequelize } = require('./models')
 const config = require('./config')
 
 const app = express()
-app.use(history()) // added
+// app.use(history()) // added
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
