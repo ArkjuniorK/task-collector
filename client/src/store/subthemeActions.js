@@ -1,4 +1,5 @@
 import SubthemeServices from '../services/SubthemeServices'
+import ThemeServices from '../services/ThemeServices'
 
 let subthemeActions = {
   namespaced: true,
@@ -36,6 +37,23 @@ let subthemeActions = {
 
       const data = req.data
       commit('subtheme/SET_INFO', data, { root: true })
+    },
+    async postSubtheme({ rootState }, payload) {
+      try {
+        await SubthemeServices.post(rootState.user.idNumber, payload)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async listThemes({ commit, rootState }) {
+      try {
+        const req = await ThemeServices.list(rootState.user.idNumber)
+        const data = req.data
+        // console.log(data)
+        commit('subtheme/SET_LIST', data, { root: true })
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

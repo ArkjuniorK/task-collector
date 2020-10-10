@@ -14,15 +14,21 @@
           </svg>
         </div>
         <div class="title">
-          <span class="text-sm font-display lg:text-base xxl:text-lg">Tugas Terbaru</span>
+          <span class="text-sm font-display lg:text-base xxl:text-lg"
+            >Tugas Terbaru</span
+          >
         </div>
       </div>
       <button
         type="button"
-        @click="close"
         class="outline-none focus:outline-none text-dark-200 rounded-full px-1"
+        @click="close"
       >
-        <svg class="w-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <svg
+          class="w-3 fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
           <path
             d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"
           />
@@ -33,11 +39,12 @@
       <div
         class="flex text-left one text-dark-400 xl:flex-row-reverse xl:col-span-1 xl:items-start"
       >
-        <task-svg childClass="md:w-1/5 xl:w-1/2"></task-svg>
+        <task-svg child-class="md:w-1/5 xl:w-1/2"></task-svg>
         <div class="py-2 ml-3 mr-3 text md:w-4/5 xl:w-1/2">
           <span
             class="items-start font-sans font-bold leading-tight sm:text-xl md:text-2xl xl:text-xl xxl:text-2xl xxxl:text-3xl"
-          >{{ title }}</span>
+            >{{ title }}</span
+          >
         </div>
       </div>
       <div
@@ -68,7 +75,10 @@ export default {
     taskCard: () => import('../components/complements/TaskCard')
   },
   props: {
-    recentClass: String
+    recentClass: {
+      type: String,
+      default: null
+    }
   },
   data: () => ({
     title: 'Daftar Tugas Terbaru Yang Telah di Bagikan Kepada Siswa',
@@ -77,14 +87,14 @@ export default {
   computed: {
     ...mapState(['recents'])
   },
+  async mounted() {
+    this.getRecentTasks()
+  },
   methods: {
     close() {
       this.closeRecents = 'hidden'
     },
     ...mapActions(['getRecentTasks'])
-  },
-  async mounted() {
-    this.getRecentTasks()
   }
 }
 </script>

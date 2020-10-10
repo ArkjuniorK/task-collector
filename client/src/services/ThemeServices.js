@@ -17,5 +17,8 @@ export default {
   },
   post(teacherId, payload) {
     return Api().post(`theme/${teacherId}`, payload)
+  },
+  list(teacherId) {
+    return Api().get(`theme/${teacherId}`)
   }
 }

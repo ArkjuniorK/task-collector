@@ -1,10 +1,12 @@
 /* 😄 REUSABLE STATE AND MUTATION 🔥 */
+import _ from 'lodash'
 
 let data = {
   namespaced: true,
   state: () => ({
     currentPage: 1,
     data: [],
+    list: [],
     info: {},
     pagination: {}
   }),
@@ -16,11 +18,17 @@ let data = {
     SET_DATA(state, payload) {
       payload.forEach(val => state.data.push(val))
     },
+    SET_LIST(state, payload) {
+      state.list = payload
+    },
     SET_INFO(state, payload) {
       state.info = payload
     },
     SET_PAGINATION(state, payload) {
       state.pagination = payload
+    },
+    RESET_DATA(state) {
+      state.data = []
     }
   }
 }

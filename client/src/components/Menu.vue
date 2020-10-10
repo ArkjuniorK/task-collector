@@ -16,7 +16,7 @@
       <div id="child-two" class="px-5 py-5 text-left block">
         <my-btn
           class="flex-row-reverse p-2 text-left bg-blue-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
-          @clicked="$router.push({ name: 'createTheme' })"
+          @clicked="createTheme"
         >
           Tambah Tema Baru
           <template v-slot:icon>
@@ -35,6 +35,7 @@
         </my-btn>
         <my-btn
           class="flex-row-reverse p-2 mt-3 text-left bg-orange-task text-dark-200 bg-opacity-25 text-md justify-end-custom lg:min-w-full"
+          @clicked="createSubtheme"
         >
           Tambah Subtema Baru
           <template v-slot:icon>
@@ -111,7 +112,9 @@ export default {
   components: {
     myBtn: () => import('./complements/Button')
   },
-  props: ['status'],
+  props: {
+    status: Boolean
+  },
   computed: {
     menuTransition() {
       return this.status ? 'menu-show' : 'menu-hidden'
@@ -119,6 +122,14 @@ export default {
     ...mapState(['user'])
   },
   methods: {
+    async createTheme() {
+      await this.$router.push({ name: 'createTheme' })
+      await this.$emit('closeMenu')
+    },
+    async createSubtheme() {
+      await this.$router.push({ name: 'createSubtheme' })
+      await this.$emit('closeMenu')
+    },
     ...mapActions(['logOutUser'])
   }
 }

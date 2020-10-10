@@ -25,6 +25,8 @@ module.exports = {
   theme: {
     extend: {
       height: {
+        half: '50%',
+        between: '80%',
         'screen-50': '50vh',
         'screen-80': '80vh'
       }

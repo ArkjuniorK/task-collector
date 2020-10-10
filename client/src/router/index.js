@@ -102,8 +102,12 @@ const routes = [
   },
   {
     path: '/subtheme/create',
-    name: 'CreateSubtheme',
-    meta: { requiresAuth: true }
+    name: 'createSubtheme',
+    meta: { requiresAuth: true },
+    component: () =>
+      import(
+        /* webpackChunckName: "subthemeCreate" */ '../views/CreateSubtheme.vue'
+      )
   },
   {
     path: '/task/view/:id',

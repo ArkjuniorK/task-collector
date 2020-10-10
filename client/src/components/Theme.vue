@@ -63,7 +63,7 @@ export default {
       this.getThemes()
     }
   },
-  async mounted() {
+  created() {
     this.getThemes()
   },
   methods: {

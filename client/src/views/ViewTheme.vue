@@ -90,7 +90,13 @@ export default {
     dataCard: () => import('../components/complements/TaskCard'),
     sadEmot: () => import('../components/illustration/SadEmot')
   },
-  props: ['id'],
+  props: {
+    id: {
+      type: Number,
+      required: true,
+      default: null
+    }
+  },
   computed: {
     ...mapState(['info'])
   },
@@ -98,8 +104,8 @@ export default {
     this.getTheme(this.id)
   },
   methods: {
-    gotoSubtheme(v) {
-      this.$router.push({ name: 'viewSubtheme', params: { id: v } })
+    gotoSubtheme(e) {
+      this.$router.push({ name: 'viewSubtheme', params: { id: e } })
     },
     ...mapActions(['getTheme'])
   }

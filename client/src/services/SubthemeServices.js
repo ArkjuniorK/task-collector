@@ -10,5 +10,8 @@ export default {
     return Api().get(`subtheme/${type}/${idNumber}/view`, {
       params: { id: id }
     })
+  },
+  post(teacherId, payload) {
+    return Api().post(`subtheme/${teacherId}`, payload)
   }
 }
