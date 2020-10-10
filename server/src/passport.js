@@ -13,14 +13,14 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.jwtSecret,
+      secretOrKey: config.jwtSecret
     },
     async function (jwtPayload, done) {
       try {
         const teacherLog = await teacher.findOne({
           where: {
-            idNumber: jwtPayload.id,
-          },
+            idNumber: jwtPayload.id
+          }
         })
 
         if (!teacherLog) {

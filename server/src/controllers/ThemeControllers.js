@@ -172,5 +172,28 @@ module.exports = {
     } catch (err) {
       res.send(err)
     }
+  },
+  async list(req, res) {
+    try {
+      const teacherId = req.params.teacherId
+      const auth = await teacher.findByPk(teacherId)
+      if (!auth) {
+        return res.status(401).send({
+          error: 'Masalah Otentifikasi'
+        })
+      }
+
+      const themes = await teacherTheme
+        .findAll({
+          where: { teacherIdNumber: teacherId },
+          order: [['createdAt', 'DESC']],
+          include: [{ model: theme, attributes: ['id', 'name', 'title'] }]
+        })
+        .map((val) => val.theme)
+
+      res.send(themes)
+    } catch (e) {
+      res.send(e)
+    }
   }
 }
