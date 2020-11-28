@@ -37,6 +37,7 @@ export default new Vuex.Store({
       'Seni Budaya'
     ],
     userType: null,
+    response: {},
     user: {},
     recents: []
   },
@@ -46,6 +47,10 @@ export default new Vuex.Store({
     },
     SET_USER_TYPE(state, payload) {
       state.userType = payload
+    },
+    SET_RESPONSE(state, payload) {
+      if (payload == null) state.response = {}
+      state.response = { ...state.response, ...payload }
     },
     SET_RECENT_TASKS(state, payload) {
       state.recents = payload.map(v => v.task)

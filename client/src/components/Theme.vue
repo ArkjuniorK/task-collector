@@ -42,8 +42,6 @@
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapMutations, mapActions } = createNamespacedHelpers('theme')
 
-/* 🔥 Use theme's module from Vuex 🔥 */
-
 export default {
   name: 'Theme',
   components: {
@@ -62,9 +60,6 @@ export default {
     currentPage() {
       this.getThemes()
     }
-  },
-  created() {
-    this.getThemes()
   },
   methods: {
     addCurrentPage() {

@@ -10,7 +10,7 @@ module.exports = {
     name: 'Room',
     themeColor: '#f7fafc',
     msTileColor: '#f7fafc',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#fff',
     appleMobileWebAppCapable: 'yes',
     appMobileWebAppStatusBarStyle: 'white'
   }

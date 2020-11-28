@@ -8,11 +8,13 @@
         <navbar @openMenu="menuStatus = !menuStatus" />
       </header>
       <main class="pt-16">
-        <menu-action
-          v-if="menuStatus"
-          :status="menuStatus"
-          @closeMenu="menuStatus = false"
-        />
+        <transition name="slide">
+          <menu-action
+            v-show="menuStatus"
+            :status="menuStatus"
+            @closeMenu="menuStatus = false"
+          />
+        </transition>
         <section id="view" class="w-full lg:mt-10 xl:mt-4 xxl:mt-10">
           <router-view />
         </section>

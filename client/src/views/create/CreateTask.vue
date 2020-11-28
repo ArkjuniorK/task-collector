@@ -1,13 +1,13 @@
 <template>
   <div id="view-task" class="w-full">
     <main-section
-      subClass="mx-4 h-full md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
+      sub-class="mx-4 h-full md:mx-32 lg:mx-48 xl:mx-10 xxl:mx-16 xxxl:mx-64"
     >
       <template v-slot:left-one>
         <div class="btn">
           <my-btn
+            btn-class="flex-row-reverse p-2 focus:bg-light-200"
             @clicked="$router.back()"
-            btnClass="flex-row-reverse p-2 focus:bg-light-200"
           >
             Kembali
             <template v-slot:icon>
@@ -78,16 +78,16 @@
                   >
                     <div class="relative">
                       <input-text
-                        @clicked="dropdown = !dropdown"
                         v-model="subject"
                         input="true"
                         placeholder="Mata Pelajaran.."
+                        @clicked="dropdown = !dropdown"
                       >
                         <template v-slot:icon>
                           <button
-                            @click="dropdown = !dropdown"
                             type="button"
                             class="p-1 rounded-full focus:outline-none"
+                            @click="dropdown = !dropdown"
                           >
                             <div class="w-4 icon">
                               <svg
@@ -111,8 +111,8 @@
                         <span
                           v-for="(subject, index) in subjects"
                           :key="index"
-                          @click="select(subject)"
                           class="p-2 cursor-pointer hover:text-dark-300 transition duration-200"
+                          @click="select(subject)"
                           >{{ subject }}</span
                         >
                       </div>
@@ -122,7 +122,7 @@
                     <input-text
                       v-model="name"
                       textarea="true"
-                      txtClass="font-black text-lg xl:text-3xl"
+                      txt-class="font-black text-lg xl:text-3xl"
                       class="font-black"
                       placeholder="Judul Tugas.."
                     ></input-text>
@@ -149,18 +149,18 @@
                   <div id="help-input" class="mt-6">
                     <input-text
                       v-for="(field, index) in questions"
-                      v-model="field.question"
                       :key="index"
-                      parClass="mb-4"
-                      inClass="text-base w-full xl:text-lg"
+                      v-model="field.question"
+                      par-class="mb-4"
+                      in-class="text-base w-full xl:text-lg"
                       input="true"
                       placeholder="Pertanyaan.."
                     ></input-text>
                     <div id="btn-add-input" class="mt-4">
                       <my-btn
+                        btn-type="button"
+                        btn-class="p-2 text-dark-300"
                         @clicked="addQuest"
-                        btnType="button"
-                        btnClass="p-2 text-dark-300"
                         >Tambah Pertanyaan
                         <template v-slot:icon>
                           <div class="w-4 ml-2 icon">
@@ -202,16 +202,16 @@
                       v-for="(field, index) in references"
                       :key="index"
                       v-model="field.reference"
-                      parClass="mb-4"
-                      inClass="text-base w-full xl:text-lg"
+                      par-class="mb-4"
+                      in-class="text-base w-full xl:text-lg"
                       input="true"
                       placeholder="Petunjuk.."
                     ></input-text>
                     <div id="btn-add-input" class="mt-4">
                       <my-btn
+                        btn-type="button"
+                        btn-class="p-2 text-dark-300"
                         @clicked="addReferences"
-                        btnType="button"
-                        btnClass="p-2 text-dark-300"
                         >Tambah Petunjuk
                         <template v-slot:icon>
                           <div class="w-4 ml-2 icon">
@@ -240,13 +240,13 @@
                   </span>
                   <div id="btn" class="xl:flex xl:flex-row-reverse">
                     <my-btn
-                      btnType="submit"
-                      btnClass="p-2 bg-blue mt-4 xl:mt-0 xl:ml-2 hover:bg-opacity-75 xl:text-lg"
+                      btn-type="submit"
+                      btn-class="p-2 bg-blue mt-4 xl:mt-0 xl:ml-2 hover:bg-opacity-75 xl:text-lg"
                       >Bagikan Tugas</my-btn
                     >
                     <my-btn
-                      btnType="reset"
-                      btnClass="p-2 text-dark-300 mt-4 xl:mt-0 hover:bg-light-200 xl:text-lg"
+                      btn-type="reset"
+                      btn-class="p-2 text-dark-300 mt-4 xl:mt-0 hover:bg-light-200 xl:text-lg"
                       >Reset</my-btn
                     >
                   </div>
@@ -294,10 +294,10 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'CreateTask',
   components: {
-    mainSection: () => import('../components/MainSection'),
-    myBtn: () => import('../components/complements/Button'),
-    taskCreate: () => import('../components/illustration/TaskCreate'),
-    inputText: () => import('../components/complements/Input.vue')
+    mainSection: () => import('@/components/MainSection'),
+    myBtn: () => import('@/components/complements/Button'),
+    taskCreate: () => import('@/components/illustration/TaskCreate'),
+    inputText: () => import('@/components/complements/Input.vue')
   },
   data: () => ({
     dropdown: false,

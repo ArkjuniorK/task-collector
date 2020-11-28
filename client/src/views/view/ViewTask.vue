@@ -192,10 +192,15 @@ const { mapState, mapActions } = createNamespacedHelpers('task')
 export default {
   name: 'ViewTask',
   components: {
-    mainSection: () => import('../components/MainSection'),
-    myBtn: () => import('../components/complements/Button')
+    mainSection: () => import('@/components/MainSection'),
+    myBtn: () => import('@/components/complements/Button')
   },
-  props: ['id'],
+  props: {
+    id: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     theme: {},
     subtheme: {}

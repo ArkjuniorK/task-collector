@@ -54,7 +54,7 @@
             Tambahkan Subtema Baru
           </div>
           <div class="xl:flex xl:flex-row-reverse">
-            <div id="tips" class=" xl:ml-3">
+            <div v-if="tips" id="tips" class="xl:ml-3" :class="tipsAnimate">
               <div
                 class="text-left mb-5 xl:border xl:border-opacity-50 xl:border-dark-200 xl:rounded"
               >
@@ -79,6 +79,27 @@
                         </svg>
                       </div>
                       <span class="font-display">Perhatian</span>
+                    </div>
+                    <div class="icon-close">
+                      <my-btn type="button" @clicked="tips = false">
+                        <template v-slot:icon>
+                          <div class="icon">
+                            <svg
+                              width="1.2em"
+                              height="1.2em"
+                              viewBox="0 0 16 16"
+                              class="bi bi-x fill-current w-full"
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                              />
+                            </svg>
+                          </div>
+                        </template>
+                      </my-btn>
                     </div>
                   </div>
                   <span class="font-bold"
@@ -111,6 +132,10 @@
                     </div>
                   </template>
                 </my-input>
+                <div v-show="theme.title" class="mb-3 mx-3 text-left flex">
+                  <span class="mr-1"> Judul: </span>
+                  <span>{{ theme.title }}</span>
+                </div>
                 <my-input
                   v-model="form.name"
                   input="true"
@@ -156,42 +181,18 @@
     <div
       v-if="selectThemes"
       id="theme-select"
-      class="selection absolute z-20 w-full right-0 left-0 top-0 bottom-0 mx-auto flex items-center"
+      class="selection absolute z-20 w-full right-0 left-0 top-0 bottom-0 flex items-center"
+      @click="selectThemes = !selectThemes"
     >
       <div
-        class="rounded bg-light-100 m-8 absolute z-50 right-0 left-0 overflow-y-scroll h-between"
+        class="wrapper-parent rounded bg-light-100 m-8 absolute z-50 right-0 left-0 overflow-y-auto h-3/4 xl:mx-auto xl:w-1/3"
       >
-        <div
-          class="flex justify-between align-middle p-3 border-b border-opacity-25 "
-        >
-          <span>Pilih Tema</span>
-          <div class="h-auto">
-            <my-btn type="button" @clicked="selectThemes = !selectThemes">
-              <template v-slot:icon>
-                <div class="icon">
-                  <svg
-                    width="1.2em"
-                    height="1.2em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-x fill-current w-full"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                    />
-                  </svg>
-                </div>
-              </template>
-            </my-btn>
-          </div>
-        </div>
-        <div class="list-wrapper p-3">
+        <div class="p-3">
           <div
             v-for="(v, index) in list"
             :key="index"
-            class="list p-3 text-left flex"
+            :class="index === 0 ? '' : 'border-t'"
+            class="list p-3 text-left flex border-dark-200 border-opacity-50 hover:bg-light-200 focus:bg-light-200"
           >
             <input
               :id="v.id"
@@ -205,50 +206,28 @@
               class="ml-3 flex flex-col"
               @click="selectThemes = !selectThemes"
             >
-              <span> {{ v.name }} </span>
-              <span> {{ v.title }} </span>
+              <span class="font-bold"> {{ v.name }} </span>
+              <span class=""> {{ v.title }} </span>
             </label>
           </div>
         </div>
       </div>
     </div>
     <div
-      v-if="selectSubthemes"
       id="subtheme-select"
-      class="selection absolute z-20 w-full right-0 left-0 top-0 bottom-0 mx-auto flex items-center"
+      class="selection absolute z-20 w-full right-0 left-0 top-0 bottom-0 flex items-center"
+      :class="selectSubthemes ? '' : 'hidden'"
+      @click="selectSubthemes = !selectSubthemes"
     >
-      <div class="hello rounded bg-light-100 m-8 absolute z-50 right-0 left-0">
-        <div
-          class="flex justify-between align-middle p-3 border-b border-opacity-25"
-        >
-          <span>Pilih Subtema</span>
-          <div class="h-auto">
-            <my-btn type="button" @clicked="selectSubthemes = !selectSubthemes">
-              <template v-slot:icon>
-                <div class="icon">
-                  <svg
-                    width="1.2em"
-                    height="1.2em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-x fill-current w-full"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                    />
-                  </svg>
-                </div>
-              </template>
-            </my-btn>
-          </div>
-        </div>
-        <div class="list-wrapper p-3">
+      <div
+        class="wrapper-parent rounded bg-light-100 m-8 absolute z-50 right-0 left-0 xl:mx-auto xl:w-1/3"
+      >
+        <div class="p-3">
           <div
             v-for="(v, index) in subthemes"
             :key="index"
-            class="list p-3 text-left"
+            class="list p-3 text-left border-dark-200 border-opacity-50"
+            :class="index === 0 ? null : 'border-t'"
           >
             <input
               :id="v.name"
@@ -259,7 +238,7 @@
             />
             <label
               :for="v.name"
-              class="ml-3"
+              class="ml-3 font-bold"
               @click="selectSubthemes = !selectSubthemes"
             >
               {{ v.name }}
@@ -280,11 +259,12 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
 export default {
   name: 'CreateSubtheme',
   components: {
-    mainSection: () => import('../components/MainSection'),
-    myBtn: () => import('../components/complements/Button'),
-    myInput: () => import('../components/complements/Input')
+    mainSection: () => import('@/components/MainSection'),
+    myBtn: () => import('@/components/complements/Button'),
+    myInput: () => import('@/components/complements/Input')
   },
   data: () => ({
+    tips: true,
     selectThemes: false,
     selectSubthemes: false,
     disabled: true,
@@ -303,12 +283,15 @@ export default {
     }
   }),
   computed: {
+    tipsAnimate() {
+      return this.tips === false ? 'tips-close' : 'tips-open'
+    },
     ...mapState(['list']),
     ...mapMutations(['RESET_DATA'])
   },
   watch: {
     selectThemes() {
-      this.selectThemes === true ? this.listThemes() : null
+      this.list.length >= 1 ? null : this.listThemes()
     },
     form: {
       handler(val) {
@@ -341,23 +324,11 @@ export default {
 
       e.preventDefault()
     },
+    closeTips() {},
     ...mapActions(['postSubtheme', 'listThemes'])
   }
 }
 </script>
 
 <style scoped>
-.selection::before {
-  content: '';
-  position: absolute;
-  background-color: black;
-  opacity: 0.5;
-  width: 100%;
-  height: 100%;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 0;
-}
 </style>

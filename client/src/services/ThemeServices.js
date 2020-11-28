@@ -18,6 +18,11 @@ export default {
   post(teacherId, payload) {
     return Api().post(`theme/${teacherId}`, payload)
   },
+  delete(teacherId, payload) {
+    return Api().delete(`theme/`, {
+      params: { teacherId: teacherId, themeId: payload }
+    })
+  },
   list(teacherId) {
     return Api().get(`theme/${teacherId}`)
   }

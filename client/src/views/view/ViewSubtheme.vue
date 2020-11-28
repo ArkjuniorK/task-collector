@@ -83,12 +83,17 @@ const { mapState, mapActions } = createNamespacedHelpers('subtheme')
 export default {
   name: 'ViewSubtheme',
   components: {
-    mainSection: () => import('../components/MainSection'),
-    myBtn: () => import('../components/complements/Button'),
-    dataCard: () => import('../components/complements/TaskCard'),
-    sadEmot: () => import('../components/illustration/SadEmot')
+    mainSection: () => import('@/components/MainSection'),
+    myBtn: () => import('@/components/complements/Button'),
+    dataCard: () => import('@/components/complements/TaskCard'),
+    sadEmot: () => import('@/components/illustration/SadEmot')
   },
-  props: ['id'],
+  props: {
+    id: {
+      type: [String, Number],
+      default: null
+    }
+  },
   computed: {
     ...mapState(['info'])
   },

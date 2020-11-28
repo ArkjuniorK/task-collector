@@ -24,9 +24,18 @@ module.exports = {
   },
   theme: {
     extend: {
+      keyframes: {
+        rotate: {
+          '0%': {transform: 'rotate(0deg)'},
+          '100%': {tranform: 'rotate(90deg)'}
+        }
+      },
+      animation: {
+        rotate: 'rotate 1s ease-in-out infinite'
+      },
       height: {
-        half: '50%',
-        between: '80%',
+        '1/2': '50%',
+        '3/4': '70%',
         'screen-50': '50vh',
         'screen-80': '80vh'
       }
@@ -49,7 +58,6 @@ module.exports = {
       },
       transparent: 'transparent',
       white: '#ffffff',
-      // Task Color
       red: {
         task: '#FFB7B7',
         subtheme: '#FFB7D1',

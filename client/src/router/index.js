@@ -28,6 +28,18 @@ const routes = [
       {
         path: 'theme',
         name: 'Theme',
+        beforeEnter: (to, from, next) => {
+          // from view theme
+          if (from.name === 'viewTheme') {
+            store.commit('theme/SET_PAGINATION', 1)
+            store.commit('theme/RESET_DATA')
+            store.dispatch('theme/getThemes')
+          }
+
+          // from other page
+          store.dispatch('theme/getThemes')
+          next()
+        },
         component: () =>
           import(/* webpackChunkName: "theme" */ '../components/Theme.vue'),
         meta: {
@@ -81,14 +93,16 @@ const routes = [
     meta: { requiresAuth: true },
     props: true,
     component: () =>
-      import(/* webpackChunkNmae: "themeView" */ '../views/ViewTheme.vue')
+      import(/* webpackChunkNmae: "themeView" */ '../views/view/ViewTheme.vue')
   },
   {
     path: '/theme/create',
     name: 'createTheme',
     meta: { requiresAuth: true, groupName: 'Create Page' },
     component: () =>
-      import(/* webpackChunckName: "themeCreate" */ '../views/CreateTheme.vue')
+      import(
+        /* webpackChunckName: "themeCreate" */ '../views/create/CreateTheme.vue'
+      )
   },
   {
     path: '/home/subtheme/:id',
@@ -97,7 +111,7 @@ const routes = [
     props: true,
     component: () =>
       import(
-        /* webpackChunckName: "subthemeView" */ '../views/ViewSubtheme.vue'
+        /* webpackChunckName: "subthemeView" */ '../views/view/ViewSubtheme.vue'
       )
   },
   {
@@ -106,7 +120,7 @@ const routes = [
     meta: { requiresAuth: true },
     component: () =>
       import(
-        /* webpackChunckName: "subthemeCreate" */ '../views/CreateSubtheme.vue'
+        /* webpackChunckName: "subthemeCreate" */ '../views/create/CreateSubtheme.vue'
       )
   },
   {
@@ -115,13 +129,15 @@ const routes = [
     meta: { requiresAuth: true },
     props: true,
     component: () =>
-      import(/* webpackChunkName: "taskView" */ '../views/ViewTask.vue')
+      import(/* webpackChunkName: "taskView" */ '../views/view/ViewTask.vue')
   },
   {
     path: '/task/create',
     name: 'CreateTask',
     component: () =>
-      import(/* webpackChunkName: "taskCreate" */ '../views/CreateTask.vue'),
+      import(
+        /* webpackChunkName: "taskCreate" */ '../views/create/CreateTask.vue'
+      ),
     meta: { requiresAuth: true }
   }
 ]

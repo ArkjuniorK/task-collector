@@ -3,7 +3,6 @@
     <div
       id="menu-child"
       class="block mx-5 border shadow-sm border-dark-400 border-opacity-25 bg-light-100 rounded-md"
-      :class="menuTransition"
     >
       <div
         id="child-one"
@@ -75,12 +74,12 @@
         id="child-three"
         class="flex py-4 mt-4 border-t border-opacity-25 border-dark-300 lg:hidden"
       >
-        <router-link to="/home" class="w-full font-bold font-display"
-          >Tugas</router-link
-        >
-        <router-link to="/students" class="w-full font-bold font-display"
-          >Siswa</router-link
-        >
+        <router-link to="/home" class="w-full font-bold font-display">
+          <span @click="$emit('closeMenu')">Tugas</span>
+        </router-link>
+        <router-link to="/students" class="w-full font-bold font-display">
+          <span @click="$emit('closeMenu')">Siswa</span>
+        </router-link>
       </div>
       <div
         id="child-four"
@@ -122,13 +121,16 @@ export default {
     ...mapState(['user'])
   },
   methods: {
-    async createTheme() {
-      await this.$router.push({ name: 'createTheme' })
-      await this.$emit('closeMenu')
+    gotoTasks() {
+      // this.$emit('closeMenu')
     },
-    async createSubtheme() {
-      await this.$router.push({ name: 'createSubtheme' })
-      await this.$emit('closeMenu')
+    createTheme() {
+      this.$router.push({ name: 'createTheme' })
+      this.$emit('closeMenu')
+    },
+    createSubtheme() {
+      this.$router.push({ name: 'createSubtheme' })
+      this.$emit('closeMenu')
     },
     ...mapActions(['logOutUser'])
   }
