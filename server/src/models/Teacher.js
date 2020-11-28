@@ -21,21 +21,21 @@ module.exports = (sequelize, DataTypes) => {
     'teacher',
     {
       idNumber: {
-        type: DataTypes.BIGINT(11),
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
-        unique: true,
+        unique: true
       },
       frontName: DataTypes.STRING,
       backName: DataTypes.STRING,
       gender: DataTypes.STRING,
       born: DataTypes.STRING,
-      securityKey: DataTypes.STRING,
+      securityKey: DataTypes.STRING
     },
     {
       hooks: {
-        beforeSave: hashKey,
-      },
+        beforeSave: hashKey
+      }
     }
   )
 
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         and primaryId => foreignKey from the model
       */
       foreignKey: 'schoolIdNumber',
-      targetKey: 'idNumber',
+      targetKey: 'idNumber'
       /*
         ==> as is used to replace the name in belongsTo
         association. ex: field 'schoolIdNumber' would
@@ -68,11 +68,11 @@ module.exports = (sequelize, DataTypes) => {
     })
     Teacher.hasMany(models.student, {
       foreignKey: 'teacherIdNumber',
-      sourceKey: 'idNumber',
+      sourceKey: 'idNumber'
     })
     Teacher.belongsToMany(models.room, {
       through: 'teacherRoom',
-      as: 'class',
+      as: 'class'
     })
     Teacher.belongsToMany(models.theme, { through: 'teacherTheme' })
     Teacher.belongsToMany(models.subtheme, { through: 'teacherSubtheme' })

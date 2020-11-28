@@ -3,20 +3,20 @@ module.exports = (sequelize, DataTypes) => {
     idNumber: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
-    name: DataTypes.STRING,
+    name: DataTypes.STRING
   })
 
   Room.associate = function (models) {
     Room.belongsToMany(models.school, {
-      through: 'schoolRoom',
+      through: 'schoolRoom'
     })
     Room.belongsToMany(models.teacher, {
-      through: 'teacherRoom',
+      through: 'teacherRoom'
     })
     Room.belongsToMany(models.student, {
-      through: 'studentRoom',
+      through: 'studentRoom'
     })
   }
 

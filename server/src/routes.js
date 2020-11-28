@@ -20,6 +20,7 @@ module.exports = (app) => {
   app.get('/api/theme/:type/:idNumber/view', ThemeControllers.view)
   app.post('/api/theme/:teacherId', ThemeControllers.post)
   app.get('/api/theme/:teacherId', ThemeControllers.list)
+  app.delete(`/api/theme`, ThemeControllers.remove)
 
   /* XXX Subtheme routes XXX */
   app.get('/api/subtheme/:type/:idNumber', SubthemeControllers.index)

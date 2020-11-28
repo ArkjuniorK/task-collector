@@ -3,7 +3,10 @@ module.exports = (sequelize, DataTypes) => {
 
   TeacherTheme.associate = function (models) {
     TeacherTheme.belongsTo(models.teacher)
-    TeacherTheme.belongsTo(models.theme)
+    TeacherTheme.belongsTo(models.theme, {
+      foreignKey: 'themeId',
+      onDelete: 'CASCADE'
+    })
   }
 
   return TeacherTheme

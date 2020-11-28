@@ -1,3 +1,5 @@
+'use strict'
+
 const {
   room,
   teacher,
@@ -8,6 +10,9 @@ const {
   teacherRoom,
   studentTheme
 } = require('../models')
+
+const serverErr = { error: 'Terjadi kesalahan pada server!' }
+const authErr = { error: 'Pastikan kredensial kamu cocok!' }
 
 module.exports = {
   /* Get themes iteration */
@@ -42,11 +47,7 @@ module.exports = {
 
       /* Check user */
       const auth = await userType.findByPk(idNumber)
-      if (!auth) {
-        return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
-        })
-      }
+      if (!auth) return res.status(401).send(authErr)
 
       /* Find Themes */
       const themes = await userTheme.findAndCountAll(options)
@@ -82,6 +83,7 @@ module.exports = {
       res.send(indexThemes)
     } catch (err) {
       res.send(err)
+      console.log(err)
     }
   },
 
@@ -97,11 +99,7 @@ module.exports = {
       if (type === 'student') auth = await student.findByPk(idNumber)
 
       /* Send error when credential is undifiend */
-      if (!auth) {
-        return res.status(401).send({
-          error: 'Tidak dapat mengenali kredensial anda. Coba lagi!'
-        })
-      }
+      if (!auth) return res.status(401).send(authErr)
 
       /* Get theme and send the response */
       const viewTheme = await theme.findByPk(id, {
@@ -111,6 +109,7 @@ module.exports = {
       res.send(viewTheme)
     } catch (err) {
       res.send(err)
+      console.log(err)
     }
   },
 
@@ -119,6 +118,8 @@ module.exports = {
     try {
       const reqTheme = req.body
       const { teacherId } = req.params
+
+      if (teacherId == undefined) return res.status(403).send(authErr)
 
       /* TODO:
        * Check if the user is teacher
@@ -134,11 +135,7 @@ module.exports = {
       })
 
       // If it's not teacher, then send error
-      if (!checkTeacher) {
-        return res.status(500).send({
-          error: 'Tidak mengenali Nomor Induk anda, coba lagi'
-        })
-      }
+      if (!checkTeacher) return res.status(401).send(authErr)
 
       // Create new instances
       const roomId = checkTeacher.class[0].idNumber
@@ -161,27 +158,60 @@ module.exports = {
       /* Get the studentIdNumber from studentsList
        * Then create the studentThemes for each student */
       const studentId = await studentsList.students.map((data) => data.idNumber)
-      await studentId.forEach(async (id) => {
+      studentId.forEach(async (id) => {
         await studentTheme.create({
           studentIdNumber: id,
           themeId: themes.id
         })
       })
 
-      res.send(themes)
+      res.status(200).send({
+        success: 'Tema telah berhasil ditambahkan!',
+        theme: themes
+      })
     } catch (err) {
-      res.send(err)
+      res.status(500).send(serverErr)
+      console.log(err)
+    }
+  },
+
+  // Deleting theme
+  async remove(req, res) {
+    try {
+      const { teacherId, themeId } = req.query
+
+      // Auth check
+      const auth = await teacher.findByPk(teacherId)
+      if (!auth) return authFalse(res)
+
+      // Delete the data
+      // Need to delete 2 tables
+      const destroy = await teacherTheme.destroy({
+        where: { teacherIdNumber: teacherId, themeId: themeId }
+      })
+
+      await theme.destroy({
+        where: { id: themeId }
+      })
+
+      if (!destroy) {
+        return res.status(404).send({
+          error: 'Tema tidak ditemukan atau telah terhapus'
+        })
+      }
+
+      res.status(200).send({
+        success: `Tema berhasil dihapus`
+      })
+    } catch (err) {
+      res.status(500).send(serverErr)
+      console.log(err)
     }
   },
   async list(req, res) {
     try {
       const teacherId = req.params.teacherId
-      const auth = await teacher.findByPk(teacherId)
-      if (!auth) {
-        return res.status(401).send({
-          error: 'Masalah Otentifikasi'
-        })
-      }
+      if (!auth) return res.status(401).send(authErr)
 
       const themes = await teacherTheme
         .findAll({

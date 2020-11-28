@@ -21,21 +21,21 @@ module.exports = (sequelize, DataTypes) => {
     'student',
     {
       idNumber: {
-        type: DataTypes.BIGINT(11),
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
-        unique: true,
+        unique: true
       },
       frontName: DataTypes.STRING,
       backName: DataTypes.STRING,
       gender: DataTypes.STRING,
       born: DataTypes.STRING,
-      securityKey: DataTypes.STRING,
+      securityKey: DataTypes.STRING
     },
     {
       hooks: {
-        beforeSave: hashKey,
-      },
+        beforeSave: hashKey
+      }
     }
   )
 
@@ -48,11 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   Student.associate = function (models) {
     Student.belongsTo(models.school, {
       foreignKey: 'schoolIdNumber',
-      targetKey: 'idNumber',
+      targetKey: 'idNumber'
     })
     Student.belongsToMany(models.room, {
       through: 'studentRoom',
-      as: 'class',
+      as: 'class'
     })
     Student.belongsToMany(models.theme, { through: 'studentTheme' })
     Student.belongsToMany(models.subtheme, { through: 'studentSubtheme' })

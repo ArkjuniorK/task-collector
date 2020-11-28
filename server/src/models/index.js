@@ -11,8 +11,8 @@ const sequelize = new Sequelize(
   config.db.database,
   config.db.user,
   config.db.password,
-  config.db.options,
-  { query: { raw: true } }
+  config.db.options
+  // { query: { raw: true } }
 )
 
 // create the table based on

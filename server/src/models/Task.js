@@ -10,14 +10,17 @@ module.exports = (sequelize, DataTypes) => {
 
   // defined association
   Task.associate = function (models) {
+    Task.belongsTo(models.subject)
+    Task.belongsTo(models.subtheme, {
+      foreignKey: 'subthemeId',
+      onDelete: 'CASCADE'
+    })
     Task.belongsToMany(models.student, {
       through: 'studentTask'
     })
     Task.belongsToMany(models.teacher, {
       through: 'teacherTask'
     })
-    Task.belongsTo(models.subject)
-    Task.belongsTo(models.subtheme)
   }
 
   return Task

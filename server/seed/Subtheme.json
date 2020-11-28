@@ -1,13 +1,11 @@
 [
   {
-    "id": 1,
     "name": "Subtema Satu",
     "title": "Hewan Menyusui dan Tidak Menyusui",
     "background": "bg-blue-subtheme",
     "themeId": 1
   },
   {
-    "id": 2,
     "name": "Subtema Satu",
     "title": "Hewan Menyusui dan Tidak Menyusui",
     "background": "bg-orange-subtheme",

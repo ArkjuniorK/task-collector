@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     Subtheme.belongsToMany(models.student, {
       through: 'studentSubtheme'
     })
-    Subtheme.belongsTo(models.theme)
+    Subtheme.belongsTo(models.theme, {
+      foreignKey: 'themeId',
+      onDelete: 'CASCADE'
+    })
     Subtheme.hasMany(models.task)
   }
 

@@ -4,22 +4,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-    },
+      unique: true
+    }
   })
 
   School.associate = function (models) {
     School.belongsToMany(models.room, {
-      through: 'schoolRoom',
+      through: 'schoolRoom'
     })
     School.hasMany(models.teacher, {
       foreignKey: 'schoolIdNumber',
-      sourceKey: 'idNumber',
+      sourceKey: 'idNumber'
       /*
         using 'as' in has many means
         that when you include the table
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     })
     School.hasMany(models.student, {
       foreignKey: 'schoolIdNumber',
-      sourceKey: 'idNumber',
+      sourceKey: 'idNumber'
     })
   }
 
