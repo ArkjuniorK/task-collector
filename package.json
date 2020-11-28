@@ -20,5 +20,6 @@
   ],
   "author": "ArkjuniorK",
   "license": "ISC",
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {}
 }
